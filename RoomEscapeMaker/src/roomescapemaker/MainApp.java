@@ -14,7 +14,6 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
 			Parent root = FXMLLoader.load(getClass().getResource("view/Overview.fxml"));
 
 	        primaryStage.setTitle("RoomExcapeMaker");
@@ -34,10 +33,12 @@ public class MainApp extends Application {
 		}
 	}
 	
+	// not needed!!
 	public void initRootLayout() {
 		
 		try {
             
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("fail!!!");

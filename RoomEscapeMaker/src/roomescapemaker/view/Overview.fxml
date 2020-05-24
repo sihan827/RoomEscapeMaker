@@ -51,14 +51,14 @@
                 <Button fx:id="playBtn" mnemonicParsing="false" onAction="#playScene" text="play" textAlignment="CENTER" />
               </buttons>
             </ButtonBar>
-            <MenuBar>
+            <MenuBar fx:id="menuBar">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem fx:id="menuFileClose" mnemonicParsing="false" onAction="#closeProgram" text="Close" />
+                    <MenuItem fx:id="menuFileClose" mnemonicParsing="false" onAction="#onCLickMenuFileClose" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
                   </items>
