@@ -2,17 +2,25 @@ package roomescapemaker.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 
 public class Controller {
 
     @FXML
-    private MenuItem file_close;
+    private Button playBtn;
 
     @FXML
-    void close_plogram(ActionEvent event) {
+    private MenuItem menuFileClose;
 
-    	
+    @FXML
+    void closeProgram(ActionEvent event) {
+
+    }
+
+    @FXML
+    void playScene(ActionEvent event) {
+
     }
 
 }
