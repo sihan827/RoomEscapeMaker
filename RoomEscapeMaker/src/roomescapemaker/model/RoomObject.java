@@ -1,64 +1,137 @@
 package roomescapemaker.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import javafx.beans.property.StringProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RoomObject {
 	
-	private final StringProperty objectName = new SimpleStringProperty();
-	private final IntegerProperty currentStatus = new SimpleIntegerProperty();
-	private ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
+	public ArrayList<String> imageFileNameList = new ArrayList<String>();
+	public Map<String, Boolean> statusList = new HashMap<String, Boolean>();
+	private String name;
+	private int xScale;
+	private int yScale;
+	private double xPos;
+	private double yPos;
+	private boolean ownable;
+	private boolean isOwned;
+	private boolean visibility;
 	
-	public RoomObject(String objectName) {
-		this.objectName.set(objectName);
-		this.statusList.add(new ObjectStatus("default"));
-		this.currentStatus.set(0);
+	public RoomObject(String name) {
+		this.name = name;
+		this.xScale = 100;
+		this.yScale = 100;
+		this.xPos = 0;
+		this.yPos = 0;
+		this.ownable = false;
+		this.isOwned = false;
+		this.visibility = true;
 	}
 	
-	public String getObjectName() {
-		return objectName.get();
+	/*
+	 *	프로퍼티 기본 설정 메소드 
+	 */
+	
+	public String getName() {
+		return name;
 	}
 	
-	public void setObjectName(String objectName) {
-		this.objectName.set(objectName);
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public StringProperty objectNameProperty() {
-		return objectName;
+	public int getXscale() {
+		return xScale;
 	}
 	
-	public int getCurrentStatus() {
-		return currentStatus.get();
+	public void setXscale(int xScale) {
+		this.xScale = xScale;
 	}
 	
-	public void setCurrentStatus(int currentStatus) {
-		this.currentStatus.set(currentStatus);
+	public int getYscale() {
+		return yScale;
 	}
 	
-	public IntegerProperty currentStatusProperty() {
-		return currentStatus;
+	public void setYscale(int yScale) {
+		this.yScale = yScale;
 	}
 	
-	public ObservableList<ObjectStatus> getStatusList(){
-		return statusList;
+	public double getXpos() {
+		return xPos;
 	}
 	
-	public void addStatus(String statusName) {
-		statusList.add(new ObjectStatus(statusName));
+	public void setXpos(double xPos) {
+		this.xPos = xPos;
 	}
 	
-	public ObjectStatus getStatus(int index) {
-		return statusList.get(index);
+	public double getYpos() {
+		return yPos;
 	}
 	
-	public void removeStatus(int index) {
-		statusList.remove(index);
+	public void setYpos(double yPos) {
+		this.yPos = yPos;
+	}
+	
+	public boolean getOwnable() {
+		return ownable;
+	}
+	
+	public void setOwnable(boolean ownable) {
+		this.ownable = ownable;
+	}
+
+	public boolean getIsOwned() {
+		return isOwned;
+	}
+	
+	public void setIsOwned(boolean isOwned) {
+		this.isOwned = isOwned;
+	}
+	
+	public boolean getVisibility() {
+		return visibility;
+	}
+	
+	public void setVisibility(boolean visibility) {
+		this.visibility = visibility;
+	}
+	
+	public void addImage(String filename) {
+		imageFileNameList.add(filename);
+	}
+	
+	public String removeImage(int index) {
+		return imageFileNameList.remove(index);
+	}
+	
+	public String getImage(int index) {
+		return imageFileNameList.get(index);
+	}
+	
+	public void addStatus(String statusName, boolean status) {
+		statusList.put(statusName, status);
+	}
+	
+	public Boolean getStatus(String statusName) {
+		return statusList.get(statusName);
+	}
+	
+	public void removeStatus(String statusName) {
+		statusList.remove(statusName);
+	}
+	
+	/*
+	 *	위 메소드를 이용한 오브젝트 관련 설정 메소드 
+	 */
+	
+	void setPos(double x, double y) {
+		setXpos(x);
+		setYpos(y);
+	}
+	
+	void setScale(int x, int y) {
+		setXscale(x);
+		setYscale(y);
 	}
 	
 }
