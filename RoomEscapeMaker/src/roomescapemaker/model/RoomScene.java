@@ -12,6 +12,7 @@ public class RoomScene {
 	
 	public RoomScene(String backGroundImageFileName) {
 		this.backGroundImageFileName = backGroundImageFileName;
+    
 	}
 	
 }

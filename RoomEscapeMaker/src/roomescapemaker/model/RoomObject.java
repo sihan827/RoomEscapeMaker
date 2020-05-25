@@ -29,7 +29,7 @@ public class RoomObject {
 	}
 	
 	/*
-	 *	ÇÁ·ÎÆÛÆ¼ ±âº» ¼³Á¤ ¸Ş¼Òµå 
+	 *	í”„ë¡œí¼í‹° ê¸°ë³¸ ì„¤ì • ë©”ì†Œë“œ 
 	 */
 	
 	public String getName() {
@@ -121,7 +121,7 @@ public class RoomObject {
 	}
 	
 	/*
-	 *	À§ ¸Ş¼Òµå¸¦ ÀÌ¿ëÇÑ ¿ÀºêÁ§Æ® °ü·Ã ¼³Á¤ ¸Ş¼Òµå 
+	 *	ìœ„ ë©”ì†Œë“œë¥¼ ì´ìš©í•œ ì˜¤ë¸Œì íŠ¸ ê´€ë ¨ ì„¤ì • ë©”ì†Œë“œ 
 	 */
 	
 	void setPos(double x, double y) {
@@ -133,7 +133,5 @@ public class RoomObject {
 		setXscale(x);
 		setYscale(y);
 	}
-	
-	
 	
 }
