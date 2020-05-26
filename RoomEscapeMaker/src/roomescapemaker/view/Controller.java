@@ -1,102 +1,204 @@
 package roomescapemaker.view;
 
-import roomescapemaker.model.*;
-
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.TilePane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import roomescapemaker.model.RoomObject;
+import roomescapemaker.model.RoomScene;
 
 public class Controller implements Initializable{
-    
-	@FXML
-	private ListView<RoomScene> sceneListView;
-	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
+
+	private ArrayList<RoomScene> roomScenes = new ArrayList<RoomScene>();
+	
+	private ObservableList<RoomScene> roomScenesObservable = FXCollections.observableArrayList(roomScenes);
+	
+	private ArrayList<RoomObject> displayedRoomObjects = new ArrayList<RoomObject>();
+	
 	
     @FXML
-    private Pane pane;
-	
-	@FXML
-    private Canvas mainCanvas;
-    
-	@FXML
-    private Button playBtn;
+    private AnchorPane mainAnchorPane;
 
     @FXML
     private MenuBar menuBar;
 
     @FXML
-    private Menu menuFile;
+    private MenuItem menuFileNew;
 
     @FXML
-    private MenuItem menuFileClose;
+    private MenuItem menuFileOpen;
+
+    @FXML
+    private MenuItem menuFileSave;
+
+    @FXML
+    private MenuItem menuFileSaveAs;
+
+    @FXML
+    private MenuItem menuFileImportImage;
+
+    @FXML
+    private MenuItem menuFileQuit;
 
     @FXML
     private Menu menuHelp;
-    
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    	
-    	sceneList.clear();
-    	sceneList.add(new RoomScene("Scene 1", "normalRoom.png"));
-    	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
-    		@Override
-    		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
-    			ListCell<RoomScene> cell = new ListCell<RoomScene>() {
-    				@Override
-    				protected void updateItem(RoomScene scene, boolean bt1) {
-    					super.updateItem(scene, bt1);
-    					if (scene != null) {
-    						Image img = new Image("backgroundimage/" + scene.getBackGroundImageFileName());
-    						ImageView imgview = new ImageView(img);
-    						imgview.setFitWidth(120);
-    						imgview.setFitHeight(72);
-    						setGraphic(imgview);
-    						setText(scene.getSceneName());
-    					}
-    				}
-    			};
-    			
-    			return cell;
-    		}
-    		
-    	});
-    	sceneListView.setItems(sceneList);
-    }
 
     @FXML
-    void onCLickMenuFileClose(ActionEvent event) {
+    private MenuItem menuHelpAbout;
+
+    @FXML
+    private Button addSceneBtn;
+
+    @FXML
+    private Button deleteSceneBtn;
+
+    @FXML
+    private ListView<?> sceneListView;
+
+    @FXML
+    private Canvas mainCanvas;
+
+    @FXML
+    private Button addObjectBtn;
+
+    @FXML
+    private TilePane objectTilePane;
+
+    @FXML
+    private Button objectStatusAddImageBtn;
+
+    @FXML
+    private CheckBox objectVisibleCB;
+
+    private Stage mainStage; 
+    
+    @Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+    	System.out.println("fxml initialized!!");
+        
     	
+    	// room listener
+    	roomScenesObservable.addListener(new ListChangeListener<RoomScene>() {
+			
+    		@Override
+			public void onChanged(Change<? extends RoomScene> c) {
+				// TODO Auto-generated method stub
+				System.out.println("list changed!!");
+				if(c.next()) {
+					System.out.println(c.getFrom());
+				}
+				
+				
+				
+				
+				
+			}
+    	});
+    	
+    	
+    	
+    	
+        initTestSequence();
+	}
+    
+    @FXML
+    void onCLickMenuFileQuit(ActionEvent event) {
+        
     	Stage stage = (Stage)(menuBar.getScene().getWindow());
+    	mainStage = stage;
     	stage.close();
     	
     }
 
-    @FXML 
-    void playScene(ActionEvent event) {
+    @FXML
+    void onClickAddObjectBtn(ActionEvent event) {
+    	
+    	
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.getExtensionFilters().addAll(
+    	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
+    	);
+    	File selectedFile = fileChooser.showOpenDialog(mainStage);
+    	
     	
     	
     }
-    
-    void redraw() {
-    	
-    }
-    
 
+    @FXML
+    void onClickAddSceneBtn(ActionEvent event) {
+
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.getExtensionFilters().addAll(
+    	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
+    	);
+    	File selectedFile = fileChooser.showOpenDialog(mainStage);
+    	
+    	
+    }
+
+    @FXML
+    void onClickDeleteSceneBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onClickObjectStatusAddImageBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onToggleObjectVisibleCB(ActionEvent event) {
+
+    }
+
+    void checkScene() { // check which scene is selected
+    	
+    }
+    
+    
+    
+    
+    
+    ///////==========================================/////////
+	public void initTestSequence() {
+		// create dummy scene
+		File dummy = new File("src/roomescapemaker/resources/dummy_room.jpg");
+		System.out.println(dummy.getAbsolutePath());
+		
+		RoomScene dumscene = new RoomScene(dummy);
+		roomScenesObservable.add(dumscene);
+	}
+
+    
+	
+	//================================================//
+	
+
+	
+	
 }

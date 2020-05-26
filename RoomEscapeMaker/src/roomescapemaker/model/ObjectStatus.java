@@ -1,7 +1,15 @@
 package roomescapemaker.model;
 
 import javafx.beans.property.StringProperty;
+import javafx.stage.FileChooser;
 import javafx.beans.property.IntegerProperty;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,14 +25,36 @@ public class ObjectStatus {
 	private final BooleanProperty visible = new SimpleBooleanProperty();
 	private final BooleanProperty possess = new SimpleBooleanProperty();
 	
-	public ObjectStatus(String name) {
-		this.statusName.set(name);
-		this.imageFileName.set("defaultImage.png");
+	private BufferedImage objectImage;
+	
+	
+	public ObjectStatus(File imageFile) {
+		
+		try {
+			objectImage = ImageIO.read(imageFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("fail to read image");
+		}
+		this.statusName.set(imageFile.getName());
+		this.imageFileName.set("imageFile.getName()");
 		this.scale.set(100);
 		this.xPos.set(0);
 		this.yPos.set(0);
 		this.visible.set(true);
 		this.possess.set(false);
+	}
+	
+	public void setImage(File imageFile) {
+		try {
+			objectImage = ImageIO.read(imageFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("fail to read image");
+		}
+		
 	}
 	
 	public String getStatusName() {
@@ -110,6 +140,5 @@ public class ObjectStatus {
 	public BooleanProperty possessProperty() {
 		return possess;
 	}
-	
 	
 }

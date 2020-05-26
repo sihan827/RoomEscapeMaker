@@ -23,32 +23,33 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.TilePane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
    <children>
-      <MenuBar layoutX="115.0" layoutY="78.0" prefHeight="20.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar fx:id="menuBar" layoutX="115.0" layoutY="78.0" prefHeight="20.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="New" />
+              <MenuItem fx:id="menuFileNew" mnemonicParsing="false" text="New" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Open" />
+                  <MenuItem fx:id="menuFileOpen" mnemonicParsing="false" text="Open" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As" />
+                  <MenuItem fx:id="menuFileSave" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="menuFileSaveAs" mnemonicParsing="false" text="Save As" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <Menu mnemonicParsing="false" text="Import">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Image" />
+                      <MenuItem fx:id="menuFileImportImage" mnemonicParsing="false" text="Image" />
                     </items>
                   </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
+                  <MenuItem fx:id="menuFileQuit" mnemonicParsing="false" onAction="#onCLickMenuFileQuit" text="Quit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="menuHelpAbout" mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
@@ -67,15 +68,15 @@
                                        <children>
                                           <ToolBar layoutX="31.0" layoutY="568.0" prefHeight="32.0" prefWidth="261.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                             <items>
-                                              <Button mnemonicParsing="false" prefWidth="70.0" text="Add" />
-                                                <Button mnemonicParsing="false" prefWidth="70.0" text="Delete" />
+                                              <Button fx:id="addSceneBtn" mnemonicParsing="false" onAction="#onClickAddSceneBtn" prefWidth="70.0" text="Add" />
+                                                <Button fx:id="deleteSceneBtn" mnemonicParsing="false" onAction="#onClickDeleteSceneBtn" prefWidth="70.0" text="Delete" />
                                             </items>
                                           </ToolBar>
                                           <ScrollPane layoutX="-16.0" layoutY="137.0" pannable="true" prefHeight="568.0" prefWidth="261.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <content>
                                                 <AnchorPane prefHeight="572.0" prefWidth="245.0">
                                                    <children>
-                                                      <ListView fx:id="sceneListView" layoutX="23.0" layoutY="137.0" prefHeight="572.0" prefWidth="245.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <ListView fx:id="sceneListView" layoutX="23.0" layoutY="137.0" prefHeight="572.0" prefWidth="245.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children></AnchorPane>
                                              </content>
                                           </ScrollPane>
@@ -87,7 +88,7 @@
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="602.0" prefWidth="1046.0">
                                                    <children>
-                                                      <Canvas height="602.0" width="1046.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <Canvas fx:id="mainCanvas" height="602.0" width="1046.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children></AnchorPane>
                                             </content>
                                           </ScrollPane>
@@ -101,12 +102,15 @@
                            <children>
                               <ToolBar prefHeight="30.0" prefWidth="1313.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
-                                  <Button mnemonicParsing="false" text="Add" />
+                                  <Button fx:id="addObjectBtn" mnemonicParsing="false" onAction="#onClickAddObjectBtn" text="Add" />
                                 </items>
                               </ToolBar>
                               <ScrollPane layoutX="177.0" layoutY="31.0" prefHeight="205.0" prefWidth="1313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="191.0" prefWidth="1325.0" />
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="191.0" prefWidth="1325.0">
+                                       <children>
+                                          <TilePane fx:id="objectTilePane" layoutY="-23.0" prefHeight="191.2" prefWidth="1325.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children></AnchorPane>
                                 </content>
                               </ScrollPane>
                            </children></AnchorPane>
@@ -135,7 +139,7 @@
                                                 <Image url="@../../../../../../Users/박상우/Downloads/002.jpg" />
                                              </image>
                                           </ImageView>
-                                          <Button layoutX="68.0" layoutY="46.0" mnemonicParsing="false" text="Add" />
+                                          <Button fx:id="objectStatusAddImageBtn" layoutX="68.0" layoutY="46.0" mnemonicParsing="false" onAction="#onClickObjectStatusAddImageBtn" text="Add" />
                                           <Label layoutX="20.0" layoutY="259.0" text="Scale" />
                                           <TextField layoutX="107.0" layoutY="256.0" prefHeight="22.0" prefWidth="53.0" />
                                           <Label layoutX="20.0" layoutY="304.0" text="Layout X" />
@@ -144,7 +148,7 @@
                                           <Label layoutX="20.0" layoutY="331.0" text="Layout Y" />
                                           <TextField layoutX="107.0" layoutY="325.0" prefHeight="22.0" prefWidth="138.0" />
                                           <Label layoutX="20.0" layoutY="366.0" text="Visible" />
-                                          <CheckBox layoutX="107.0" layoutY="366.0" mnemonicParsing="false" />
+                                          <CheckBox fx:id="objectVisibleCB" layoutX="107.0" layoutY="366.0" mnemonicParsing="false" onAction="#onToggleObjectVisibleCB" />
                                           <Label layoutX="20.0" layoutY="392.0" text="Possess" />
                                           <CheckBox layoutX="107.0" layoutY="392.0" mnemonicParsing="false" />
                                        </children>

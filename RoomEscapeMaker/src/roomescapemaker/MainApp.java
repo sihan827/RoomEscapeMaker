@@ -2,6 +2,7 @@ package roomescapemaker;
 
 import roomescapemaker.model.RoomScene;
 
+import java.io.File;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +26,7 @@ public class MainApp extends Application {
 	        primaryStage.setFullScreen(false);
 	        //Group root = new Group();
 
+	        
 	        Scene scene = new Scene(root, Color.BEIGE);
 	        primaryStage.setScene(scene);
 
@@ -39,17 +41,10 @@ public class MainApp extends Application {
 	}
 	
 	// not needed!!
-	public void initRootLayout() {
+	public void initTestSequence() {
 		
-		try {
-            
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("fail!!!");
-			System.out.println(e);
-		} 
-		
+		// create dummy scene
+		File dummy = new File("./resources/dummy_room.jpg");
 		
 	}
 	

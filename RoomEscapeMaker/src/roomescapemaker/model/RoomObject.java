@@ -1,13 +1,14 @@
 package roomescapemaker.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RoomObject {
 	
-	public ArrayList<String> imageFileNameList = new ArrayList<String>();
 	public Map<String, Boolean> statusList = new HashMap<String, Boolean>();
+	private ArrayList<ObjectStatus> status = new ArrayList<ObjectStatus>();
 	private String name;
 	private int xScale;
 	private int yScale;
@@ -17,20 +18,20 @@ public class RoomObject {
 	private boolean isOwned;
 	private boolean visibility;
 	
-	public RoomObject(String name) {
-		this.name = name;
+	
+	public RoomObject(File defaultStatusImage) {
+		this.name = defaultStatusImage.getName();
 		this.xScale = 100;
 		this.yScale = 100;
-		this.xPos = 0;
-		this.yPos = 0;
+		this.xPos = 50;
+		this.yPos = 50;
 		this.ownable = false;
 		this.isOwned = false;
 		this.visibility = true;
+		
+		ObjectStatus defaultStatus = new ObjectStatus(defaultStatusImage);
+		
 	}
-	
-	/*
-	 *	프로퍼티 기본 설정 메소드 
-	 */
 	
 	public String getName() {
 		return name;
@@ -96,18 +97,6 @@ public class RoomObject {
 		this.visibility = visibility;
 	}
 	
-	public void addImage(String filename) {
-		imageFileNameList.add(filename);
-	}
-	
-	public String removeImage(int index) {
-		return imageFileNameList.remove(index);
-	}
-	
-	public String getImage(int index) {
-		return imageFileNameList.get(index);
-	}
-	
 	public void addStatus(String statusName, boolean status) {
 		statusList.put(statusName, status);
 	}
@@ -120,10 +109,6 @@ public class RoomObject {
 		statusList.remove(statusName);
 	}
 	
-	/*
-	 *	위 메소드를 이용한 오브젝트 관련 설정 메소드 
-	 */
-	
 	void setPos(double x, double y) {
 		setXpos(x);
 		setYpos(y);
@@ -133,5 +118,11 @@ public class RoomObject {
 		setXscale(x);
 		setYscale(y);
 	}
+	
+	public void createStatus() {
+		
+		
+	}
+	
 	
 }
