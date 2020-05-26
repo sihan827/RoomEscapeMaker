@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Accordion?>
@@ -89,6 +90,26 @@
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="602.0" prefWidth="1046.0">
                                                    <children>
                                                       <Canvas fx:id="mainCanvas" height="602.0" width="1046.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="65.0" layoutY="388.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../resources/Import_Image/sofa.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="247.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../resources/Import_Image/sofa.copy.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="247.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../resources/Import_Image/table.copy.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="65.0" layoutY="423.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../resources/Import_Image/table.jpg" />
+                                                         </image>
+                                                      </ImageView>
                                                    </children></AnchorPane>
                                             </content>
                                           </ScrollPane>
@@ -103,6 +124,11 @@
                               <ToolBar prefHeight="30.0" prefWidth="1313.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
                                   <Button fx:id="addObjectBtn" mnemonicParsing="false" onAction="#onClickAddObjectBtn" text="Add" />
+                                    <CheckBox mnemonicParsing="false" text="Make the Background Transparent">
+                                       <padding>
+                                          <Insets left="8.0" />
+                                       </padding>
+                                    </CheckBox>
                                 </items>
                               </ToolBar>
                               <ScrollPane layoutX="177.0" layoutY="31.0" prefHeight="205.0" prefWidth="1313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
@@ -118,7 +144,7 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="80.0" minWidth="100.0" prefHeight="846.0" prefWidth="391.0">
+          <AnchorPane maxWidth="300.0" minHeight="80.0" minWidth="270.0" prefHeight="846.0" prefWidth="391.0">
                <children>
                   <Accordion layoutX="8.0" layoutY="68.0" prefHeight="778.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
                     <panes>
@@ -136,7 +162,7 @@
                                                 <Rectangle2D height="300.0" width="400.0" />
                                              </viewport>
                                              <image>
-                                                <Image url="@../../../../../../Users/박상우/Downloads/002.jpg" />
+                                                <Image url="@../resources/Import_Image/importimage_Test.jpg" />
                                              </image>
                                           </ImageView>
                                           <Button fx:id="objectStatusAddImageBtn" layoutX="68.0" layoutY="46.0" mnemonicParsing="false" onAction="#onClickObjectStatusAddImageBtn" text="Add" />

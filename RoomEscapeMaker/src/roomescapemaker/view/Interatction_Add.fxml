@@ -14,14 +14,15 @@
             <Button mnemonicParsing="false" text="Cancle" />
         </buttons>
       </ButtonBar>
-      <Label layoutX="74.0" layoutY="51.0" text="Condition" />
-      <Label layoutX="315.0" layoutY="51.0" text="Result" />
+      <Label layoutX="93.0" layoutY="78.0" text="Condition" />
+      <Label layoutX="357.0" layoutY="78.0" text="Result" />
       <Button layoutX="206.0" layoutY="128.0" mnemonicParsing="false" text="+" />
       <ChoiceBox layoutX="44.0" layoutY="128.0" prefWidth="150.0" />
       <ChoiceBox layoutX="44.0" layoutY="158.0" prefWidth="150.0" visible="false" />
       <ChoiceBox layoutX="44.0" layoutY="188.0" prefWidth="150.0" visible="false" />
-      <ChoiceBox layoutX="44.0" layoutY="248.0" prefWidth="150.0" visible="false" />
       <ChoiceBox layoutX="44.0" layoutY="218.0" prefWidth="150.0" visible="false" />
+      <ChoiceBox layoutX="44.0" layoutY="248.0" prefWidth="150.0" visible="false" />
       <ChoiceBox layoutX="298.0" layoutY="128.0" prefWidth="150.0" />
+      <Button layoutX="238.0" layoutY="128.0" mnemonicParsing="false" text="-" />
    </children>
 </AnchorPane>
