@@ -8,6 +8,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.File;
 import java.lang.IllegalArgumentException;
+import java.lang.ArrayIndexOutOfBoundsException;
+
+
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
@@ -58,11 +62,13 @@ public class Controller implements Initializable{
     @FXML
     private Menu menuHelp;
     
-    private Stage mainStage; 
-    
     @FXML
     private Button addSceneBtn;
     
+    @FXML
+    private Button deleteSceneBtn;
+    
+    private Stage mainStage; 
     private MainApp mainApp;
     
     @Override
@@ -88,6 +94,10 @@ public class Controller implements Initializable{
     						setGraphic(imgview);
     						setText(scene.getSceneName());
     					}
+    					else {
+    						setGraphic(null);
+    						setText(null);
+    					}
     				}
     			};
     			
@@ -97,6 +107,7 @@ public class Controller implements Initializable{
     	});
     	
     	sceneListView.setItems(sceneList);
+    	
     	//add scene list listener
     	sceneList.addListener(new ListChangeListener<RoomScene>() {
     		
@@ -108,18 +119,33 @@ public class Controller implements Initializable{
     			}
     		}
     	});
+    	
     }
     
     @FXML
-    void onClickAddSceneBtn(ActionEvent event) throws MalformedURLException {
+    void onClickAddSceneBtn(ActionEvent event) {
 
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(
     	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
     	);
     	File selectedFile = fileChooser.showOpenDialog(mainStage);
-    	
-    	sceneList.add(new RoomScene("scene X", new Image(selectedFile.toURI().toURL().toString())));
+    	try {
+    		sceneList.add(new RoomScene("scene X", new Image(selectedFile.toURI().toURL().toString())));
+    	} catch (MalformedURLException e) {
+    		e.printStackTrace();
+    		System.out.println("wrong file path url");
+    	}
+    }
+    
+    @FXML
+    void onClickDeleteSceneBtn(ActionEvent event) {
+    	try {
+    		sceneList.remove(sceneListView.getSelectionModel().getSelectedIndex());
+    	} catch(ArrayIndexOutOfBoundsException e) {
+    		e.printStackTrace();
+    		System.out.println("no data in scenelist");
+    	}
     }
 
     @FXML
