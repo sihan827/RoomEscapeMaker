@@ -157,6 +157,8 @@ public class Controller implements Initializable{
     	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
     	);
     	File selectedFile = fileChooser.showOpenDialog(mainStage);
+    
+    	RoomScene newScene = RoomScene(selectedFile);
     	
     	
     }
