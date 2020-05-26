@@ -158,7 +158,7 @@ public class Controller implements Initializable{
     	);
     	File selectedFile = fileChooser.showOpenDialog(mainStage);
     
-    	RoomScene newScene = RoomScene(selectedFile);
+    	RoomScene newScene = new RoomScene(selectedFile);
     	
     	
     }
