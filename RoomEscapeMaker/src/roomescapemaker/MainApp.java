@@ -38,22 +38,6 @@ public class MainApp extends Application {
 		}
 	}
 	
-	// not needed!!
-	public void initRootLayout() {
-		
-		try {
-            
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("fail!!!");
-			System.out.println(e);
-		} 
-		
-		
-	}
-	
-
 	
 	public static void main(String[] args) {
 		launch(args);

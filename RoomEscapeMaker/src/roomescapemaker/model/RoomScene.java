@@ -3,19 +3,22 @@ package roomescapemaker.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 
 public class RoomScene {
 	
 	public final StringProperty sceneName = new SimpleStringProperty();
-	public final StringProperty backGroundImageFileName = new SimpleStringProperty();
+	public final ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
 	private ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();
 	
-	public RoomScene(String sceneName, String backGroundImageFileName) {
+	public RoomScene(String sceneName, Image backGroundImage) {
 		this.sceneName.set(sceneName);
-		this.backGroundImageFileName.set(backGroundImageFileName);
+		this.backGroundImage.set(backGroundImage);
 	}
 	
 	public String getSceneName() {
@@ -30,16 +33,16 @@ public class RoomScene {
 		return sceneName;
 	}
 	
-	public String getBackGroundImageFileName() {
-		return backGroundImageFileName.get();
+	public Image getBackGroundImage() {
+		return backGroundImage.get();
 	}
 	
-	public void setBackGroundImageFileName(String backGroundImageFileName) {
-		this.backGroundImageFileName.set(backGroundImageFileName);
+	public void setBackGroundImage(Image backGroundImage) {
+		this.backGroundImage.set(backGroundImage);
 	}
 	
-	public StringProperty backGroundImageFileNameProperty() {
-		return backGroundImageFileName;
+	public ObjectProperty<Image> backGroundImageProperty() {
+		return backGroundImage;
 	}
 	
 	public ObservableList<RoomObject> getRoomObjectList(){

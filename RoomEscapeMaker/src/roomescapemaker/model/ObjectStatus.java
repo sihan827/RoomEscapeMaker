@@ -1,16 +1,21 @@
 package roomescapemaker.model;
 
+
+import java.lang.IllegalArgumentException;
+import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class ObjectStatus {
 	
 	private final StringProperty statusName = new SimpleStringProperty();
-	private final StringProperty imageFileName = new SimpleStringProperty();
+	private final ObjectProperty<Image> statusImage = new SimpleObjectProperty<Image>();
 	private final IntegerProperty scale = new SimpleIntegerProperty();
 	private final IntegerProperty xPos = new SimpleIntegerProperty();
 	private final IntegerProperty yPos = new SimpleIntegerProperty();
@@ -19,12 +24,17 @@ public class ObjectStatus {
 	
 	public ObjectStatus(String name) {
 		this.statusName.set(name);
-		this.imageFileName.set("defaultImage.png");
 		this.scale.set(100);
 		this.xPos.set(0);
 		this.yPos.set(0);
 		this.visible.set(true);
 		this.possess.set(false);
+		try {
+			this.statusImage.set(new Image("roomescapemaker/resource/defaultimage.png"));
+		} catch(IllegalArgumentException e){
+			e.printStackTrace();
+			System.out.println("fail to call image");
+		}
 	}
 	
 	public String getStatusName() {
@@ -39,16 +49,16 @@ public class ObjectStatus {
 		return statusName;
 	}
 	
-	public String getImageFileName() {
-		return imageFileName.get();
+	public Image getStatisImage() {
+		return statusImage.get();
 	}
 	
-	public void setImageFileName(String imageFileName) {
-		this.imageFileName.set(imageFileName);
+	public void setImageFileName(Image statusImage) {
+		this.statusImage.set(statusImage);
 	}
 	
-	public StringProperty imageFileNameProperty() {
-		return imageFileName;
+	public ObjectProperty<Image> statusImageProperty() {
+		return statusImage;
 	}
 	
 	public int getScale() {
