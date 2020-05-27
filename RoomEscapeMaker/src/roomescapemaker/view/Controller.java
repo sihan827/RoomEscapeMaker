@@ -85,13 +85,7 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
-    	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
-    	sceneList.get(0).addRoomObject("object1", "roomescapemaker/resource/objects/defaultImage.png");
-    	sceneList.get(0).addRoomObject("object2", "roomescapemaker/resource/objects/defaultImage.png");
-    	sceneList.add(new RoomScene("Scene 2", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
-    	sceneList.get(1).addRoomObject("object2", "roomescapemaker/resource/objects/defaultImage.png");
-    	sceneList.add(new RoomScene("Scene 3", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
-    	sceneList.get(2).addRoomObject("object3", "roomescapemaker/resource/objects/defaultImage.png");
+    	initTest();
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
     		@Override
     		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
@@ -125,8 +119,8 @@ public class Controller implements Initializable{
     					super.updateItem(obj, bt1);
     					if (obj != null) {
     						ImageView imgview = new ImageView(obj.getStatus(0).getStatusImage());
-    						imgview.setFitWidth(imgview.getFitWidth());
-    						imgview.setFitHeight(imgview.getFitHeight());
+    						imgview.setFitHeight(160);
+    						imgview.setPreserveRatio(true);
     						setGraphic(imgview);
     						setText(obj.getObjectName());
     					}
@@ -182,7 +176,7 @@ public class Controller implements Initializable{
     	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
     	);
     	
-    	fileChooser.setInitialDirectory(new File("./src/roomescapemaker/resource/backgrounds"));
+    	fileChooser.setInitialDirectory(new File("."));
     	
     	File selectedFile = fileChooser.showOpenDialog(mainStage);
     	try {
@@ -203,7 +197,7 @@ public class Controller implements Initializable{
     		fileChooser.getExtensionFilters().addAll(
     				new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
     		);
-    		fileChooser.setInitialDirectory(new File("./src/roomescapemaker/resource/objects"));
+    		fileChooser.setInitialDirectory(new File("."));
     	
     		File selectedFile = fileChooser.showOpenDialog(mainStage);
     		try {
@@ -247,6 +241,7 @@ public class Controller implements Initializable{
     			System.out.println("no data in objectlist");
     		}
     	}
+    	else return;
     }
     
 
@@ -272,5 +267,25 @@ public class Controller implements Initializable{
 		this.mainApp = mainApp;
 	}
     
+    public void initTest() {
+    	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.get(0).addRoomObject("books", "roomescapemaker/resource/objects/books.jpg");
+    	sceneList.get(0).addRoomObject("computer", "roomescapemaker/resource/objects/computer.png");
+    	sceneList.get(0).addRoomObject("fireextinguisher", "roomescapemaker/resource/objects/fireextinguisher.jpg");
+    	sceneList.get(0).addRoomObject("greensofa", "roomescapemaker/resource/objects/greensofa.jpg");
+    	sceneList.get(0).addRoomObject("light", "roomescapemaker/resource/objects/light.jpg");
+    	sceneList.get(0).addRoomObject("radio", "roomescapemaker/resource/objects/radio.jpg");
+    	sceneList.get(0).addRoomObject("soccerball", "roomescapemaker/resource/objects/soccerball.jpg");
+    	sceneList.get(0).addRoomObject("telephone", "roomescapemaker/resource/objects/telephone.jpg");
+    	sceneList.add(new RoomScene("Scene 2", new Image("roomescapemaker/resource/backgrounds/room2.jpg")));
+    	sceneList.get(1).addRoomObject("object2", "roomescapemaker/resource/objects/defaultImage.png");
+    	sceneList.add(new RoomScene("Scene 3", new Image("roomescapemaker/resource/backgrounds/room3.jpg")));
+    	sceneList.get(2).addRoomObject("object3", "roomescapemaker/resource/objects/defaultImage.png");
+    	sceneList.add(new RoomScene("Scene 4", new Image("roomescapemaker/resource/backgrounds/room4.jpg")));
+    	sceneList.add(new RoomScene("Scene 5", new Image("roomescapemaker/resource/backgrounds/room5.jpg")));
+    	sceneList.add(new RoomScene("Scene 6", new Image("roomescapemaker/resource/backgrounds/room6.jpg")));
+    	sceneList.add(new RoomScene("Scene 7", new Image("roomescapemaker/resource/backgrounds/room7.jpg")));
+    	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
+    }
 
 }
