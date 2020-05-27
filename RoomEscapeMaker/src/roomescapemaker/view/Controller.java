@@ -1,3 +1,4 @@
+// based on branch controller_implement
 package roomescapemaker.view;
 
 import roomescapemaker.MainApp;
@@ -6,6 +7,7 @@ import roomescapemaker.model.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import java.io.File;
 import java.lang.IllegalArgumentException;
 import java.lang.ArrayIndexOutOfBoundsException;
@@ -68,6 +70,11 @@ public class Controller implements Initializable{
     @FXML
     private Button deleteSceneBtn;
     
+    ////////////////////////////
+    @FXML
+    private Button addObjectBtn;
+    ////////////////////////////
+    
     private Stage mainStage; 
     private MainApp mainApp;
     
@@ -75,11 +82,11 @@ public class Controller implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
     	
     	sceneList.clear();
-    	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/normalRoom.png")));
-    	sceneList.add(new RoomScene("Scene 2", new Image("roomescapemaker/resource/normalRoom.png")));
-    	sceneList.add(new RoomScene("Scene 3", new Image("roomescapemaker/resource/normalRoom.png")));
-    	sceneList.add(new RoomScene("Scene 4", new Image("roomescapemaker/resource/normalRoom.png")));
-    	sceneList.add(new RoomScene("Scene 5", new Image("roomescapemaker/resource/normalRoom.png")));
+    	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.add(new RoomScene("Scene 2", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.add(new RoomScene("Scene 3", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.add(new RoomScene("Scene 4", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.add(new RoomScene("Scene 5", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
     		@Override
     		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
@@ -106,6 +113,7 @@ public class Controller implements Initializable{
     		
     	});
     	
+    	
     	sceneListView.setItems(sceneList);
     	
     	//add scene list listener
@@ -119,9 +127,23 @@ public class Controller implements Initializable{
     			}
     		}
     	});
-    	
+    	/////////////////////////////////////////
+    	//listener for selecting a scene
+    	sceneListView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showContainedObjects(newValue));    	
+    	/////////////////////////////////////////
     }
-    
+    /////////////////////////////////////
+    private void showContainedObjects(RoomScene rs) {
+        if (rs == null) {
+            
+           
+        } else {
+           System.out.println(rs.getRoomObjectList().size());
+            
+        }
+    }
+    /////////////////////////////////////
     @FXML
     void onClickAddSceneBtn(ActionEvent event) {
 
@@ -129,6 +151,9 @@ public class Controller implements Initializable{
     	fileChooser.getExtensionFilters().addAll(
     	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
     	);
+    	///////////////////////////////////////////////
+    	fileChooser.setInitialDirectory(new File("./RoomEscapeMaker/src/roomescapemaker/resource/backgrounds"));
+    	///////////////////////////////////////////////
     	File selectedFile = fileChooser.showOpenDialog(mainStage);
     	try {
     		sceneList.add(new RoomScene("scene X", new Image(selectedFile.toURI().toURL().toString())));
@@ -136,7 +161,26 @@ public class Controller implements Initializable{
     		e.printStackTrace();
     		System.out.println("wrong file path url");
     	}
+    	
+    	///////////////////////////////////////////
+    	sceneList.get(sceneList.size() - 1).clearRoomObject();
+    	///////////////////////////////////////////
     }
+    
+    ///////////////////////////////////////////////
+    @FXML
+    void onClickAddObjectBtn(ActionEvent event) {
+    	
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.getExtensionFilters().addAll(
+    	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
+    	);
+    	fileChooser.setInitialDirectory(new File("./RoomEscapeMaker/src/roomescapemaker/resource/objects"));
+    	
+    	File selectedFile = fileChooser.showOpenDialog(mainStage);
+    }
+    ///////////////////////////////////////////////
+    
     
     @FXML
     void onClickDeleteSceneBtn(ActionEvent event) {

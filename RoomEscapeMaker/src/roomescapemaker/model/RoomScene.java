@@ -61,4 +61,8 @@ public class RoomScene {
 		roomObjectList.remove(index);
 	}
 	
+	public void clearRoomObject() { 
+		roomObjectList.clear();
+	}
+	
 }
