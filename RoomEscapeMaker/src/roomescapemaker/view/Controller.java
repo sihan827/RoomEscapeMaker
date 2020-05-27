@@ -13,6 +13,7 @@ import java.lang.IllegalArgumentException;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 
+
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -37,11 +38,13 @@ import javafx.util.Callback;
 
 public class Controller implements Initializable{
     
+	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
+	
 	@FXML
 	private ListView<RoomScene> sceneListView;
-	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
-	private ObservableList<RoomObject> objectList;
-	private ObservableList<ObjectStatus> statusList;
+	
+	@FXML
+	private ListView<RoomObject> objectListView;
 	
     @FXML
     private Pane pane;
@@ -70,10 +73,11 @@ public class Controller implements Initializable{
     @FXML
     private Button deleteSceneBtn;
     
-    ////////////////////////////
     @FXML
     private Button addObjectBtn;
-    ////////////////////////////
+    
+    @FXML
+    private Button deleteObjectBtn;
     
     private Stage mainStage; 
     private MainApp mainApp;
@@ -81,12 +85,13 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
-    	sceneList.clear();
     	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.get(0).addRoomObject("object1", "roomescapemaker/resource/objects/defaultImage.png");
+    	sceneList.get(0).addRoomObject("object2", "roomescapemaker/resource/objects/defaultImage.png");
     	sceneList.add(new RoomScene("Scene 2", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.get(1).addRoomObject("object2", "roomescapemaker/resource/objects/defaultImage.png");
     	sceneList.add(new RoomScene("Scene 3", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
-    	sceneList.add(new RoomScene("Scene 4", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
-    	sceneList.add(new RoomScene("Scene 5", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
+    	sceneList.get(2).addRoomObject("object3", "roomescapemaker/resource/objects/defaultImage.png");
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
     		@Override
     		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
@@ -106,11 +111,34 @@ public class Controller implements Initializable{
     						setText(null);
     					}
     				}
+    			};	
+    			return cell;
+    		}
+    	});
+    	
+    	objectListView.setCellFactory(new Callback<ListView<RoomObject>, ListCell<RoomObject>>(){
+    		@Override
+    		public ListCell<RoomObject> call(ListView<RoomObject> arg0){
+    			ListCell<RoomObject> cell = new ListCell<RoomObject>() {
+    				@Override
+    				protected void updateItem(RoomObject obj, boolean bt1) {
+    					super.updateItem(obj, bt1);
+    					if (obj != null) {
+    						ImageView imgview = new ImageView(obj.getStatus(0).getStatusImage());
+    						imgview.setFitWidth(imgview.getFitWidth());
+    						imgview.setFitHeight(imgview.getFitHeight());
+    						setGraphic(imgview);
+    						setText(obj.getObjectName());
+    					}
+    					else {
+    						setGraphic(null);
+    						setText(null);
+    					}
+    				}
     			};
     			
     			return cell;
-    		}
-    		
+    		}	
     	});
     	
     	
@@ -121,29 +149,31 @@ public class Controller implements Initializable{
     		
     		@Override
     		public void onChanged(Change<? extends RoomScene> c) {
-    			System.out.println("list changed");
+    			System.out.println("scene list changed");
     			if(c.next()) {
     				System.out.println(c.getFrom());
     			}
     		}
     	});
-    	/////////////////////////////////////////
+    	
     	//listener for selecting a scene
     	sceneListView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showContainedObjects(newValue));    	
-    	/////////////////////////////////////////
+                (observable, oldValue, newValue) -> showContainedObjects(newValue));    
+    	
+    	
+    		  
+    
     }
-    /////////////////////////////////////
+    
     private void showContainedObjects(RoomScene rs) {
-        if (rs == null) {
-            
-           
-        } else {
-           System.out.println(rs.getRoomObjectList().size());
-            
-        }
+    	if (rs != null) {
+    		System.out.println(rs.getRoomObjectList().size());
+    		objectListView.setItems(rs.getRoomObjectList());
+    	} else {
+    		return;
+    	}
     }
-    /////////////////////////////////////
+
     @FXML
     void onClickAddSceneBtn(ActionEvent event) {
 
@@ -151,9 +181,9 @@ public class Controller implements Initializable{
     	fileChooser.getExtensionFilters().addAll(
     	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
     	);
-    	///////////////////////////////////////////////
-    	fileChooser.setInitialDirectory(new File("./RoomEscapeMaker/src/roomescapemaker/resource/backgrounds"));
-    	///////////////////////////////////////////////
+    	
+    	fileChooser.setInitialDirectory(new File("./src/roomescapemaker/resource/backgrounds"));
+    	
     	File selectedFile = fileChooser.showOpenDialog(mainStage);
     	try {
     		sceneList.add(new RoomScene("scene X", new Image(selectedFile.toURI().toURL().toString())));
@@ -162,35 +192,63 @@ public class Controller implements Initializable{
     		System.out.println("wrong file path url");
     	}
     	
-    	///////////////////////////////////////////
-    	sceneList.get(sceneList.size() - 1).clearRoomObject();
-    	///////////////////////////////////////////
     }
     
     ///////////////////////////////////////////////
     @FXML
     void onClickAddObjectBtn(ActionEvent event) {
     	
-    	FileChooser fileChooser = new FileChooser();
-    	fileChooser.getExtensionFilters().addAll(
-    	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
-    	);
-    	fileChooser.setInitialDirectory(new File("./RoomEscapeMaker/src/roomescapemaker/resource/objects"));
+    	if(sceneListView.getSelectionModel().getSelectedItem() != null) {
+    		FileChooser fileChooser = new FileChooser();
+    		fileChooser.getExtensionFilters().addAll(
+    				new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
+    		);
+    		fileChooser.setInitialDirectory(new File("./src/roomescapemaker/resource/objects"));
     	
-    	File selectedFile = fileChooser.showOpenDialog(mainStage);
+    		File selectedFile = fileChooser.showOpenDialog(mainStage);
+    		try {
+    			sceneListView.getSelectionModel().getSelectedItem().addRoomObject(
+    					"object X", selectedFile.toURI().toURL().toString());
+    		} catch (MalformedURLException e) {
+    			e.printStackTrace();
+    			System.out.println("wrong file path url");
+    		}
+    	}
+    	else return;
     }
     ///////////////////////////////////////////////
     
     
     @FXML
     void onClickDeleteSceneBtn(ActionEvent event) {
-    	try {
-    		sceneList.remove(sceneListView.getSelectionModel().getSelectedIndex());
-    	} catch(ArrayIndexOutOfBoundsException e) {
-    		e.printStackTrace();
-    		System.out.println("no data in scenelist");
+    	if (sceneListView.getSelectionModel().getSelectedItem() != null) {
+    		try {
+    			sceneList.remove(sceneListView.getSelectionModel().getSelectedIndex());
+    			if (sceneList.size() == 0) {
+    				objectListView.getItems().clear();
+    			}
+    		} catch(ArrayIndexOutOfBoundsException e) {
+    			e.printStackTrace();
+    			System.out.println("no data in scenelist");
+    		}
+    	}
+    	else return;
+    }
+    
+    @FXML
+    void onClickDeleteObjectBtn(ActionEvent event) {
+    	if (sceneListView.getSelectionModel().getSelectedItem() != null 
+    			&& objectListView.getSelectionModel().getSelectedItem() != null) {
+    		try {
+    			sceneListView.getSelectionModel().getSelectedItem().removeRoomObject(
+    					objectListView.getSelectionModel().getSelectedIndex());
+    		} catch(ArrayIndexOutOfBoundsException e){
+    			e.printStackTrace();
+    			System.out.println("no data in objectlist");
+    		}
     	}
     }
+    
 
     @FXML
     void onCLickMenuFileClose(ActionEvent event) {

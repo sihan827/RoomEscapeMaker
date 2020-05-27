@@ -15,9 +15,9 @@ public class RoomObject {
 	private final IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
 	
-	public RoomObject(String objectName) {
+	public RoomObject(String objectName, String defaultImageURL) {
 		this.objectName.set(objectName);
-		this.statusList.add(new ObjectStatus("default"));
+		this.statusList.add(new ObjectStatus("default", defaultImageURL));
 		this.currentStatus.set(0);
 	}
 	
@@ -49,8 +49,8 @@ public class RoomObject {
 		return statusList;
 	}
 	
-	public void addStatus(String statusName) {
-		statusList.add(new ObjectStatus(statusName));
+	public void addStatus(String statusName, String imageFileURL) {
+		statusList.add(new ObjectStatus(statusName, imageFileURL));
 	}
 	
 	public ObjectStatus getStatus(int index) {

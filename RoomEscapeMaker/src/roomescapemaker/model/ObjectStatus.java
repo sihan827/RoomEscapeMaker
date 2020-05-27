@@ -22,7 +22,7 @@ public class ObjectStatus {
 	private final BooleanProperty visible = new SimpleBooleanProperty();
 	private final BooleanProperty possess = new SimpleBooleanProperty();
 	
-	public ObjectStatus(String name) {
+	public ObjectStatus(String name, String imageFileURL) {
 		this.statusName.set(name);
 		this.scale.set(100);
 		this.xPos.set(0);
@@ -30,7 +30,7 @@ public class ObjectStatus {
 		this.visible.set(true);
 		this.possess.set(false);
 		try {
-			this.statusImage.set(new Image("roomescapemaker/resource/defaultimage.png"));
+			this.statusImage.set(new Image(imageFileURL));
 		} catch(IllegalArgumentException e){
 			e.printStackTrace();
 			System.out.println("fail to call image");
@@ -49,7 +49,7 @@ public class ObjectStatus {
 		return statusName;
 	}
 	
-	public Image getStatisImage() {
+	public Image getStatusImage() {
 		return statusImage.get();
 	}
 	

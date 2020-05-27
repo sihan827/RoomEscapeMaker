@@ -75,7 +75,7 @@
                                              <content>
                                                 <AnchorPane prefHeight="572.0" prefWidth="245.0">
                                                    <children>
-                                                      <ListView fx:id="sceneListView" fixedCellSize="120.0" layoutX="23.0" layoutY="137.0" prefHeight="572.0" prefWidth="245.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <ListView fx:id="sceneListView" layoutX="23.0" layoutY="137.0" prefHeight="572.0" prefWidth="245.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children></AnchorPane>
                                              </content>
                                           </ScrollPane>
@@ -101,14 +101,15 @@
                            <children>
                               <ToolBar prefHeight="30.0" prefWidth="1313.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
-                                  <Button fx:id="addObjectBtn" mnemonicParsing="false" text="Add" />
+                                  <Button fx:id="addObjectBtn" mnemonicParsing="false" onAction="#onClickAddObjectBtn" text="Add" />
+                                    <Button fx:id="deleteObjectBtn" mnemonicParsing="false" onAction="#onClickDeleteObjectBtn" text="Delete" />
                                 </items>
                               </ToolBar>
                               <ScrollPane layoutX="177.0" layoutY="31.0" prefHeight="205.0" prefWidth="1313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="191.0" prefWidth="1325.0">
                                        <children>
-                                          <ListView fixedCellSize="120.0" layoutX="222.0" orientation="HORIZONTAL" prefHeight="191.0" prefWidth="1325.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <ListView fx:id="objectListView" layoutX="222.0" orientation="HORIZONTAL" prefHeight="191.0" prefWidth="1325.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children></AnchorPane>
                                 </content>
                               </ScrollPane>

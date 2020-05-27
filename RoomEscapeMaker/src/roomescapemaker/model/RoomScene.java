@@ -49,8 +49,8 @@ public class RoomScene {
 		return roomObjectList;
 	}
 	
-	public void addRoomObject(String objectName) {
-		roomObjectList.add(new RoomObject(objectName));
+	public void addRoomObject(String objectName, String defaultImageURL) {
+		roomObjectList.add(new RoomObject(objectName, defaultImageURL));
 	}
 	
 	public RoomObject getRoomObject(int index) {
