@@ -1,6 +1,6 @@
 package roomescapemaker.view;
 
-import roomescapemaker.model.RoomScene;
+import roomescapemaker.model.RoomObject;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -19,10 +19,10 @@ import javafx.stage.Stage;
 
 
 
-public class AddSceneController implements Initializable{
+public class AddObjectController implements Initializable{
 	
 	@FXML
-	private TextField sceneNameField;
+	private TextField objectNameField;
 	
 	@FXML
 	private Label filePathLabel;
@@ -31,26 +31,32 @@ public class AddSceneController implements Initializable{
 	private Button browseImageFileBtn;
 	
 	@FXML
-	private Button addSceneBtn;
+	private TextField xPosField;
+	
+	@FXML
+	private TextField yPosField;
+	
+	@FXML
+	private Button addObjectBtn;
 	
 	@FXML
 	private Button cancelBtn;
 	
-	private Stage addSceneStage;
+	private Stage addObjectStage;
 	
 	private Stage fileChooserDialog;
 	
 	private boolean okClicked = false;
 	
-	private RoomScene scene;
+	private RoomObject object;
 	
 	@Override
     public void initialize(URL location, ResourceBundle resources) {
 		
 	}
 	
-	public void setDialogStage(Stage addSceneStage) {
-		this.addSceneStage = addSceneStage;
+	public void setDialogStage(Stage addObjectStage) {
+		this.addObjectStage = addObjectStage;
 	}
 	
 	@FXML
@@ -76,36 +82,65 @@ public class AddSceneController implements Initializable{
 	}
 	
 	@FXML
-	private void onClickAddSceneBtn(ActionEvent event) {
+	private void onClickAddObjectBtn(ActionEvent event) {
 		if (isInputValid()) {
-			scene.setSceneName(sceneNameField.getText());
-			scene.setBackGroundImage(new Image(filePathLabel.getText()));
+			object.setObjectName(objectNameField.getText());
+			object.getStatus(0).setImageFile(new Image(filePathLabel.getText()));
+			object.getStatus(0).setXpos(Double.parseDouble(xPosField.getText()));
+			object.getStatus(0).setYpos(Double.parseDouble(yPosField.getText()));
 			okClicked = true;
-			addSceneStage.close();
+			addObjectStage.close();
 		}
 	}
 	
 	@FXML 
 	private void onClickCancelBtn() {
-		addSceneStage.close();
+		addObjectStage.close();
 	}
 	
 	private boolean isInputValid() {
-		if (sceneNameField.getText() == null || sceneNameField.getText().length() == 0) {
+		boolean isDouble;
+		if (objectNameField.getText() == null || objectNameField.getText().length() == 0) {
 			return false;
 		} else if (filePathLabel.getText() == null || filePathLabel.getText().length() == 0) {
 			return false;
-		} else {
+		} else if (xPosField.getText() == null || xPosField.getText().length() == 0) {
+			isDouble = false;
+			try {
+				Double.parseDouble(xPosField.getText());
+				isDouble = true;
+			} catch(NumberFormatException e){
+				System.out.println("Coordinate x must be a double type!");
+			}
+			if (isDouble == false) 
+				return false;
+			else {
+				if (yPosField.getText() == null || yPosField.getText().length() == 0){
+					isDouble = false;
+					try {
+						Double.parseDouble(yPosField.getText());
+						isDouble = true;
+					} catch(NumberFormatException e){
+						System.out.println("Coordinate y must be a double type!");
+					}
+					if (isDouble == false) 
+						return false;
+					else 
+						return true;
+				}
+				else 
+					return true;
+			}		
+		} else 
 			return true;
-		}
 	}
 	
 	public boolean isOkClicked() {
 		return okClicked;
 	}
 	
-	public void setScene(RoomScene newRoomScene) {
-		this.scene = newRoomScene;
+	public void setObject(RoomObject newRoomObject) {
+		this.object = newRoomObject;
 	}
 	
 	

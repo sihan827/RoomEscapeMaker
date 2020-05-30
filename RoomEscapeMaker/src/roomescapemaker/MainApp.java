@@ -1,40 +1,106 @@
 package roomescapemaker;
 
+import roomescapemaker.view.Controller;
+import roomescapemaker.model.RoomObject;
 import roomescapemaker.model.RoomScene;
-
+import roomescapemaker.view.AddObjectController;
+import roomescapemaker.view.AddSceneController;
+import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
 	
-	
+	private Stage primaryStage;
+	private AnchorPane rootLayout;
     
 	@Override
 	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("RoomExcapeMaker");
+        this.primaryStage.setFullScreen(false);
+        initRootLayout();
+	}
+	
+	public void initRootLayout() {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("view/Overview.fxml"));
-
-	        primaryStage.setTitle("RoomExcapeMaker");
-	        primaryStage.setFullScreen(false);
-	        //Group root = new Group();
-
-	        Scene scene = new Scene(root, Color.BEIGE);
-	        primaryStage.setScene(scene);
-
-
-	        //primaryStage.setVisible(true);
-	        primaryStage.show();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/Overview.fxml"));
+			rootLayout = (AnchorPane) loader.load();
+			Scene scene = new Scene(rootLayout, Color.BEIGE);
+			primaryStage.setScene(scene);
+			primaryStage.show();
 			
+			Controller controller = loader.getController();
+			controller.setMainApp(this);
 			
-		} catch(Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("No fxml file named \"Overview.fxml\" in view pakage!");
+		}
+	}
+	
+	public boolean showAddSceneStage(RoomScene newRoomScene) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/Add_Scene.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			
+			Stage addSceneStage = new Stage();
+			addSceneStage.setTitle("Add New Scene");
+			addSceneStage.initModality(Modality.WINDOW_MODAL);
+			addSceneStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			addSceneStage.setScene(scene);
+			
+			AddSceneController controller = loader.getController();
+			controller.setDialogStage(addSceneStage);
+			controller.setScene(newRoomScene);
+			
+			addSceneStage.showAndWait();
+			
+			
+			return controller.isOkClicked();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("No fxml file named \"Add_Scene.fxml\" in view pakage!");
+			return false;
+		}
+	}
+	
+	public boolean showAddObjectStage(RoomObject newRoomObject) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/Add_Object.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			
+			Stage addObjectStage = new Stage();
+			addObjectStage.setTitle("Add New Object to Scene");
+			addObjectStage.initModality(Modality.WINDOW_MODAL);
+			addObjectStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			addObjectStage.setScene(scene);
+			
+			AddObjectController controller = loader.getController();
+			controller.setDialogStage(addObjectStage);
+			controller.setObject(newRoomObject);
+			
+			addObjectStage.showAndWait();
+			
+			return controller.isOkClicked();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("No fxml file named \"Add_Object.fxml\" in view pakage!");
+			return false;
 		}
 	}
 	

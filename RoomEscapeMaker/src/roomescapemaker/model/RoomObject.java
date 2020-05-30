@@ -2,7 +2,7 @@ package roomescapemaker.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,9 +15,15 @@ public class RoomObject {
 	private final IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
 	
+	public RoomObject() {
+		this.objectName.set(null);
+		this.statusList.add(new ObjectStatus("default", null));
+		this.currentStatus.set(0);
+	}
+	
 	public RoomObject(String objectName, String defaultImageURL) {
 		this.objectName.set(objectName);
-		this.statusList.add(new ObjectStatus("default", defaultImageURL));
+		this.statusList.add(new ObjectStatus("default", new Image(defaultImageURL)));
 		this.currentStatus.set(0);
 	}
 	
@@ -50,7 +56,7 @@ public class RoomObject {
 	}
 	
 	public void addStatus(String statusName, String imageFileURL) {
-		statusList.add(new ObjectStatus(statusName, imageFileURL));
+		statusList.add(new ObjectStatus(statusName, new Image(imageFileURL)));
 	}
 	
 	public ObjectStatus getStatus(int index) {

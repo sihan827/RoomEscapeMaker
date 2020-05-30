@@ -2,22 +2,20 @@
 package roomescapemaker.view;
 
 import roomescapemaker.MainApp;
-import roomescapemaker.model.*;
+import roomescapemaker.model.RoomScene;
+import roomescapemaker.model.RoomObject;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import java.io.File;
-import java.lang.IllegalArgumentException;
+
+
 import java.lang.ArrayIndexOutOfBoundsException;
 
 
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +30,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -67,16 +64,16 @@ public class Controller implements Initializable{
     @FXML
     private Menu menuHelp;
     
-    @FXML
+    @FXML //done!
     private Button addSceneBtn;
     
-    @FXML
+    @FXML //done!
     private Button deleteSceneBtn;
     
-    @FXML
+    @FXML //done!
     private Button addObjectBtn;
     
-    @FXML
+    @FXML //done!
     private Button deleteObjectBtn;
     
     private Stage mainStage; 
@@ -85,7 +82,7 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
-    	initTest();
+    	//initTest();
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
     		@Override
     		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
@@ -138,7 +135,7 @@ public class Controller implements Initializable{
     	
     	sceneListView.setItems(sceneList);
     	
-    	//add scene list listener
+    	//add scene list listener -> detect changes in sceneList
     	sceneList.addListener(new ListChangeListener<RoomScene>() {
     		
     		@Override
@@ -169,52 +166,33 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    void onClickAddSceneBtn(ActionEvent event) {
+    private void onClickAddSceneBtn(ActionEvent event) {
 
-    	FileChooser fileChooser = new FileChooser();
-    	fileChooser.getExtensionFilters().addAll(
-    	     new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
-    	);
-    	
-    	fileChooser.setInitialDirectory(new File("."));
-    	
-    	File selectedFile = fileChooser.showOpenDialog(mainStage);
-    	try {
-    		sceneList.add(new RoomScene("scene X", new Image(selectedFile.toURI().toURL().toString())));
-    	} catch (MalformedURLException e) {
-    		e.printStackTrace();
-    		System.out.println("wrong file path url");
+    	RoomScene newRoomScene = new RoomScene(null, null);
+    	boolean okClicked = mainApp.showAddSceneStage(newRoomScene);
+    	if (okClicked) {
+    		sceneList.add(newRoomScene);
     	}
-    	
     }
     
-    ///////////////////////////////////////////////
+  
     @FXML
-    void onClickAddObjectBtn(ActionEvent event) {
+    private void onClickAddObjectBtn(ActionEvent event) {
     	
     	if(sceneListView.getSelectionModel().getSelectedItem() != null) {
-    		FileChooser fileChooser = new FileChooser();
-    		fileChooser.getExtensionFilters().addAll(
-    				new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png")
-    		);
-    		fileChooser.setInitialDirectory(new File("."));
-    	
-    		File selectedFile = fileChooser.showOpenDialog(mainStage);
-    		try {
-    			sceneListView.getSelectionModel().getSelectedItem().addRoomObject(
-    					"object X", selectedFile.toURI().toURL().toString());
-    		} catch (MalformedURLException e) {
-    			e.printStackTrace();
-    			System.out.println("wrong file path url");
+    		RoomObject newRoomObject = new RoomObject();
+    		boolean okClicked = mainApp.showAddObjectStage(newRoomObject);
+    		if (okClicked) {
+    			sceneListView.getSelectionModel().getSelectedItem().getRoomObjectList().add(newRoomObject);
     		}
     	}
     	else return;
     }
-    ///////////////////////////////////////////////
+
     
     
     @FXML
-    void onClickDeleteSceneBtn(ActionEvent event) {
+    private void onClickDeleteSceneBtn(ActionEvent event) {
     	if (sceneListView.getSelectionModel().getSelectedItem() != null) {
     		try {
     			sceneList.remove(sceneListView.getSelectionModel().getSelectedIndex());
@@ -230,7 +208,7 @@ public class Controller implements Initializable{
     }
     
     @FXML
-    void onClickDeleteObjectBtn(ActionEvent event) {
+    private void onClickDeleteObjectBtn(ActionEvent event) {
     	if (sceneListView.getSelectionModel().getSelectedItem() != null 
     			&& objectListView.getSelectionModel().getSelectedItem() != null) {
     		try {
