@@ -99,40 +99,25 @@ public class AddObjectController implements Initializable{
 	}
 	
 	private boolean isInputValid() {
-		boolean isDouble;
 		if (objectNameField.getText() == null || objectNameField.getText().length() == 0) {
 			return false;
 		} else if (filePathLabel.getText() == null || filePathLabel.getText().length() == 0) {
 			return false;
-		} else if (xPosField.getText() == null || xPosField.getText().length() == 0) {
-			isDouble = false;
+		} else {
 			try {
 				Double.parseDouble(xPosField.getText());
-				isDouble = true;
-			} catch(NumberFormatException e){
+			} catch (NumberFormatException e) {
 				System.out.println("Coordinate x must be a double type!");
-			}
-			if (isDouble == false) 
 				return false;
-			else {
-				if (yPosField.getText() == null || yPosField.getText().length() == 0){
-					isDouble = false;
-					try {
-						Double.parseDouble(yPosField.getText());
-						isDouble = true;
-					} catch(NumberFormatException e){
-						System.out.println("Coordinate y must be a double type!");
-					}
-					if (isDouble == false) 
-						return false;
-					else 
-						return true;
-				}
-				else 
-					return true;
-			}		
-		} else 
+			}
+			try {
+				Double.parseDouble(yPosField.getText());
+			} catch (NumberFormatException e) {
+				System.out.println("Coordinate y must be a double type!");
+				return false;
+			}
 			return true;
+		}		
 	}
 	
 	public boolean isOkClicked() {

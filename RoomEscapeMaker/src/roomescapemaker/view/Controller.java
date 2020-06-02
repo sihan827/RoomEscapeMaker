@@ -3,16 +3,14 @@ package roomescapemaker.view;
 
 import roomescapemaker.MainApp;
 import roomescapemaker.model.RoomScene;
+import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-
-
+import java.io.File;
 import java.lang.ArrayIndexOutOfBoundsException;
-
-
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -22,26 +20,30 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Controller implements Initializable{
     
 	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
-	
-	@FXML
-	private ListView<RoomScene> sceneListView;
-	
-	@FXML
-	private ListView<RoomObject> objectListView;
+	private Stage fileChooserDialog; 
+    private MainApp mainApp;
+    // ImageView for status property pane
+    private ImageView img;
 	
     @FXML
     private Pane pane;
@@ -64,11 +66,74 @@ public class Controller implements Initializable{
     @FXML
     private Menu menuHelp;
     
+    /*
+     * control for Status choice box
+     */
+    @FXML
+    private ChoiceBox<ObjectStatus> statusChoiceBox;
+    
+    @FXML
+    private Button addStatusBtn;
+    
+    @FXML
+    private Button deleteStatusBtn;
+    
+    /*
+     * TitlePane containers
+     */
+    @FXML
+    private TitledPane propertyPane;
+    
+    @FXML
+    private TitledPane interactionPane;
+    
+    /*
+     * control for showing status property
+     */
+    @FXML
+    private TextField statusNameField;
+    
+    @FXML 
+    private Button imgBrowseBtn;
+    
+    @FXML
+    private BorderPane statusImgPane;
+    
+    @FXML
+    private TextField scaleField;
+    
+    @FXML
+    private TextField xPosField;
+    
+    @FXML
+    private TextField yPosField;
+    
+    @FXML
+    private CheckBox visibleBox;
+    
+    @FXML
+    private CheckBox possessBox;
+    
+    @FXML
+    private Button applyStatusEditBtn;
+    
+    /*
+     * control for Scene list
+     */
+    @FXML //done!
+	private ListView<RoomScene> sceneListView;
+    
     @FXML //done!
     private Button addSceneBtn;
     
     @FXML //done!
     private Button deleteSceneBtn;
+    
+    /*
+     * control for Object list
+     */
+    @FXML //done!
+	private ListView<RoomObject> objectListView;
     
     @FXML //done!
     private Button addObjectBtn;
@@ -76,13 +141,12 @@ public class Controller implements Initializable{
     @FXML //done!
     private Button deleteObjectBtn;
     
-    private Stage mainStage; 
-    private MainApp mainApp;
+    
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
-    	//initTest();
+    	initTest();
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
     		@Override
     		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
@@ -132,7 +196,6 @@ public class Controller implements Initializable{
     		}	
     	});
     	
-    	
     	sceneListView.setItems(sceneList);
     	
     	//add scene list listener -> detect changes in sceneList
@@ -151,17 +214,180 @@ public class Controller implements Initializable{
     	sceneListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showContainedObjects(newValue));    
     	
+    	//listener for selecting a object
+    	objectListView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showCurrentStatus(newValue)); 
     	
-    		  
+    	//listener for selecting a status
+    	statusChoiceBox.getSelectionModel().selectedItemProperty().addListener(
+    			(observable, oldValue, newValue) -> showStatusProperty(newValue));
     
     }
     
     private void showContainedObjects(RoomScene rs) {
+    	// clear Status Property pane and Status choice box when changing scene
+    	clearStatusProperty();
+    	ObservableList<ObjectStatus> clearChoiceBox = FXCollections.observableArrayList();
+    	statusChoiceBox.setItems(clearChoiceBox);
+    	
     	if (rs != null) {
     		System.out.println(rs.getRoomObjectList().size());
     		objectListView.setItems(rs.getRoomObjectList());
     	} else {
     		return;
+    	}
+    }
+    
+    private void showCurrentStatus(RoomObject ro) {
+    	if (ro != null) {
+    		System.out.println(ro.getObjectName());
+    		System.out.println("Current status : "+ ro.getCurrentStatus());
+    		statusChoiceBox.setItems(ro.getStatusList());	
+    		statusChoiceBox.setValue(ro.getStatus(ro.getCurrentStatus()));
+    	} else {
+    		return;
+    	}
+    }
+    
+    private void showStatusProperty(ObjectStatus os) {
+    	if (os != null) {
+    		if (propertyPane.isExpanded() == true) {
+    			setStatusProperty(os);
+    		} else {
+    			propertyPane.setExpanded(true);
+    			setStatusProperty(os);
+    		}
+    	} else {
+    		return;
+    	}
+    }
+    
+    private void setStatusProperty(ObjectStatus os) {
+    	statusNameField.setText(os.getStatusName());
+    	img = new ImageView();
+    	img.setImage(os.getStatusImage());
+    	img.setFitHeight(120);
+    	img.setPreserveRatio(true);
+    	img.fitWidthProperty().bind(statusImgPane.widthProperty());
+    	statusImgPane.setCenter(img);
+    	scaleField.setText(Integer.toString(os.getScale()));
+    	xPosField.setText(Double.toString(os.getXpos()));
+    	yPosField.setText(Double.toString(os.getYpos()));
+    	visibleBox.setSelected(os.getVisible());
+    	possessBox.setSelected(os.getPossess());
+   	
+    }
+    
+    private void clearStatusProperty() {
+    	statusNameField.clear();
+    	statusImgPane.setCenter(null);
+    	scaleField.clear();
+   		xPosField.clear();
+   		yPosField.clear();
+   		visibleBox.setSelected(false);
+   		possessBox.setSelected(false);
+    }
+    
+    @FXML
+    private void onClickApplyStatusChangeBtn(ActionEvent event) {
+    	if (statusChoiceBox.getSelectionModel().getSelectedItem() != null) {
+    		if (isInputValid()) {
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setStatusName(statusNameField.getText());
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile(img.getImage());
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setScale(Integer.parseInt(scaleField.getText()));
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setXpos(Double.parseDouble(xPosField.getText()));
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setYpos(Double.parseDouble(yPosField.getText()));
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setVisible(visibleBox.isSelected());
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setPossess(possessBox.isSelected());
+    			//refresh for object list view
+    			objectListView.refresh();
+    		}
+    		else {
+    			//alert message : input value is not valid
+    			return;
+    		}
+    	} else {
+    		//alert message : please select a status to edit
+    		return;
+    	}
+    }
+    
+    private boolean isInputValid() {
+		if (statusNameField.getText() == null || statusNameField.getText().length() == 0) {
+			return false;
+		} else {
+			try {
+				Integer.parseInt(scaleField.getText());
+			} catch (NumberFormatException e) {
+				System.out.println("Scale value must be a integer type!");
+				return false;
+			}
+			try {
+				Double.parseDouble(xPosField.getText());
+			} catch (NumberFormatException e) {
+				System.out.println("Coordinate x must be a double type!");
+				return false;
+			}
+			try {
+				Double.parseDouble(yPosField.getText());
+			} catch (NumberFormatException e) {
+				System.out.println("Coordinate y must be a double type!");
+				return false;
+			}
+			return true;
+		}		
+	}
+    
+    @FXML 
+    private void onClickImgBrowseBtn() {
+    	if (statusChoiceBox.getSelectionModel().getSelectedItem() != null) {
+    		FileChooser fileChooser = new FileChooser();
+    		fileChooser.getExtensionFilters().addAll(
+    				new FileChooser.ExtensionFilter("image files", "*.jpeg", "*.jpg","*.png"));
+    	
+    		fileChooser.setInitialDirectory(new File("."));
+    	
+    		File selectedFile = fileChooser.showOpenDialog(fileChooserDialog);
+    		if (selectedFile == null) {
+    			return;	
+    		} else {
+    			try {
+    				img = new ImageView();
+    				img.setImage(new Image(selectedFile.toURI().toURL().toString()));
+    				img.setFitHeight(120);
+    		    	img.setPreserveRatio(true);
+    		    	img.fitWidthProperty().bind(statusImgPane.widthProperty());
+    		    	statusImgPane.setCenter(img);
+    			} catch (MalformedURLException e) {
+    				e.printStackTrace();
+    				System.out.println("wrong file path url");
+    			}
+    		}
+    	}
+    }
+    
+    @FXML 
+    private void onClickAddStatusBtn(ActionEvent event) {
+    	if (objectListView.getSelectionModel().getSelectedItem() != null) {
+    		ObjectStatus newStatus = new ObjectStatus("new status " 
+    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null);
+    		objectListView.getSelectionModel().getSelectedItem().getStatusList().add(newStatus);	
+    	}
+    	else {
+    		return;
+    	}
+    }
+    
+    @FXML 
+    private void onClickDeleteStatusBtn(ActionEvent event) {
+    	if (statusChoiceBox.getSelectionModel().getSelectedItem() != null) {
+    		if (statusChoiceBox.getSelectionModel().getSelectedIndex() == 0) {
+    			// alert can't remove first status
+    			System.out.println("Cannot remove first status : It is default!");
+    		} else {
+    			objectListView.getSelectionModel().getSelectedItem().getStatusList().remove(statusChoiceBox.getSelectionModel().getSelectedItem());
+    			clearStatusProperty();
+    		} 
     	}
     }
 
@@ -248,6 +474,7 @@ public class Controller implements Initializable{
     public void initTest() {
     	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
     	sceneList.get(0).addRoomObject("books", "roomescapemaker/resource/objects/books.jpg");
+    	sceneList.get(0).getRoomObject(0).addStatus("isopen", "roomescapemaker/resource/backgrounds/normalRoom.png");
     	sceneList.get(0).addRoomObject("computer", "roomescapemaker/resource/objects/computer.png");
     	sceneList.get(0).addRoomObject("fireextinguisher", "roomescapemaker/resource/objects/fireextinguisher.jpg");
     	sceneList.get(0).addRoomObject("greensofa", "roomescapemaker/resource/objects/greensofa.jpg");

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -20,9 +19,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
    <children>
@@ -122,42 +120,36 @@
                <children>
                   <Accordion layoutX="8.0" layoutY="68.0" prefHeight="778.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
                     <panes>
-                      <TitledPane animated="false" prefHeight="744.0" prefWidth="277.0" text="Properties">
+                      <TitledPane fx:id="propertyPane" animated="false" prefHeight="744.0" prefWidth="277.0" text="Properties">
                            <content>
                               <ScrollPane prefHeight="200.0" prefWidth="200.0">
                                  <content>
                                     <AnchorPane prefHeight="441.0" prefWidth="260.0">
                                        <children>
                                           <Label layoutX="20.0" layoutY="16.0" text="Status Name" />
-                                          <TextField layoutX="107.0" layoutY="10.0" prefHeight="22.0" prefWidth="135.0" />
+                                          <TextField fx:id="statusNameField" layoutX="107.0" layoutY="10.0" prefHeight="22.0" prefWidth="135.0" />
                                           <Label layoutX="20.0" layoutY="50.0" text="Image" />
-                                          <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="35.0" layoutY="80.0" pickOnBounds="true">
-                                             <viewport>
-                                                <Rectangle2D height="300.0" width="400.0" />
-                                             </viewport>
-                                             <image>
-                                                <Image url="@../../../../../../Users/박상우/Downloads/002.jpg" />
-                                             </image>
-                                          </ImageView>
-                                          <Button layoutX="68.0" layoutY="46.0" mnemonicParsing="false" text="Add" />
+                                          <Button fx:id="imgBrowseBtn" layoutX="68.0" layoutY="46.0" mnemonicParsing="false" onAction="#onClickImgBrowseBtn" text="Browse..." />
                                           <Label layoutX="20.0" layoutY="259.0" text="Scale" />
-                                          <TextField layoutX="107.0" layoutY="256.0" prefHeight="22.0" prefWidth="53.0" />
+                                          <TextField fx:id="scaleField" layoutX="107.0" layoutY="256.0" prefHeight="22.0" prefWidth="53.0" />
                                           <Label layoutX="20.0" layoutY="304.0" text="Layout X" />
-                                          <TextField layoutX="107.0" layoutY="298.0" prefHeight="22.0" prefWidth="138.0" />
+                                          <TextField layoutX="107.0" layoutY="298.0" prefHeight="22.0" prefWidth="138.0" fx:id="xPosField" />
                                           <Label layoutX="169.0" layoutY="260.0" text="\%" />
                                           <Label layoutX="20.0" layoutY="331.0" text="Layout Y" />
-                                          <TextField layoutX="107.0" layoutY="325.0" prefHeight="22.0" prefWidth="138.0" />
+                                          <TextField fx:id="yPosField" layoutX="107.0" layoutY="325.0" prefHeight="22.0" prefWidth="138.0" />
                                           <Label layoutX="20.0" layoutY="366.0" text="Visible" />
-                                          <CheckBox layoutX="107.0" layoutY="366.0" mnemonicParsing="false" />
+                                          <CheckBox fx:id="visibleBox" layoutX="107.0" layoutY="366.0" mnemonicParsing="false" />
                                           <Label layoutX="20.0" layoutY="392.0" text="Possess" />
-                                          <CheckBox layoutX="107.0" layoutY="392.0" mnemonicParsing="false" />
+                                          <CheckBox fx:id="possessBox" layoutX="107.0" layoutY="392.0" mnemonicParsing="false" />
+                                          <Button fx:id="applyStatusEditBtn" layoutX="195.0" layoutY="416.0" mnemonicParsing="false" onAction="#onClickApplyStatusChangeBtn" text="Apply" />
+                                          <BorderPane fx:id="statusImgPane" layoutX="28.0" layoutY="90.0" prefHeight="130.0" prefWidth="200.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
                               </ScrollPane>
                            </content>
                       </TitledPane>
-                      <TitledPane animated="false" text="Layout">
+                      <TitledPane fx:id="interactionPane" animated="false" text="Layout">
                            <content>
                               <ScrollPane prefHeight="200.0" prefWidth="200.0">
                                 <content>
@@ -184,11 +176,11 @@
                       </TitledPane>
                     </panes>
                   </Accordion>
-                  <ChoiceBox layoutX="96.0" layoutY="10.0" prefHeight="22.0" prefWidth="167.0" />
+                  <ChoiceBox fx:id="statusChoiceBox" layoutX="96.0" layoutY="10.0" prefHeight="22.0" prefWidth="167.0" />
                   <ButtonBar layoutX="63.0" layoutY="32.0" prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                      <Button mnemonicParsing="false" text="Add" />
-                        <Button mnemonicParsing="false" text="Delete" />
+                      <Button fx:id="addStatusBtn" mnemonicParsing="false" onAction="#onClickAddStatusBtn" text="Add" />
+                        <Button fx:id="deleteStatusBtn" mnemonicParsing="false" onAction="#onClickDeleteStatusBtn" text="Delete" />
                     </buttons>
                   </ButtonBar>
                   <Label layoutX="14.0" layoutY="15.0" text="Object Status" />

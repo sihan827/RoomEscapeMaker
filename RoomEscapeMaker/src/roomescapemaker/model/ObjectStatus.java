@@ -127,5 +127,13 @@ public class ObjectStatus {
 		return possess;
 	}
 	
+	/*
+	 * showing ChoiceBox 
+	 */
+	@Override
+	public String toString() {
+		return getStatusName();
+	}
+	
 	
 }
