@@ -106,7 +106,7 @@
                                     </CheckBox>
                                 </items>
                               </ToolBar>
-                              <BorderPane layoutX="106.0" layoutY="18.0" prefHeight="236.8" prefWidth="1273.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <BorderPane layoutX="106.0" layoutY="18.0" prefHeight="236.8" prefWidth="1273.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                  <center>
                                     <ListView fx:id="objectListView" orientation="HORIZONTAL" BorderPane.alignment="CENTER" />
                                  </center>
