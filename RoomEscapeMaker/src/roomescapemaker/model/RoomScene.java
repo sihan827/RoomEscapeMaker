@@ -3,19 +3,19 @@ package roomescapemaker.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-
 public class RoomScene {
-	
+
 	public final StringProperty sceneName = new SimpleStringProperty();
 	public final ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
 	private ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();
-	
+
 	public RoomScene(String sceneName, Image backGroundImage) {
 		this.sceneName.set(sceneName);
 		this.backGroundImage.set(backGroundImage);
@@ -59,6 +59,7 @@ public class RoomScene {
 	
 	public void removeRoomObject(int index) {
 		roomObjectList.remove(index);
+
 	}
 	
 	public void clearRoomObject() { 

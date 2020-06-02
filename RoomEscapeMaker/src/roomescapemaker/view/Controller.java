@@ -38,30 +38,38 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Controller implements Initializable{
+
     
 	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
 	private Stage fileChooserDialog; 
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
+
 	
     @FXML
     private Pane pane;
-	
-	@FXML
-    private Canvas mainCanvas;
-    
-	@FXML
-    private Button playBtn;
 
     @FXML
     private MenuBar menuBar;
 
     @FXML
-    private Menu menuFile;
+    private MenuItem menuFileNew;
 
     @FXML
-    private MenuItem menuFileClose;
+    private MenuItem menuFileOpen;
+
+    @FXML
+    private MenuItem menuFileSave;
+
+    @FXML
+    private MenuItem menuFileSaveAs;
+
+    @FXML
+    private MenuItem menuFileImportImage;
+
+    @FXML
+    private MenuItem menuFileQuit;
 
     @FXML
     private Menu menuHelp;
@@ -448,21 +456,6 @@ public class Controller implements Initializable{
     	else return;
     }
     
-
-    @FXML
-    void onCLickMenuFileClose(ActionEvent event) {
-    	
-    	Stage stage = (Stage)(menuBar.getScene().getWindow());
-    	stage.close();
-    	
-    }
-
-    @FXML 
-    void playScene(ActionEvent event) {
-    	
-    	
-    }
-    
     void redraw() {
     	
     }
@@ -493,4 +486,5 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
     }
 
+	
 }

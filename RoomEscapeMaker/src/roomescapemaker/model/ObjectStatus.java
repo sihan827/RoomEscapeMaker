@@ -24,6 +24,7 @@ public class ObjectStatus {
 	private final BooleanProperty visible = new SimpleBooleanProperty();
 	private final BooleanProperty possess = new SimpleBooleanProperty();
 	
+
 	public ObjectStatus(String name, Image image) {
 		this(name, image, 0, 0);
 	}
@@ -42,6 +43,7 @@ public class ObjectStatus {
 			System.out.println("fail to call image");
 		}
 	}
+
 	
 	public String getStatusName() {
 		return statusName.get();
@@ -134,6 +136,5 @@ public class ObjectStatus {
 	public String toString() {
 		return getStatusName();
 	}
-	
-	
+
 }

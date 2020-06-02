@@ -8,7 +8,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-
 public class RoomObject {
 	
 	private final StringProperty objectName = new SimpleStringProperty();
@@ -25,6 +24,7 @@ public class RoomObject {
 		this.objectName.set(objectName);
 		this.statusList.add(new ObjectStatus("default", new Image(defaultImageURL)));
 		this.currentStatus.set(0);
+
 	}
 	
 	public String getObjectName() {
@@ -66,5 +66,6 @@ public class RoomObject {
 	public void removeStatus(int index) {
 		statusList.remove(index);
 	}
+	
 	
 }

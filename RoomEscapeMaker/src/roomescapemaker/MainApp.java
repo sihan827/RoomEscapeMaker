@@ -7,6 +7,7 @@ import roomescapemaker.view.AddObjectController;
 import roomescapemaker.view.AddSceneController;
 import java.io.IOException;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,6 +48,7 @@ public class MainApp extends Application {
 		}
 	}
 	
+
 	public boolean showAddSceneStage(RoomScene newRoomScene) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -74,6 +76,7 @@ public class MainApp extends Application {
 			System.out.println("No fxml file named \"Add_Scene.fxml\" in view pakage!");
 			return false;
 		}
+
 	}
 	
 	public boolean showAddObjectStage(RoomObject newRoomObject) {
