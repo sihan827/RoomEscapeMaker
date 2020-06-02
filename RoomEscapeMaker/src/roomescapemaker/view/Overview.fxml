@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -22,9 +23,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
    <children>
-      <MenuBar layoutX="115.0" layoutY="78.0" prefHeight="20.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar layoutX="115.0" layoutY="78.0" prefHeight="900.0" prefWidth="1514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -51,17 +52,17 @@
           </Menu>
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.8247809762202754" layoutX="-76.0" layoutY="27.0" prefHeight="848.0" prefWidth="1600.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+      <SplitPane dividerPositions="0.8247809762202754" layoutX="-76.0" layoutY="27.0" minHeight="200.0" minWidth="500.0" prefHeight="848.0" prefWidth="1600.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <SplitPane dividerPositions="0.7168" layoutX="590.0" layoutY="456.0" orientation="VERTICAL" prefHeight="846.0" prefWidth="1315.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.7168" layoutX="590.0" layoutY="456.0" minHeight="200.0" minWidth="300.0" orientation="VERTICAL" prefHeight="846.0" prefWidth="1315.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane minHeight="200.0" minWidth="300.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
                               <SplitPane dividerPositions="0.20137299771167047" layoutX="118.0" layoutY="256.0" prefHeight="602.0" prefWidth="1313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
-                                  <AnchorPane minHeight="50.0" minWidth="100.0" prefHeight="563.0" prefWidth="261.0">
+                                  <AnchorPane maxWidth="280.0" minHeight="50.0" minWidth="100.0" prefHeight="563.0" prefWidth="261.0">
                                        <children>
                                           <ToolBar layoutX="31.0" layoutY="568.0" prefHeight="32.0" prefWidth="261.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                             <items>
@@ -69,14 +70,11 @@
                                                 <Button fx:id="deleteSceneBtn" mnemonicParsing="false" onAction="#onClickDeleteSceneBtn" prefWidth="70.0" text="Delete" />
                                             </items>
                                           </ToolBar>
-                                          <ScrollPane layoutX="-16.0" layoutY="137.0" pannable="true" prefHeight="568.0" prefWidth="261.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <content>
-                                                <AnchorPane prefHeight="572.0" prefWidth="245.0">
-                                                   <children>
-                                                      <ListView fx:id="sceneListView" layoutX="23.0" layoutY="137.0" prefHeight="572.0" prefWidth="245.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                   </children></AnchorPane>
-                                             </content>
-                                          </ScrollPane>
+                                          <BorderPane layoutY="300.0" prefHeight="600.8" prefWidth="253.6" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <center>
+                                                <ListView fx:id="sceneListView" prefHeight="572.0" prefWidth="245.6" BorderPane.alignment="CENTER" />
+                                             </center>
+                                          </BorderPane>
                                        </children>
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -101,24 +99,26 @@
                                 <items>
                                   <Button fx:id="addObjectBtn" mnemonicParsing="false" onAction="#onClickAddObjectBtn" text="Add" />
                                     <Button fx:id="deleteObjectBtn" mnemonicParsing="false" onAction="#onClickDeleteObjectBtn" text="Delete" />
+                                    <CheckBox mnemonicParsing="false" text="CheckBox">
+                                       <padding>
+                                          <Insets left="8.0" />
+                                       </padding>
+                                    </CheckBox>
                                 </items>
                               </ToolBar>
-                              <ScrollPane layoutX="177.0" layoutY="31.0" prefHeight="205.0" prefWidth="1313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="191.0" prefWidth="1325.0">
-                                       <children>
-                                          <ListView fx:id="objectListView" layoutX="222.0" orientation="HORIZONTAL" prefHeight="191.0" prefWidth="1325.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children></AnchorPane>
-                                </content>
-                              </ScrollPane>
+                              <BorderPane layoutX="106.0" layoutY="18.0" prefHeight="236.8" prefWidth="1273.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <ListView fx:id="objectListView" orientation="HORIZONTAL" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
                            </children></AnchorPane>
                     </items>
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="80.0" minWidth="100.0" prefHeight="846.0" prefWidth="391.0">
+          <AnchorPane maxWidth="280.0" minHeight="80.0" minWidth="230.0" prefHeight="846.0" prefWidth="391.0">
                <children>
-                  <Accordion layoutX="8.0" layoutY="68.0" prefHeight="778.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
+                  <Accordion layoutX="8.0" layoutY="68.0" maxWidth="280.0" prefHeight="778.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
                     <panes>
                       <TitledPane fx:id="propertyPane" animated="false" prefHeight="744.0" prefWidth="277.0" text="Properties">
                            <content>
@@ -153,7 +153,7 @@
                            <content>
                               <ScrollPane prefHeight="200.0" prefWidth="200.0">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="269.0">
+                                  <AnchorPane maxWidth="280.0" minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="269.0">
                                        <children>
                                           <TableView layoutX="10.0" layoutY="35.0" prefHeight="155.0" prefWidth="255.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                             <columns>
@@ -187,5 +187,6 @@
                </children></AnchorPane>
         </items>
       </SplitPane>
+      <Button layoutX="1514.0" layoutY="3.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="70.0" text="Run" AnchorPane.rightAnchor="18.0" />
    </children>
 </AnchorPane>
