@@ -9,6 +9,7 @@ import java.io.IOException;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +39,6 @@ public class MainApp extends Application {
 			Scene scene = new Scene(rootLayout, Color.BEIGE);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
 			Controller controller = loader.getController();
 			controller.setMainApp(this);
 			

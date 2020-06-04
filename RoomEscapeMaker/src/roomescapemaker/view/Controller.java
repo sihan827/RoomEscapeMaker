@@ -8,10 +8,12 @@ import roomescapemaker.model.RoomObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.File;
 import java.lang.ArrayIndexOutOfBoundsException;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -31,6 +34,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -41,15 +46,25 @@ public class Controller implements Initializable{
 
     
 	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
+	private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
+	
+	private ArrayList<ImageView> objectImageView;
+
+	
 	private Stage fileChooserDialog; 
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
 
-	
+    @FXML
+    private Pane mainPane;
+    
+    @FXML
+    private AnchorPane mainCanvasAnchorPane;
+    @FXML
+    private Canvas mainCanvas;
     @FXML
     private Pane pane;
-
     @FXML
     private MenuBar menuBar;
 
@@ -155,6 +170,9 @@ public class Controller implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
     	
     	initTest();
+    	objectImageView = new ArrayList<ImageView>();
+    	
+    	
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
     		@Override
     		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
@@ -218,9 +236,10 @@ public class Controller implements Initializable{
     		}
     	});
     	
+    	
     	//listener for selecting a scene
     	sceneListView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showContainedObjects(newValue));    
+                (observable, oldValue, newValue) -> onClickSceneListView(newValue)); 
     	
     	//listener for selecting a object
     	objectListView.getSelectionModel().selectedItemProperty().addListener(
@@ -230,9 +249,24 @@ public class Controller implements Initializable{
     	statusChoiceBox.getSelectionModel().selectedItemProperty().addListener(
     			(observable, oldValue, newValue) -> showStatusProperty(newValue));
     
+       
     }
     
-    private void showContainedObjects(RoomScene rs) {
+    private void onClickSceneListView(RoomScene rs) {
+    	showContainedObjects(rs);
+    	clearObjectIVList();
+    	reDrawMainCanvas(rs);
+    }
+    
+    
+    
+    private void clearObjectIVList() {
+		
+    	mainPane.getChildren().clear();
+    	objectImageView.clear();
+	}
+
+	private void showContainedObjects(RoomScene rs) {
     	// clear Status Property pane and Status choice box when changing scene
     	clearStatusProperty();
     	ObservableList<ObjectStatus> clearChoiceBox = FXCollections.observableArrayList();
@@ -241,6 +275,7 @@ public class Controller implements Initializable{
     	if (rs != null) {
     		System.out.println(rs.getRoomObjectList().size());
     		objectListView.setItems(rs.getRoomObjectList());
+    		
     	} else {
     		return;
     	}
@@ -409,7 +444,6 @@ public class Controller implements Initializable{
     	}
     }
     
-  
     @FXML
     private void onClickAddObjectBtn(ActionEvent event) {
     	
@@ -418,12 +452,11 @@ public class Controller implements Initializable{
     		boolean okClicked = mainApp.showAddObjectStage(newRoomObject);
     		if (okClicked) {
     			sceneListView.getSelectionModel().getSelectedItem().getRoomObjectList().add(newRoomObject);
+    			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
     		}
     	}
     	else return;
     }
-
-    
     
     @FXML
     private void onClickDeleteSceneBtn(ActionEvent event) {
@@ -456,8 +489,32 @@ public class Controller implements Initializable{
     	else return;
     }
     
-    void redraw() {
+    void reDrawMainCanvas(RoomScene rs) {
     	
+    	System.out.println("draw canvas");
+    	
+    	
+    	ImageView bgImg = new ImageView();
+    	bgImg.setImage(rs.getBackGroundImage());
+    	bgImg.setFitHeight(mainPane.getHeight());
+    	bgImg.setFitWidth(mainPane.getWidth());
+        mainPane.getChildren().add(bgImg);
+        
+        for (RoomObject obj : rs.getRoomObjectList()) {
+        	
+        	ImageView objImage = new ImageView();
+        	objImage.setImage(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
+        	objImage.setTranslateX(obj.getStatus(obj.getCurrentStatus()).getXpos());
+        	objImage.setTranslateY(obj.getStatus(obj.getCurrentStatus()).getYpos());
+        	objectImageView.add(objImage);
+        	
+        }
+        
+         for(ImageView objIV: objectImageView) {
+        	 mainPane.getChildren().add(objIV);
+         }
+        
+        
     }
     
     public void setMainApp(MainApp mainApp) {
@@ -486,5 +543,20 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
     }
 
-	
+    
+    @FXML
+    void onMouseClickedMainPane(MouseEvent event) {
+    	System.out.println("mouse click");
+    	ImageView s;
+    	
+    	
+    }
+
+    @FXML
+    void onMouseEnterMainPane(MouseEvent event) {
+    	System.out.println("mouse enter");
+    	
+    	
+    }
+    
 }
