@@ -254,7 +254,7 @@ public class Controller implements Initializable{
     
     private void onClickSceneListView(RoomScene rs) {
     	showContainedObjects(rs);
-    	clearObjectIVList();
+    	
     	reDrawMainCanvas(rs);
     }
     
@@ -344,6 +344,7 @@ public class Controller implements Initializable{
     			statusChoiceBox.getSelectionModel().getSelectedItem().setPossess(possessBox.isSelected());
     			//refresh for object list view
     			objectListView.refresh();
+    			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
     		}
     		else {
     			//alert message : input value is not valid
@@ -441,6 +442,7 @@ public class Controller implements Initializable{
     	boolean okClicked = mainApp.showAddSceneStage(newRoomScene);
     	if (okClicked) {
     		sceneList.add(newRoomScene);
+    		reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
     	}
     }
     
@@ -466,6 +468,7 @@ public class Controller implements Initializable{
     			if (sceneList.size() == 0) {
     				objectListView.getItems().clear();
     			}
+    			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
     		} catch(ArrayIndexOutOfBoundsException e) {
     			e.printStackTrace();
     			System.out.println("no data in scenelist");
@@ -481,6 +484,7 @@ public class Controller implements Initializable{
     		try {
     			sceneListView.getSelectionModel().getSelectedItem().removeRoomObject(
     					objectListView.getSelectionModel().getSelectedIndex());
+    			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
     		} catch(ArrayIndexOutOfBoundsException e){
     			e.printStackTrace();
     			System.out.println("no data in objectlist");
@@ -492,7 +496,7 @@ public class Controller implements Initializable{
     void reDrawMainCanvas(RoomScene rs) {
     	
     	System.out.println("draw canvas");
-    	
+    	clearObjectIVList();
     	
     	ImageView bgImg = new ImageView();
     	bgImg.setImage(rs.getBackGroundImage());
