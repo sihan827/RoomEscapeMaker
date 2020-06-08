@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
@@ -22,6 +21,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
    <children>
@@ -79,11 +79,11 @@
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                        <children>
-                                          <ScrollPane layoutX="289.0" layoutY="225.0" prefHeight="600.0" prefWidth="1044.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <ScrollPane layoutX="289.0" layoutY="225.0" prefHeight="600.8" prefWidth="1044.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <content>
-                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="602.0" prefWidth="1046.0">
+                                              <AnchorPane fx:id="mainCanvasAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="602.0" prefWidth="1046.0">
                                                    <children>
-                                                      <Canvas height="602.0" width="1046.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <Pane fx:id="mainPane" layoutX="366.0" layoutY="74.0" onMouseClicked="#onMouseClickedMainPane" onMouseEntered="#onMouseEnterMainPane" prefHeight="602.4" prefWidth="1046.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children></AnchorPane>
                                             </content>
                                           </ScrollPane>
