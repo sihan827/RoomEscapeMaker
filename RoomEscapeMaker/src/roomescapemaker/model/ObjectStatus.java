@@ -3,6 +3,7 @@ package roomescapemaker.model;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.IllegalArgumentException;
@@ -155,7 +156,7 @@ public class ObjectStatus implements Serializable{
 	private void writeObject(ObjectOutputStream oos) throws IOException{
 		
 		oos.defaultWriteObject();
-		oos.writeChars(statusName.get());
+		oos.writeObject(statusName.get());
 		BufferedImage sImage = SwingFXUtils.fromFXImage(statusImage.get(), null);
 		ImageIO.write(sImage,"PNG", oos);
 		oos.writeInt(scale.get());
@@ -163,6 +164,14 @@ public class ObjectStatus implements Serializable{
 		oos.writeDouble(yPos.get());
 		oos.writeBoolean(visible.get());
 		oos.writeBoolean(possess.get());
+	}
+	
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+	
+		String statusNameString = (String)ois.readObject();
+		
+		
+	
 	}
 
 }
