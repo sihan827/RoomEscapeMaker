@@ -23,9 +23,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
    <children>
-      <MenuBar layoutX="115.0" layoutY="78.0" prefHeight="900.0" prefWidth="1514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="0.0">
+      <MenuBar fx:id="menuBar" layoutX="115.0" layoutY="78.0" prefHeight="900.0" prefWidth="1514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -33,8 +33,8 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Open" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As" />
+                  <MenuItem fx:id="menuFileSave" mnemonicParsing="false" onAction="#onClickMenuFileSave" text="Save" />
+                  <MenuItem fx:id="menuFileSaveAs" mnemonicParsing="false" text="Save As" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <Menu mnemonicParsing="false" text="Import">
                     <items>
@@ -42,7 +42,7 @@
                     </items>
                   </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
+                  <MenuItem fx:id="menuFileQuit" mnemonicParsing="false" onAction="#onCLickMenuFileQuit" text="Quit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

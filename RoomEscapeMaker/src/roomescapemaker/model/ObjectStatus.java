@@ -1,6 +1,7 @@
 package roomescapemaker.model;
 
 
+import java.io.Serializable;
 import java.lang.IllegalArgumentException;
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
@@ -14,7 +15,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class ObjectStatus {
+public class ObjectStatus implements Serializable{
+	
+	
+	private static final long serialVersionUID = 1L;
 	
 	private final StringProperty statusName = new SimpleStringProperty();
 	private final ObjectProperty<Image> statusImage = new SimpleObjectProperty<Image>();

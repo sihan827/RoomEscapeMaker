@@ -7,11 +7,17 @@ import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
+
+import java.io.Serializable;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class RoomScene {
+public class RoomScene implements Serializable{
 
+
+	private static final long serialVersionUID = 1L;
+	
 	public final StringProperty sceneName = new SimpleStringProperty();
 	public final ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
 	private ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();

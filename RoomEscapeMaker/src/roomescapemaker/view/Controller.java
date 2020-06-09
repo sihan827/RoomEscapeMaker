@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
@@ -163,6 +165,7 @@ public class Controller implements Initializable{
     
     @FXML //done!
     private Button deleteObjectBtn;
+	private Stage mainStage;
     
     
     
@@ -547,7 +550,7 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
     }
 
-    
+     
     @FXML
     void onMouseClickedMainPane(MouseEvent event) {
     	System.out.println("mouse click");
@@ -561,6 +564,35 @@ public class Controller implements Initializable{
     	System.out.println("mouse enter");
     	
     	
+    }
+    
+    @FXML
+    void onClickMenuFileSave(ActionEvent event) {
+    	
+    	//ArrayList<RoomScene> saveList = new ArrayList<RoomScene>(sceneList);
+    	
+    	//System.out.println("saveList : " + saveList);
+    	
+        try {
+        	
+            FileOutputStream fileOut = new FileOutputStream("maaaaag.txt");
+            ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);
+            
+            objectOut.writeObject(new ArrayList<RoomScene>(sceneList));
+            objectOut.close();
+            
+        }catch (Exception e) {
+			// TODO: handle exception
+        	e.printStackTrace();
+        	System.out.println("unable to save!");
+		}
+    }
+    
+    @FXML
+    void onCLickMenuFileQuit(ActionEvent event) {
+        
+    	Stage stage = (Stage)menuBar.getScene().getWindow();
+    	stage.close();
     }
     
 }

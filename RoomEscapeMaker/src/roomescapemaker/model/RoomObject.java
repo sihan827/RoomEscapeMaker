@@ -4,11 +4,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
+
+import java.io.Serializable;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class RoomObject {
+public class RoomObject implements Serializable{
+	
+	
+	private static final long serialVersionUID = 1L;
 	
 	private final StringProperty objectName = new SimpleStringProperty();
 	private final IntegerProperty currentStatus = new SimpleIntegerProperty();
