@@ -5,7 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,11 +17,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class RoomObject implements Serializable{
 	
 	
-	private static final long serialVersionUID = 1L;
+	private transient static final long serialVersionUID = 1L;
 	
-	private final StringProperty objectName = new SimpleStringProperty();
-	private final IntegerProperty currentStatus = new SimpleIntegerProperty();
-	private ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
+	private transient final StringProperty objectName = new SimpleStringProperty();
+	private transient final IntegerProperty currentStatus = new SimpleIntegerProperty();
+	private transient ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
 	
 	public RoomObject() {
 		this.objectName.set(null);
@@ -73,5 +76,14 @@ public class RoomObject implements Serializable{
 		statusList.remove(index);
 	}
 	
+	// for serialization
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException{
+	
+		oos.defaultWriteObject();
+		oos.writeChars(objectName.get());
+		oos.writeInt(currentStatus.get());
+		oos.writeObject(new ArrayList<ObjectStatus>(statusList));
+	}
 	
 }

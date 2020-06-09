@@ -2,13 +2,19 @@ package roomescapemaker.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -18,9 +24,9 @@ public class RoomScene implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	public final StringProperty sceneName = new SimpleStringProperty();
-	public final ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
-	private ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();
+	public transient final StringProperty sceneName = new SimpleStringProperty();
+	public transient final ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
+	private transient ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();
 
 	public RoomScene(String sceneName, Image backGroundImage) {
 		this.sceneName.set(sceneName);
@@ -71,5 +77,18 @@ public class RoomScene implements Serializable{
 	public void clearRoomObject() { 
 		roomObjectList.clear();
 	}
+	
+	// for serialization
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException{
+		
+		oos.defaultWriteObject();
+		oos.writeChars(sceneName.get());
+		BufferedImage bImage = SwingFXUtils.fromFXImage(backGroundImage.get(), null);
+		ImageIO.write(bImage,"PNG", oos);
+		oos.writeObject(new ArrayList<RoomObject>(roomObjectList));
+		
+	}
+	
 	
 }
