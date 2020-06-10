@@ -11,8 +11,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
@@ -575,15 +579,20 @@ public class Controller implements Initializable{
     	
         try {
         	
-            FileOutputStream fileOut = new FileOutputStream("maaaaag.txt");
+            FileOutputStream fileOut = new FileOutputStream("sceneTemp");
             ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);
             
             objectOut.writeObject(new ArrayList<RoomScene>(sceneList));
+            
+            
             objectOut.close();
+            fileOut.close();
+            System.out.println("save complete!!!");
             
         }catch (Exception e) {
 			// TODO: handle exception
         	e.printStackTrace();
+        	
         	System.out.println("unable to save!");
 		}
     }
@@ -593,6 +602,34 @@ public class Controller implements Initializable{
         
     	Stage stage = (Stage)menuBar.getScene().getWindow();
     	stage.close();
+    }
+    
+    @FXML
+    void onClickMenuFileOpen(ActionEvent event) {
+    	
+    	System.out.println("load sequence");
+		try {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setInitialDirectory(new File("."));
+	    	
+    		File selectedFile = fileChooser.showOpenDialog(fileChooserDialog);
+    		
+			FileInputStream fileIn = new FileInputStream(selectedFile);
+		    ObjectInputStream objectIn= new ObjectInputStream(fileIn);
+		        
+		    sceneList = FXCollections.observableArrayList((ArrayList<RoomScene>) objectIn.readObject());
+		    
+		    objectIn.close();
+		    fileIn.close();
+		    
+		    System.out.println("load complete!!!");
+		            
+		}catch (Exception e) {
+					// TODO: handle exception
+		  	e.printStackTrace();
+		   	System.out.println("unable to Load!");
+		}
+	
     }
     
 }

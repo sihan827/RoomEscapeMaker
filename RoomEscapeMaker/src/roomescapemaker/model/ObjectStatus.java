@@ -27,15 +27,15 @@ import javafx.beans.property.SimpleObjectProperty;
 public class ObjectStatus implements Serializable{
 	
 	
-	private static final long serialVersionUID = 1L;
+	private transient static final long serialVersionUID = 1L;
 	
-	private transient final StringProperty statusName = new SimpleStringProperty();
-	private transient final ObjectProperty<Image> statusImage = new SimpleObjectProperty<Image>();
-	private transient final IntegerProperty scale = new SimpleIntegerProperty();
-	private transient final DoubleProperty xPos = new SimpleDoubleProperty();
-	private transient final DoubleProperty yPos = new SimpleDoubleProperty();
-	private transient final BooleanProperty visible = new SimpleBooleanProperty();
-	private transient final BooleanProperty possess = new SimpleBooleanProperty();
+	private transient StringProperty statusName = new SimpleStringProperty();
+	private transient ObjectProperty<Image> statusImage = new SimpleObjectProperty<Image>();
+	private transient IntegerProperty scale = new SimpleIntegerProperty();
+	private transient DoubleProperty xPos = new SimpleDoubleProperty();
+	private transient DoubleProperty yPos = new SimpleDoubleProperty();
+	private transient BooleanProperty visible = new SimpleBooleanProperty();
+	private transient BooleanProperty possess = new SimpleBooleanProperty();
 	
 
 	public ObjectStatus(String name, Image image) {
@@ -157,6 +157,7 @@ public class ObjectStatus implements Serializable{
 		
 		oos.defaultWriteObject();
 		oos.writeObject(statusName.get());
+		
 		BufferedImage sImage = SwingFXUtils.fromFXImage(statusImage.get(), null);
 		ImageIO.write(sImage,"PNG", oos);
 		oos.writeInt(scale.get());
@@ -164,14 +165,24 @@ public class ObjectStatus implements Serializable{
 		oos.writeDouble(yPos.get());
 		oos.writeBoolean(visible.get());
 		oos.writeBoolean(possess.get());
+		
 	}
 	
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 	
-		String statusNameString = (String)ois.readObject();
+		ois.defaultReadObject();
+		statusName = new SimpleStringProperty((String)ois.readObject());
+		BufferedImage sImage = ImageIO.read(ois);
+		statusImage = new SimpleObjectProperty<Image>();
+		Image fxImage = SwingFXUtils.toFXImage(sImage,null);
+		statusImage.set(fxImage);
+		scale = new SimpleIntegerProperty(ois.readInt());
+		xPos = new SimpleDoubleProperty(ois.readDouble());
+		yPos = new SimpleDoubleProperty(ois.readDouble());
+		visible = new SimpleBooleanProperty(ois.readBoolean());
+		possess = new SimpleBooleanProperty(ois.readBoolean());
 		
 		
-	
 	}
-
+	
 }

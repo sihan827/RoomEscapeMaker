@@ -31,7 +31,7 @@
             <items>
               <MenuItem mnemonicParsing="false" text="New" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Open" />
+                  <MenuItem fx:id="menuFileOpen" mnemonicParsing="false" onAction="#onClickMenuFileOpen" text="Open" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="menuFileSave" mnemonicParsing="false" onAction="#onClickMenuFileSave" text="Save" />
                   <MenuItem fx:id="menuFileSaveAs" mnemonicParsing="false" text="Save As" />

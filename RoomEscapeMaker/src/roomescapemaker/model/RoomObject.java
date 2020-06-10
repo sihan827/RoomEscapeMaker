@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ public class RoomObject implements Serializable{
 	
 	private transient static final long serialVersionUID = 1L;
 	
-	private transient final StringProperty objectName = new SimpleStringProperty();
-	private transient final IntegerProperty currentStatus = new SimpleIntegerProperty();
+	private transient StringProperty objectName = new SimpleStringProperty();
+	private transient IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private transient ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
 	
 	public RoomObject() {
@@ -81,9 +82,21 @@ public class RoomObject implements Serializable{
 	private void writeObject(ObjectOutputStream oos) throws IOException{
 	
 		oos.defaultWriteObject();
-		oos.writeChars(objectName.get());
+		oos.writeObject(objectName.get());
 		oos.writeInt(currentStatus.get());
 		oos.writeObject(new ArrayList<ObjectStatus>(statusList));
+		
 	}
+	
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+		
+		ois.defaultReadObject();
+		objectName = new SimpleStringProperty((String)ois.readObject());
+		currentStatus = new SimpleIntegerProperty(ois.readInt());
+		statusList = FXCollections.observableArrayList((ArrayList<ObjectStatus>) ois.readObject());
+		
+		
+	}
+		
 	
 }

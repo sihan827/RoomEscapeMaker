@@ -10,22 +10,25 @@ import javafx.beans.property.SimpleStringProperty;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class RoomScene implements Serializable{
 
 
-	private static final long serialVersionUID = 1L;
+	private transient static final long serialVersionUID = 1L;
 	
-	public transient final StringProperty sceneName = new SimpleStringProperty();
-	public transient final ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
+	public transient StringProperty sceneName = new SimpleStringProperty();
+	public transient ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
 	private transient ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();
 
 	public RoomScene(String sceneName, Image backGroundImage) {
@@ -83,12 +86,30 @@ public class RoomScene implements Serializable{
 	private void writeObject(ObjectOutputStream oos) throws IOException{
 		
 		oos.defaultWriteObject();
-		oos.writeChars(sceneName.get());
+		oos.writeObject(sceneName.get());
 		BufferedImage bImage = SwingFXUtils.fromFXImage(backGroundImage.get(), null);
 		ImageIO.write(bImage,"PNG", oos);
 		oos.writeObject(new ArrayList<RoomObject>(roomObjectList));
 		
+		
 	}
 	
 	
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+	
+		ois.defaultReadObject();
+		sceneName = new SimpleStringProperty((String)ois.readObject());
+		BufferedImage bImage = ImageIO.read(ois);
+		backGroundImage = new SimpleObjectProperty<Image>();
+		Image bgfxImage = SwingFXUtils.toFXImage(bImage,null);
+		backGroundImage.set(bgfxImage);
+		try {
+		roomObjectList = FXCollections.observableArrayList((ArrayList<RoomObject>) ois.readObject());
+		}catch (OptionalDataException e) {
+			// TODO: handle exception
+			System.out.println(e.length + " and " + e.eof);
+			e.printStackTrace();
+		}
+	}
+		
 }
