@@ -44,6 +44,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -576,9 +577,14 @@ public class Controller implements Initializable{
     	//ArrayList<RoomScene> saveList = new ArrayList<RoomScene>(sceneList);
     	
     	//System.out.println("saveList : " + saveList);
-    	
+    	String chooseTitle = "파일 저장할 디렉토리 선택";
         try {
-        	
+        	DirectoryChooser dirChooser = new DirectoryChooser();
+			dirChooser.setInitialDirectory(new File("."));
+	    	
+    		File selectedDir = dirChooser.showOpenDialog(fileChooserDialog);
+    		dirChooser.setTitle(chooseTitle);
+    	    dirChooser.setFileSelectionMode(FileChooser.);
             FileOutputStream fileOut = new FileOutputStream("sceneTemp");
             ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);
             

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import com.sun.xml.internal.fastinfoset.stax.events.ReadIterator;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -88,7 +90,9 @@ public class RoomScene implements Serializable{
 		oos.defaultWriteObject();
 		oos.writeObject(sceneName.get());
 		BufferedImage bImage = SwingFXUtils.fromFXImage(backGroundImage.get(), null);
-		ImageIO.write(bImage,"PNG", oos);
+		
+		ImageIO.write(bImage,"png", oos);
+		oos.writeInt(roomObjectList.size());
 		oos.writeObject(new ArrayList<RoomObject>(roomObjectList));
 		
 		
@@ -99,12 +103,18 @@ public class RoomScene implements Serializable{
 	
 		ois.defaultReadObject();
 		sceneName = new SimpleStringProperty((String)ois.readObject());
+		System.out.println(sceneName.get());
 		BufferedImage bImage = ImageIO.read(ois);
 		backGroundImage = new SimpleObjectProperty<Image>();
 		Image bgfxImage = SwingFXUtils.toFXImage(bImage,null);
 		backGroundImage.set(bgfxImage);
+		int objectSize = ois.readInt();
+		System.out.println(objectSize);
+		ArrayList<RoomObject> temp = new ArrayList<RoomObject>();
+		
 		try {
-		roomObjectList = FXCollections.observableArrayList((ArrayList<RoomObject>) ois.readObject());
+			temp = (ArrayList<RoomObject>) ois.readObject();
+			roomObjectList = FXCollections.observableArrayList(temp);
 		}catch (OptionalDataException e) {
 			// TODO: handle exception
 			System.out.println(e.length + " and " + e.eof);
