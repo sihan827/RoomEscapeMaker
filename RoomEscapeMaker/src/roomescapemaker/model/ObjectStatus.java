@@ -2,6 +2,7 @@ package roomescapemaker.model;
 
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -36,10 +37,15 @@ public class ObjectStatus implements Serializable{
 	private transient DoubleProperty yPos = new SimpleDoubleProperty();
 	private transient BooleanProperty visible = new SimpleBooleanProperty();
 	private transient BooleanProperty possess = new SimpleBooleanProperty();
-	
+	private transient String objectName;
+	private transient static String savePath;
 
 	public ObjectStatus(String name, Image image) {
 		this(name, image, 0, 0);
+	}
+	public ObjectStatus(String name, Image image, String obName) {
+		this(name, image, 0, 0);
+		objectName = obName;
 	}
 	
 	public ObjectStatus(String name, Image image, double xPos, double yPos) {
@@ -158,8 +164,12 @@ public class ObjectStatus implements Serializable{
 		oos.defaultWriteObject();
 		oos.writeObject(statusName.get());
 		
-		BufferedImage sImage = SwingFXUtils.fromFXImage(statusImage.get(), null);
-		ImageIO.write(sImage,"PNG", oos);
+		BufferedImage osImage = SwingFXUtils.fromFXImage(statusImage.get(), null);
+		File writePath = new File(getSavePath() + "/objects/");
+		writePath.mkdir();
+		File outImage = new File(getSavePath() + "/objects/" + getObjectName() +"_"+ getStatusName() + ".png"); // make empty file
+		ImageIO.write(osImage,"png", outImage); // write image to file
+		
 		oos.writeInt(scale.get());
 		oos.writeDouble(xPos.get());
 		oos.writeDouble(yPos.get());
@@ -183,6 +193,22 @@ public class ObjectStatus implements Serializable{
 		possess = new SimpleBooleanProperty(ois.readBoolean());
 		
 		
+	}
+
+	public static String getSavePath() {
+		return savePath;
+	}
+
+	public static void setSavePath(String savePath) {
+		ObjectStatus.savePath = savePath;
+	}
+
+	public String getObjectName() {
+		return objectName;
+	}
+
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
 	}
 	
 }

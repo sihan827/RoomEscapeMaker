@@ -23,16 +23,23 @@ public class RoomObject implements Serializable{
 	private transient StringProperty objectName = new SimpleStringProperty();
 	private transient IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private transient ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
+	private transient static String savePath;
 	
 	public RoomObject() {
 		this.objectName.set(null);
-		this.statusList.add(new ObjectStatus("default", null));
+		this.statusList.add(new ObjectStatus("default", null, getObjectName()));
+		this.currentStatus.set(0);
+	}
+	
+	public RoomObject(String obName) {
+		this.objectName.set(obName);
+		this.statusList.add(new ObjectStatus("default", null, getObjectName()));
 		this.currentStatus.set(0);
 	}
 	
 	public RoomObject(String objectName, String defaultImageURL) {
 		this.objectName.set(objectName);
-		this.statusList.add(new ObjectStatus("default", new Image(defaultImageURL)));
+		this.statusList.add(new ObjectStatus("default", new Image(defaultImageURL), getObjectName()));
 		this.currentStatus.set(0);
 
 	}
@@ -96,6 +103,14 @@ public class RoomObject implements Serializable{
 		statusList = FXCollections.observableArrayList((ArrayList<ObjectStatus>) ois.readObject());
 		
 		
+	}
+
+	public static String getSavePath() {
+		return savePath;
+	}
+
+	public static void setSavePath(String savePath) {
+		RoomObject.savePath = savePath;
 	}
 		
 	

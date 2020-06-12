@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,8 +17,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
-import com.sun.xml.internal.fastinfoset.stax.events.ReadIterator;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -32,7 +30,8 @@ public class RoomScene implements Serializable{
 	public transient StringProperty sceneName = new SimpleStringProperty();
 	public transient ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
 	private transient ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();
-
+	private transient static String savePath;
+	
 	public RoomScene(String sceneName, Image backGroundImage) {
 		this.sceneName.set(sceneName);
 		this.backGroundImage.set(backGroundImage);
@@ -41,7 +40,12 @@ public class RoomScene implements Serializable{
 	public String getSceneName() {
 		return sceneName.get();
 	}
-	
+	public static void setSavePath(String path) {
+		RoomScene.savePath = path;
+	}
+	public static String getSavePath() {
+		return savePath;
+	}
 	public void setSceneName(String sceneName) {
 		this.sceneName.set(sceneName);
 	}
@@ -86,15 +90,17 @@ public class RoomScene implements Serializable{
 	// for serialization
 	
 	private void writeObject(ObjectOutputStream oos) throws IOException{
-		
+	
 		oos.defaultWriteObject();
 		oos.writeObject(sceneName.get());
-		BufferedImage bImage = SwingFXUtils.fromFXImage(backGroundImage.get(), null);
+		BufferedImage bImage = SwingFXUtils.fromFXImage(backGroundImage.get(), null); // convert first
+		File writePath = new File(getSavePath() + "/scenes/");
+		writePath.mkdir();
+		File bgImage = new File(getSavePath() + "/scenes/" + getSceneName() + " background.png"); // make empty file
+		ImageIO.write(bImage,"png", bgImage); // write image to file
 		
-		ImageIO.write(bImage,"png", oos);
-		oos.writeInt(roomObjectList.size());
-		oos.writeObject(new ArrayList<RoomObject>(roomObjectList));
-		
+		oos.writeInt(roomObjectList.size()); // write int
+		oos.writeObject(new ArrayList<RoomObject>(roomObjectList)); //write arraylist of roomobject
 		
 	}
 	
@@ -121,5 +127,6 @@ public class RoomScene implements Serializable{
 			e.printStackTrace();
 		}
 	}
-		
+
+	
 }

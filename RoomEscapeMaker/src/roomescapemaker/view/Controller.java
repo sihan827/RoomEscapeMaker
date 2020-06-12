@@ -58,7 +58,8 @@ public class Controller implements Initializable{
 	private ArrayList<ImageView> objectImageView;
 
 	
-	private Stage fileChooserDialog; 
+	private Stage fileChooserDialog;
+	private Stage dirChooserDialog;
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
@@ -581,15 +582,17 @@ public class Controller implements Initializable{
         try {
         	DirectoryChooser dirChooser = new DirectoryChooser();
 			dirChooser.setInitialDirectory(new File("."));
-	    	
-    		File selectedDir = dirChooser.showOpenDialog(fileChooserDialog);
-    		dirChooser.setTitle(chooseTitle);
-    	    dirChooser.setFileSelectionMode(FileChooser.);
-            FileOutputStream fileOut = new FileOutputStream("sceneTemp");
+			dirChooser.setTitle(chooseTitle);
+    		File selectedDir = dirChooser.showDialog(dirChooserDialog);
+    		
+    		RoomScene.setSavePath(selectedDir.getAbsolutePath()); // set path to save
+    		RoomObject.setSavePath(selectedDir.getAbsolutePath());
+    		ObjectStatus.setSavePath(selectedDir.getAbsolutePath());
+    	    
+            FileOutputStream fileOut = new FileOutputStream(selectedDir.getAbsoluteFile() + "/MainSceneFileTemp");
             ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);
             
             objectOut.writeObject(new ArrayList<RoomScene>(sceneList));
-            
             
             objectOut.close();
             fileOut.close();
