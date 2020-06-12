@@ -97,9 +97,6 @@ public class Controller implements Initializable{
     @FXML
     private AnchorPane resizeScrollimg;
     
-    @FXML
-    private AnchorPane mainLeft;
-    
     /*
      * control for Status choice box
      */
@@ -111,6 +108,7 @@ public class Controller implements Initializable{
     
     @FXML
     private Button deleteStatusBtn;
+    
     
     /*
      * TitlePane containers
@@ -514,21 +512,23 @@ public class Controller implements Initializable{
     	bgImg.fitHeightProperty().bind(mainCanvasScrollPane.heightProperty());
     	bgImg.setPreserveRatio(true);
         mainPane.getChildren().add(bgImg);
-        //StackPane.setAlignment(bgImg, Pos.CENTER);
-        //bgImg.xProperty().bind(Bindings.divide(mainCanvasScrollPane.widthProperty(), 2));
-       
-
-        double rescaleRatio = bgImg.getFitHeight() / rs.getBackGroundImage().getHeight();
-        System.out.println(rescaleRatio);
+        StackPane.setAlignment(bgImg, Pos.CENTER);
+        
+        //rescaleRatio = bgImg.getFitHeight() / rs.getBackGroundImage().getHeight();
+        //halfbgImgwidth = rs.getBackGroundImage().getWidth() * rescaleRatio / 2;
+        
+        bgImg.translateXProperty().bind(Bindings.multiply(bgImg.fitHeightProperty(), -rs.getBackGroundImage().getWidth()/rs.getBackGroundImage().getHeight()).add(mainCanvasScrollPane.widthProperty()).divide(2));
+        System.out.println(bgImg.getTranslateX());
         
         for (RoomObject obj : rs.getRoomObjectList()) {
         	ImageView objImage = new ImageView();
         	objImage.setImage(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
-        	objImage.setTranslateX(obj.getStatus(obj.getCurrentStatus()).getXpos() * rescaleRatio);
-        	objImage.setTranslateY(obj.getStatus(obj.getCurrentStatus()).getYpos() * rescaleRatio);
+        	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()).add(bgImg.translateXProperty()));
+        	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
         	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()));
         	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getWidth()));
         	objectImageView.add(objImage);
+        	System.out.println(objImage.translateYProperty());
         }
         
          for(ImageView objIV: objectImageView) {
