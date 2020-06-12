@@ -90,7 +90,9 @@ public class RoomObject implements Serializable{
 	
 		oos.defaultWriteObject();
 		oos.writeObject(objectName.get());
+		oos.writeObject(savePath);
 		oos.writeInt(currentStatus.get());
+		oos.writeInt(statusList.size());
 		oos.writeObject(new ArrayList<ObjectStatus>(statusList));
 		
 	}
@@ -99,9 +101,15 @@ public class RoomObject implements Serializable{
 		
 		ois.defaultReadObject();
 		objectName = new SimpleStringProperty((String)ois.readObject());
-		currentStatus = new SimpleIntegerProperty(ois.readInt());
-		statusList = FXCollections.observableArrayList((ArrayList<ObjectStatus>) ois.readObject());
+		savePath = (String)ois.readObject();
+		System.out.println("objectread===" + getObjectName() + ", " + getSavePath());
 		
+		currentStatus = new SimpleIntegerProperty(ois.readInt());
+		System.out.println("curstatus: " + currentStatus.get());
+		int statusSize = ois.readInt();
+		System.out.println("stat size: " + statusSize);
+		
+		statusList = FXCollections.observableArrayList((ArrayList<ObjectStatus>) ois.readObject());
 		
 	}
 

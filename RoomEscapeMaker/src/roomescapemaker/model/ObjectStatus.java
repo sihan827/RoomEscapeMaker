@@ -178,7 +178,9 @@ public class ObjectStatus implements Serializable{
 	private void writeObject(ObjectOutputStream oos) throws IOException{
 		
 		oos.defaultWriteObject();
-		oos.writeObject(statusName.get());
+		oos.writeObject(getStatusName());
+		oos.writeObject(getObjectName());
+		oos.writeObject(getSavePath());
 		
 		BufferedImage osImage = SwingFXUtils.fromFXImage(statusImage.get(), null);
 		File writePath = new File(getSavePath() + "/objects/");
@@ -198,17 +200,25 @@ public class ObjectStatus implements Serializable{
 	
 		ois.defaultReadObject();
 		statusName = new SimpleStringProperty((String)ois.readObject());
-		BufferedImage sImage = ImageIO.read(ois);
+		objectName = (String)ois.readObject();
+		savePath = (String)ois.readObject();
+		
+		System.out.println("status read===" + getObjectName() + ", "+ getStatusName() + ", " + getSavePath());
+		
+		File readPath = new File(getSavePath() + "/objects/" + getObjectName() +"_"+ getStatusName() + ".png");
+		BufferedImage sImage = ImageIO.read(readPath);
+		
 		statusImage = new SimpleObjectProperty<Image>();
 		Image fxImage = SwingFXUtils.toFXImage(sImage,null);
 		statusImage.set(fxImage);
+		
 		scale = new SimpleIntegerProperty(ois.readInt());
 		xPos = new SimpleDoubleProperty(ois.readDouble());
 		yPos = new SimpleDoubleProperty(ois.readDouble());
 		visible = new SimpleBooleanProperty(ois.readBoolean());
 		possess = new SimpleBooleanProperty(ois.readBoolean());
 		
-		
+		System.out.println("status:" + getStatusName() + " read done!");
 	}
 
 	public static String getSavePath() {

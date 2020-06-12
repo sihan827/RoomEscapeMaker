@@ -93,7 +93,9 @@ public class RoomScene implements Serializable{
 	
 		oos.defaultWriteObject();
 		oos.writeObject(sceneName.get());
+		oos.writeObject(savePath);
 		BufferedImage bImage = SwingFXUtils.fromFXImage(backGroundImage.get(), null); // convert first
+		
 		File writePath = new File(getSavePath() + "/scenes/");
 		writePath.mkdir();
 		File bgImage = new File(getSavePath() + "/scenes/" + getSceneName() + " background.png"); // make empty file
@@ -110,12 +112,18 @@ public class RoomScene implements Serializable{
 		ois.defaultReadObject();
 		sceneName = new SimpleStringProperty((String)ois.readObject());
 		System.out.println(sceneName.get());
-		BufferedImage bImage = ImageIO.read(ois);
+		savePath = (String)ois.readObject();
+		System.out.println(getSavePath());
+		
+		File readPath = new File(getSavePath() + "/scenes/" + getSceneName() + " background.png");
+		BufferedImage bImage = ImageIO.read(readPath);
 		backGroundImage = new SimpleObjectProperty<Image>();
 		Image bgfxImage = SwingFXUtils.toFXImage(bImage,null);
-		backGroundImage.set(bgfxImage);
+		backGroundImage.set(bgfxImage); // read Image
+		
 		int objectSize = ois.readInt();
-		System.out.println(objectSize);
+		System.out.println("object size in scene : " + objectSize);
+		
 		ArrayList<RoomObject> temp = new ArrayList<RoomObject>();
 		
 		try {

@@ -618,6 +618,7 @@ public class Controller implements Initializable{
     	
     	System.out.println("load sequence");
 		try {
+			 // remove existing!!
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setInitialDirectory(new File("."));
 	    	
@@ -625,12 +626,17 @@ public class Controller implements Initializable{
     		
 			FileInputStream fileIn = new FileInputStream(selectedFile);
 		    ObjectInputStream objectIn= new ObjectInputStream(fileIn);
-		        
+		    
+		    sceneList.clear();
+		    
 		    sceneList = FXCollections.observableArrayList((ArrayList<RoomScene>) objectIn.readObject());
 		    
 		    objectIn.close();
 		    fileIn.close();
 		    
+		    sceneListView.setItems(sceneList);
+		    
+		    reDrawMainCanvas(sceneList.get(0));
 		    System.out.println("load complete!!!");
 		            
 		}catch (Exception e) {
