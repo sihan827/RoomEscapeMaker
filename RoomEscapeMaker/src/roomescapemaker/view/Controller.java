@@ -14,6 +14,7 @@ import java.io.File;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -30,6 +31,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -60,7 +63,7 @@ public class Controller implements Initializable{
     private Pane mainPane;
     
     @FXML
-    private AnchorPane mainCanvasAnchorPane;
+    private ScrollPane mainCanvasScrollPane;
     @FXML
     private Canvas mainCanvas;
     @FXML
@@ -88,6 +91,12 @@ public class Controller implements Initializable{
 
     @FXML
     private Menu menuHelp;
+    
+    @FXML
+    private AnchorPane resizeScrollimg;
+    
+    @FXML
+    private AnchorPane mainLeft;
     
     /*
      * control for Status choice box
@@ -206,7 +215,7 @@ public class Controller implements Initializable{
     					super.updateItem(obj, bt1);
     					if (obj != null) {
     						ImageView imgview = new ImageView(obj.getStatus(0).getStatusImage());
-    						imgview.setFitHeight(160);
+    						imgview.setFitWidth(160);
     						imgview.setPreserveRatio(true);
     						setGraphic(imgview);
     						setText(obj.getObjectName());
@@ -497,28 +506,31 @@ public class Controller implements Initializable{
     	
     	System.out.println("draw canvas");
     	clearObjectIVList();
-    	
+    
     	ImageView bgImg = new ImageView();
     	bgImg.setImage(rs.getBackGroundImage());
-    	bgImg.setFitHeight(mainPane.getHeight());
-    	bgImg.setFitWidth(mainPane.getWidth());
+    	bgImg.fitHeightProperty().bind(mainCanvasScrollPane.heightProperty());
+    	bgImg.setPreserveRatio(true);
         mainPane.getChildren().add(bgImg);
+        mainPane.setCenterShape(true);
+        
+
+        double rescaleRatio = bgImg.getFitHeight() / rs.getBackGroundImage().getHeight();
+        System.out.println(rescaleRatio);
         
         for (RoomObject obj : rs.getRoomObjectList()) {
-        	
         	ImageView objImage = new ImageView();
         	objImage.setImage(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
-        	objImage.setTranslateX(obj.getStatus(obj.getCurrentStatus()).getXpos());
-        	objImage.setTranslateY(obj.getStatus(obj.getCurrentStatus()).getYpos());
+        	objImage.setTranslateX(obj.getStatus(obj.getCurrentStatus()).getXpos() * rescaleRatio);
+        	objImage.setTranslateY(obj.getStatus(obj.getCurrentStatus()).getYpos() * rescaleRatio);
+        	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()));
+        	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getWidth()));
         	objectImageView.add(objImage);
-        	
         }
         
          for(ImageView objIV: objectImageView) {
         	 mainPane.getChildren().add(objIV);
          }
-        
-        
     }
     
     public void setMainApp(MainApp mainApp) {
