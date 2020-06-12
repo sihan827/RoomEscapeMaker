@@ -62,7 +62,23 @@ public class ObjectStatus implements Serializable{
 			System.out.println("fail to call image");
 		}
 	}
-
+	
+	public ObjectStatus(String objName, String statName, Image image, double xPos, double yPos) {
+		this.statusName.set(statName);
+		this.scale.set(100);
+		this.xPos.set(xPos);
+		this.yPos.set(yPos);
+		this.visible.set(true);
+		this.possess.set(false);
+		try {
+			this.statusImage.set(image);
+		} catch(IllegalArgumentException e){
+			e.printStackTrace();
+			System.out.println("fail to call image");
+		}
+		this.objectName = objName;
+	}
+	
 	
 	public String getStatusName() {
 		return statusName.get();

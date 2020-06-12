@@ -423,7 +423,7 @@ public class Controller implements Initializable{
     private void onClickAddStatusBtn(ActionEvent event) {
     	if (objectListView.getSelectionModel().getSelectedItem() != null) {
     		ObjectStatus newStatus = new ObjectStatus("new status " 
-    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null);
+    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null, objectListView.getSelectionModel().getSelectedItem().getObjectName());
     		objectListView.getSelectionModel().getSelectedItem().getStatusList().add(newStatus);	
     	}
     	else {
