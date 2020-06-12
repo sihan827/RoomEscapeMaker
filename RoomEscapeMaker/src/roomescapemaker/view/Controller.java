@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -41,6 +42,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -512,8 +514,9 @@ public class Controller implements Initializable{
     	bgImg.fitHeightProperty().bind(mainCanvasScrollPane.heightProperty());
     	bgImg.setPreserveRatio(true);
         mainPane.getChildren().add(bgImg);
-        mainPane.setCenterShape(true);
-        
+        //StackPane.setAlignment(bgImg, Pos.CENTER);
+        //bgImg.xProperty().bind(Bindings.divide(mainCanvasScrollPane.widthProperty(), 2));
+       
 
         double rescaleRatio = bgImg.getFitHeight() / rs.getBackGroundImage().getHeight();
         System.out.println(rescaleRatio);

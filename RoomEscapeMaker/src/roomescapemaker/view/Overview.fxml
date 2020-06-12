@@ -81,9 +81,9 @@
                                           </BorderPane>
                                        </children>
                                     </AnchorPane>
-                                    <ScrollPane fx:id="mainCanvasScrollPane" prefHeight="200.0" prefWidth="200.0">
+                                    <ScrollPane fx:id="mainCanvasScrollPane">
                                        <content>
-                                          <StackPane fx:id="mainPane" onMouseClicked="#onMouseClickedMainPane" onMouseEntered="#onMouseEnterMainPane">
+                                          <StackPane fx:id="mainPane" disable="true" onMouseClicked="#onMouseClickedMainPane" onMouseEntered="#onMouseEnterMainPane">
                                              <children>
                                                 <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                              </children>
