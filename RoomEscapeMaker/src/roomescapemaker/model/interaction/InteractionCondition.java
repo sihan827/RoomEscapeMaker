@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
 public class InteractionCondition {
@@ -60,6 +61,10 @@ public class InteractionCondition {
 	
 	public IntegerProperty conditionIndexProperty() {
 		return conditionIndex;
+	}
+	
+	public ObjectStatus getStatus() {
+		return getMainObject().getStatus(getConditionIndex());
 	}
 	
 	public boolean checkCondition() {

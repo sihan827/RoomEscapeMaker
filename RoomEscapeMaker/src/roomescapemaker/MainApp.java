@@ -3,6 +3,8 @@ package roomescapemaker;
 import roomescapemaker.view.Controller;
 import roomescapemaker.model.RoomObject;
 import roomescapemaker.model.RoomScene;
+import roomescapemaker.model.interaction.ObjectInteraction;
+import roomescapemaker.view.AddInteractionController;
 import roomescapemaker.view.AddObjectController;
 import roomescapemaker.view.AddSceneController;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -107,6 +110,35 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public boolean showInteractionAddStage(ObjectInteraction newInteraction, ObservableList<RoomScene> sceneList) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/Interaction_Add.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			
+			Stage interactionAddStage = new Stage();
+			interactionAddStage.setTitle("Add New Interaction");
+			interactionAddStage.initModality(Modality.WINDOW_MODAL);
+			interactionAddStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			interactionAddStage.setScene(scene);
+			
+			AddInteractionController controller = loader.getController();
+			controller.setDialogStage(interactionAddStage);
+			controller.setInteraction(newInteraction);
+			controller.setSceneList(sceneList);
+			
+			interactionAddStage.showAndWait();
+			
+			//return controller.isOkClicked();
+			return true;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("No fxml file named \"Interaction_Add.fxml\" in view pakage!");
+			return false;
+		}
+	}
 	
 	public static void main(String[] args) {
 		launch(args);

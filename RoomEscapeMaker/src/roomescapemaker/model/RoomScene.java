@@ -66,4 +66,12 @@ public class RoomScene {
 		roomObjectList.clear();
 	}
 	
+	/*
+	 * showing ChoiceBox 
+	 */
+	@Override
+	public String toString() {
+		return getSceneName();
+	}
+	
 }

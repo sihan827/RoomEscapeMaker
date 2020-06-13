@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
    <children>
       <MenuBar layoutX="115.0" layoutY="78.0" prefHeight="900.0" prefWidth="1514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -155,17 +155,17 @@
                                 <content>
                                   <AnchorPane maxWidth="280.0" minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="269.0">
                                        <children>
-                                          <TableView layoutX="10.0" layoutY="35.0" prefHeight="155.0" prefWidth="255.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                          <TableView fx:id="interactionTable" layoutX="10.0" layoutY="35.0" prefHeight="155.0" prefWidth="255.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                             <columns>
-                                              <TableColumn prefWidth="124.666748046875" text="Condition" />
-                                              <TableColumn prefWidth="120.333251953125" text="Result" />
+                                              <TableColumn fx:id="conditionColumn" prefWidth="124.666748046875" text="Condition" />
+                                              <TableColumn fx:id="resultColumn" prefWidth="120.333251953125" text="Result" />
                                             </columns>
                                           </TableView>
                                           <Label layoutX="20.0" layoutY="15.0" text="Interaction" />
                                           <ButtonBar layoutX="60.0" layoutY="201.0" prefHeight="40.0" prefWidth="200.0">
                                              <buttons>
-                                                <Button mnemonicParsing="false" text="Add" />
-                                                <Button mnemonicParsing="false" text="Delete" />
+                                                <Button fx:id="addInteractionBtn" mnemonicParsing="false" onAction="#onClickAddInteractionBtn" text="Add" />
+                                                <Button fx:id="deleteInteractionBtn" mnemonicParsing="false" onAction="#onClickDeleteInteractionBtn" text="Delete" />
                                              </buttons>
                                           </ButtonBar>
                                        </children>

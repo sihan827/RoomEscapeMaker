@@ -72,6 +72,10 @@ public class ObjectInteraction {
 		return sceneChangeResult;
 	}
 	
+	public int getTargetSceneIndex() {
+		return sceneChangeResult.get().getTargetIndex();
+	}
+	
 	public boolean checkSecondaryConditionList() {
 		if (secondaryConditionList.size() == 0) {
 			return true;
