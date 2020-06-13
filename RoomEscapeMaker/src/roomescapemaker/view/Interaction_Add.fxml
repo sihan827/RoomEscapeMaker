@@ -33,19 +33,19 @@
       <ChoiceBox fx:id="conditionStatusBox" layoutX="342.0" layoutY="318.0" prefHeight="23.0" prefWidth="138.0" AnchorPane.rightAnchor="20.0" />
       <ButtonBar layoutX="280.0" layoutY="348.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="20.0">
         <buttons>
-          <Button fx:id="conditionAddBtn" mnemonicParsing="false" text="Add" />
-            <Button fx:id="conditionDeleteBtn" mnemonicParsing="false" text="Delete" />
+          <Button fx:id="conditionAddBtn" mnemonicParsing="false" onAction="#onClickConditionAddBtn" text="Add" />
+            <Button fx:id="conditionDeleteBtn" mnemonicParsing="false" onAction="#onClickConditionDeleteBtn" text="Delete" />
         </buttons>
       </ButtonBar>
       <Label layoutX="20.0" layoutY="398.0" text="Result Name" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="400.0" />
-      <TextField layoutX="134.0" layoutY="396.0" />
+      <TextField fx:id="resultNameField" layoutX="134.0" layoutY="396.0" />
       <Label layoutX="20.0" layoutY="471.0" text="Scene Change" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="435.0" />
-      <ChoiceBox layoutX="134.0" layoutY="431.0" prefHeight="23.0" prefWidth="138.0" />
+      <ChoiceBox fx:id="sceneResultBox" layoutX="134.0" layoutY="431.0" prefHeight="23.0" prefWidth="138.0" />
       <Label layoutX="20.0" layoutY="509.0" text="Object Status Change" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="470.0" />
-      <TableView layoutX="60.0" layoutY="503.0" prefHeight="150.0" prefWidth="380.0">
+      <TableView fx:id="objectResultTable" layoutX="60.0" layoutY="503.0" prefHeight="150.0" prefWidth="380.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Object Name" />
-          <TableColumn prefWidth="75.0" text="Status Change" />
+          <TableColumn fx:id="resultObjectNameColumn" prefWidth="75.0" text="Object Name" />
+          <TableColumn fx:id="resultStatusNameColumn" prefWidth="75.0" text="Status Change" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -54,19 +54,19 @@
       <Label layoutX="20.0" layoutY="661.0" text="Scene" />
       <Label layoutX="184.0" layoutY="661.0" text="Object" />
       <Label layoutX="342.0" layoutY="661.0" text="Status" />
-      <ChoiceBox layoutX="20.0" layoutY="685.0" prefHeight="23.0" prefWidth="138.0" />
-      <ChoiceBox layoutX="181.0" layoutY="686.0" prefHeight="23.0" prefWidth="138.0" />
-      <ChoiceBox layoutX="342.0" layoutY="685.0" prefHeight="23.0" prefWidth="138.0" />
+      <ChoiceBox fx:id="resultSceneBox" layoutX="20.0" layoutY="685.0" prefHeight="23.0" prefWidth="138.0" />
+      <ChoiceBox fx:id="resultObjectBox" layoutX="181.0" layoutY="686.0" prefHeight="23.0" prefWidth="138.0" />
+      <ChoiceBox fx:id="resultStatusBox" layoutX="342.0" layoutY="685.0" prefHeight="23.0" prefWidth="138.0" />
       <ButtonBar layoutX="280.0" layoutY="715.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button mnemonicParsing="false" text="Add" />
-            <Button mnemonicParsing="false" text="Delete" />
+            <Button fx:id="resultAddBtn" mnemonicParsing="false" onAction="#onClickResultAddBtn" text="Add" />
+            <Button fx:id="resultDeleteBtn" mnemonicParsing="false" onAction="#onClickResultDeleteBtn" text="Delete" />
          </buttons>
       </ButtonBar>
       <ButtonBar layoutX="280.0" layoutY="755.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
-          <Button mnemonicParsing="false" text="OK" />
-            <Button mnemonicParsing="false" text="Cancel" />
+          <Button fx:id="okBtn" mnemonicParsing="false" onAction="#onClickOkBtn" text="OK" />
+            <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onClickCancelBtn" text="Cancel" />
         </buttons>
       </ButtonBar>
    </children>

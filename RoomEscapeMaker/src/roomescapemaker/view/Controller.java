@@ -537,10 +537,10 @@ public class Controller implements Initializable{
     private void onClickAddInteractionBtn(ActionEvent event) {
     	if(objectListView.getSelectionModel().getSelectedItem() != null) {
     		ObjectInteraction newInteraction = new ObjectInteraction();
-    		/*boolean okClicked = */mainApp.showInteractionAddStage(newInteraction, sceneList);
-    		/*if (okClicked) {
+    		boolean okClicked = mainApp.showInteractionAddStage(newInteraction, sceneList, objectListView.getSelectionModel().getSelectedItem());
+    		if (okClicked) {
     			objectListView.getSelectionModel().getSelectedItem().getInteractionList().add(newInteraction);		
-    		}*/
+    		}
     	}
     	else return;
     }

@@ -110,7 +110,7 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public boolean showInteractionAddStage(ObjectInteraction newInteraction, ObservableList<RoomScene> sceneList) {
+	public boolean showInteractionAddStage(ObjectInteraction newInteraction, ObservableList<RoomScene> sceneList, RoomObject ro) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/Interaction_Add.fxml"));
@@ -127,11 +127,11 @@ public class MainApp extends Application {
 			controller.setDialogStage(interactionAddStage);
 			controller.setInteraction(newInteraction);
 			controller.setSceneList(sceneList);
+			controller.setRoomObject(ro);
 			
 			interactionAddStage.showAndWait();
 			
-			//return controller.isOkClicked();
-			return true;
+			return controller.isOkClicked();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

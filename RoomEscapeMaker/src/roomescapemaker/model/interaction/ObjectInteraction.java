@@ -72,6 +72,38 @@ public class ObjectInteraction {
 		return sceneChangeResult;
 	}
 	
+	public void addSecondaryCondition(InteractionCondition newCondition) {
+		secondaryConditionList.add(newCondition);
+	}
+	
+	public InteractionCondition getSecondaryCondition(int index) {
+		return secondaryConditionList.get(index);
+	}
+	
+	public void removeSecondaryCondition(int index) {
+		secondaryConditionList.remove(index);
+	}
+	
+	public ObservableList<InteractionCondition> getSecondaryConditionList(){
+		return secondaryConditionList;
+	}
+	
+	public void addObjectResult(ObjectResult newObjectResult) {
+		objectResultList.add(newObjectResult);
+	}
+	
+	public ObjectResult getObjectResult(int index) {
+		return objectResultList.get(index);
+	}
+	
+	public void removeObjectResult(int index) {
+		objectResultList.remove(index);
+	}
+	
+	public ObservableList<ObjectResult> getObjectResultList(){
+		return objectResultList;
+	}
+	
 	public int getTargetSceneIndex() {
 		return sceneChangeResult.get().getTargetIndex();
 	}

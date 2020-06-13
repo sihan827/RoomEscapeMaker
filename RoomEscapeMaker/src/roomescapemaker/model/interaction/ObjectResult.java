@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
 public class ObjectResult {
@@ -38,6 +39,10 @@ public class ObjectResult {
 	
 	public IntegerProperty targetIndexProperty() {
 		return targetIndex;
+	}
+	
+	public ObjectStatus getStatus() {
+		return getTargetObject().getStatus(getTargetIndex());
 	}
 	
 	
