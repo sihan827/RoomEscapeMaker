@@ -3,6 +3,7 @@ package roomescapemaker.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
+import roomescapemaker.model.interaction.ObjectInteraction;
 import javafx.beans.property.StringProperty;
 
 import java.io.IOException;
@@ -20,10 +21,13 @@ public class RoomObject implements Serializable{
 	
 	private transient static final long serialVersionUID = 1L;
 	
+
 	private transient StringProperty objectName = new SimpleStringProperty();
 	private transient IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private transient ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
+  private transient ObservableList<ObjectInteraction> interactionList = FXCollections.observableArrayList();
 	private transient static String savePath;
+
 	
 	public RoomObject() {
 		this.objectName.set(null);
@@ -84,8 +88,7 @@ public class RoomObject implements Serializable{
 		statusList.remove(index);
 	}
 	
-	// for serialization
-	
+
 	private void writeObject(ObjectOutputStream oos) throws IOException{
 	
 		oos.defaultWriteObject();
@@ -121,5 +124,28 @@ public class RoomObject implements Serializable{
 		RoomObject.savePath = savePath;
 	}
 		
+
+	public void addInteraction(ObjectInteraction interaction) {
+		interactionList.add(interaction);
+	}
 	
+	public ObjectInteraction getObjectInteraction(int index) {
+		return interactionList.get(index);
+	}
+	
+	public void removeInteraction(int index) {
+		interactionList.remove(index);
+	}
+	
+	public ObservableList<ObjectInteraction> getInteractionList(){
+		return interactionList;
+	}
+	
+	/*
+	 * showing ChoiceBox 
+	 */
+	@Override
+	public String toString() {
+		return getObjectName();
+	}
 }

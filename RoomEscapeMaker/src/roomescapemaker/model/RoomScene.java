@@ -87,8 +87,6 @@ public class RoomScene implements Serializable{
 		roomObjectList.clear();
 	}
 	
-	// for serialization
-	
 	private void writeObject(ObjectOutputStream oos) throws IOException{
 	
 		oos.defaultWriteObject();
@@ -134,6 +132,14 @@ public class RoomScene implements Serializable{
 			System.out.println(e.length + " and " + e.eof);
 			e.printStackTrace();
 		}
+	}
+
+	/*
+	 * showing ChoiceBox 
+	 */
+	@Override
+	public String toString() {
+		return getSceneName();
 	}
 
 	
