@@ -3,6 +3,7 @@ package roomescapemaker.view;
 
 import roomescapemaker.MainApp;
 import roomescapemaker.model.RoomScene;
+import roomescapemaker.model.interaction.ObjectInteraction;
 import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
@@ -11,9 +12,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
+
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
@@ -36,8 +44,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -52,6 +64,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -60,12 +73,14 @@ import javafx.util.Callback;
 public class Controller implements Initializable{
 
     
-	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
-	private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
-	
-	private ArrayList<ImageView> objectImageView;
+    private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
+    private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
 
-	private Stage fileChooserDialog; 
+    private ArrayList<ImageView> objectImageView;
+
+    private Stage fileChooserDialog;
+    private Stage dirChooserDialog;
+
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
@@ -162,7 +177,7 @@ public class Controller implements Initializable{
      * control for Scene list
      */
     @FXML //done!
-	private ListView<RoomScene> sceneListView;
+	  private ListView<RoomScene> sceneListView;
     
     @FXML //done!
     private Button addSceneBtn;
@@ -174,15 +189,35 @@ public class Controller implements Initializable{
      * control for Object list
      */
     @FXML //done!
-	private ListView<RoomObject> objectListView;
+	  private ListView<RoomObject> objectListView;
     
     @FXML //done!
     private Button addObjectBtn;
     
     @FXML //done!
     private Button deleteObjectBtn;
+	  private Stage mainStage;
     
+    /*
+     * control for Interaction List
+     */
+	  
+    @FXML
+	private TableView<ObjectInteraction> interactionTable;
     
+	@FXML
+	private TableColumn<ObjectInteraction, String> conditionColumn;
+	
+	@FXML
+	private TableColumn<ObjectInteraction, String> resultColumn;
+	
+	@FXML 
+	private Button addInteractionBtn;
+	
+	@FXML
+	private Button deleteInteractionBtn;
+    
+    private String saveProjectName;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -309,6 +344,12 @@ public class Controller implements Initializable{
 
     	sceneListView.setItems(sceneList);
     	
+		conditionColumn.setCellValueFactory(
+				cellData->cellData.getValue().conditionNameProperty());
+		resultColumn.setCellValueFactory(
+				cellData->cellData.getValue().resultNameProperty());
+    	
+    	
     	//add scene list listener -> detect changes in sceneList
     	sceneList.addListener(new ListChangeListener<RoomScene>() {
     		
@@ -330,7 +371,10 @@ public class Controller implements Initializable{
     	objectListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showCurrentStatus(newValue)); 
     	
-    	//objectListView.getSelectionModel().selectedItemProperty()
+
+    	objectListView.getSelectionModel().selectedItemProperty().addListener(
+    			(observable, oldValue, newValue) -> showInteractionList(newValue));
+
     	//listener for selecting a status
     	statusChoiceBox.getSelectionModel().selectedItemProperty().addListener(
     			(observable, oldValue, newValue) -> showStatusProperty(newValue));
@@ -386,6 +430,14 @@ public class Controller implements Initializable{
     			propertyPane.setExpanded(true);
     			setStatusProperty(os);
     		}
+    	} else {
+    		return;
+    	}
+    }
+    
+    public void showInteractionList(RoomObject ro) {
+    	if (ro != null) {
+    		interactionTable.setItems(ro.getInteractionList()); 		
     	} else {
     		return;
     	}
@@ -500,7 +552,7 @@ public class Controller implements Initializable{
     private void onClickAddStatusBtn(ActionEvent event) {
     	if (objectListView.getSelectionModel().getSelectedItem() != null) {
     		ObjectStatus newStatus = new ObjectStatus("new status " 
-    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null);
+    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null, objectListView.getSelectionModel().getSelectedItem().getObjectName());
     		objectListView.getSelectionModel().getSelectedItem().getStatusList().add(newStatus);	
     	}
     	else {
@@ -579,6 +631,28 @@ public class Controller implements Initializable{
     	else return;
     }
     
+    @FXML 
+    private void onClickAddInteractionBtn(ActionEvent event) {
+    	if(objectListView.getSelectionModel().getSelectedItem() != null) {
+    		ObjectInteraction newInteraction = new ObjectInteraction();
+    		boolean okClicked = mainApp.showInteractionAddStage(newInteraction, sceneList, objectListView.getSelectionModel().getSelectedItem());
+    		if (okClicked) {
+    			objectListView.getSelectionModel().getSelectedItem().getInteractionList().add(newInteraction);		
+    		}
+    	}
+    	else return;
+    }
+    
+    @FXML
+    private void onClickDeleteInteractionBtn(ActionEvent event) {
+    	if (interactionTable.getSelectionModel().getSelectedItem() != null) {
+    		objectListView.getSelectionModel().getSelectedItem().removeInteraction(
+    				interactionTable.getSelectionModel().getSelectedIndex());
+    	} else {
+    		return;
+    	}
+    }
+    
     void reDrawMainCanvas(RoomScene rs) {
     	
     	System.out.println("draw canvas");
@@ -601,8 +675,8 @@ public class Controller implements Initializable{
         	objImage.setImage(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
         	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()).add(bgImg.translateXProperty()));
         	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
-        	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()));
-        	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getWidth()));
+        	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
+        	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
         	objImage.visibleProperty().bind(obj.getStatus(obj.getCurrentStatus()).visibleProperty());;
         	objImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -610,7 +684,7 @@ public class Controller implements Initializable{
                     System.out.println("fuck! I clicked!");
                 }
             });
-        	
+
         	objectImageView.add(objImage);
         }
         
@@ -627,6 +701,9 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
     	sceneList.get(0).addRoomObject("books", "roomescapemaker/resource/objects/books.jpg");
     	sceneList.get(0).getRoomObject(0).addStatus("isopen", "roomescapemaker/resource/backgrounds/normalRoom.png");
+    	sceneList.get(0).getRoomObject(0).addInteraction(new ObjectInteraction());
+    	sceneList.get(0).getRoomObject(0).getObjectInteraction(0).setConditionName("condition 0");
+    	sceneList.get(0).getRoomObject(0).getObjectInteraction(0).setResultName("result 0");
     	sceneList.get(0).addRoomObject("computer", "roomescapemaker/resource/objects/computer.png");
     	sceneList.get(0).addRoomObject("fireextinguisher", "roomescapemaker/resource/objects/fireextinguisher.jpg");
     	sceneList.get(0).addRoomObject("greensofa", "roomescapemaker/resource/objects/greensofa.jpg");
@@ -645,7 +722,7 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
     }
 
-    
+     
     @FXML
     void onMouseClickedMainPane(MouseEvent event) {
     	System.out.println("mouse click");
@@ -667,5 +744,84 @@ public class Controller implements Initializable{
 
     
     
+    
+    @FXML
+    void onClickMenuFileSave(ActionEvent event) {
+    	
+    	//ArrayList<RoomScene> saveList = new ArrayList<RoomScene>(sceneList);
+    	
+    	//System.out.println("saveList : " + saveList);
+    	String chooseTitle = "choose save directory";
+        try {
+        	DirectoryChooser dirChooser = new DirectoryChooser();
+			dirChooser.setInitialDirectory(new File("."));
+			dirChooser.setTitle(chooseTitle);
+    		File selectedDir = dirChooser.showDialog(dirChooserDialog);
+    		
+    		RoomScene.setSavePath(selectedDir.getPath()); // set path to save
+    		RoomObject.setSavePath(selectedDir.getPath());
+    		ObjectStatus.setSavePath(selectedDir.getPath());
+    	    
+            FileOutputStream fileOut = new FileOutputStream(selectedDir.getAbsoluteFile() + "/MainSceneFileTemp");
+            ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);
+            
+            objectOut.writeObject(new ArrayList<RoomScene>(sceneList));
+            
+            objectOut.close();
+            fileOut.close();
+            System.out.println("save complete!!!");
+            
+        }catch (Exception e) {
+			// TODO: handle exception
+        	e.printStackTrace();
+        	
+        	System.out.println("unable to save!");
+		}
+    }
+    
+    @FXML
+    void onCLickMenuFileQuit(ActionEvent event) {
+        
+    	Stage stage = (Stage)menuBar.getScene().getWindow();
+    	stage.close();
+    }
+    
+    @FXML
+    void onClickMenuFileOpen(ActionEvent event) {
+    	
+    	System.out.println("load sequence");
+		try {
+			 // remove existing!!
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setInitialDirectory(new File("."));
+	    	
+    		File selectedFile = fileChooser.showOpenDialog(fileChooserDialog);
+    		
+			FileInputStream fileIn = new FileInputStream(selectedFile);
+		    ObjectInputStream objectIn= new ObjectInputStream(fileIn);
+		    System.out.println("opening... " + selectedFile.getParentFile().getPath());
+		    String openPath = selectedFile.getParentFile().getPath();
+		    RoomScene.setOpenPath(openPath); // set path to save
+    		RoomObject.setOpenPath(openPath);
+    		ObjectStatus.setOpenPath(openPath);
+		    sceneList.clear();
+		    
+		    sceneList = FXCollections.observableArrayList((ArrayList<RoomScene>) objectIn.readObject());
+		    
+		    objectIn.close();
+		    fileIn.close();
+		    
+		    sceneListView.setItems(sceneList);
+		    
+		    reDrawMainCanvas(sceneList.get(0));
+		    System.out.println("load complete!!!");
+		            
+		}catch (Exception e) {
+					// TODO: handle exception
+		  	e.printStackTrace();
+		   	System.out.println("unable to Load!");
+		}
+	
+    }
     
 }
