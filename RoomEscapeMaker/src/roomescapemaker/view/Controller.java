@@ -11,12 +11,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
@@ -48,7 +42,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.DirectoryChooser;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -57,14 +50,13 @@ import javafx.util.Callback;
 public class Controller implements Initializable{
 
     
-    private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
-    private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
+	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
+	private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
+	
+	private ArrayList<ImageView> objectImageView;
 
-    private ArrayList<ImageView> objectImageView;
-
-
-    private Stage fileChooserDialog;
-    private Stage dirChooserDialog;
+	
+	private Stage fileChooserDialog; 
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
@@ -161,7 +153,7 @@ public class Controller implements Initializable{
      * control for Scene list
      */
     @FXML //done!
-	  private ListView<RoomScene> sceneListView;
+	private ListView<RoomScene> sceneListView;
     
     @FXML //done!
     private Button addSceneBtn;
@@ -173,14 +165,13 @@ public class Controller implements Initializable{
      * control for Object list
      */
     @FXML //done!
-	  private ListView<RoomObject> objectListView;
+	private ListView<RoomObject> objectListView;
     
     @FXML //done!
     private Button addObjectBtn;
     
     @FXML //done!
     private Button deleteObjectBtn;
-	  private Stage mainStage;
     
     
     
@@ -432,7 +423,7 @@ public class Controller implements Initializable{
     private void onClickAddStatusBtn(ActionEvent event) {
     	if (objectListView.getSelectionModel().getSelectedItem() != null) {
     		ObjectStatus newStatus = new ObjectStatus("new status " 
-    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null, objectListView.getSelectionModel().getSelectedItem().getObjectName());
+    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null);
     		objectListView.getSelectionModel().getSelectedItem().getStatusList().add(newStatus);	
     	}
     	else {
@@ -571,7 +562,7 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
     }
 
-     
+    
     @FXML
     void onMouseClickedMainPane(MouseEvent event) {
     	System.out.println("mouse click");
@@ -585,81 +576,6 @@ public class Controller implements Initializable{
     	System.out.println("mouse enter");
     	
     	
-    }
-    
-    @FXML
-    void onClickMenuFileSave(ActionEvent event) {
-    	
-    	//ArrayList<RoomScene> saveList = new ArrayList<RoomScene>(sceneList);
-    	
-    	//System.out.println("saveList : " + saveList);
-    	String chooseTitle = "���� ������ ���丮 ����";
-        try {
-        	DirectoryChooser dirChooser = new DirectoryChooser();
-			dirChooser.setInitialDirectory(new File("."));
-			dirChooser.setTitle(chooseTitle);
-    		File selectedDir = dirChooser.showDialog(dirChooserDialog);
-    		
-    		RoomScene.setSavePath(selectedDir.getAbsolutePath()); // set path to save
-    		RoomObject.setSavePath(selectedDir.getAbsolutePath());
-    		ObjectStatus.setSavePath(selectedDir.getAbsolutePath());
-    	    
-            FileOutputStream fileOut = new FileOutputStream(selectedDir.getAbsoluteFile() + "/MainSceneFileTemp");
-            ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);
-            
-            objectOut.writeObject(new ArrayList<RoomScene>(sceneList));
-            
-            objectOut.close();
-            fileOut.close();
-            System.out.println("save complete!!!");
-            
-        }catch (Exception e) {
-			// TODO: handle exception
-        	e.printStackTrace();
-        	
-        	System.out.println("unable to save!");
-		}
-    }
-    
-    @FXML
-    void onCLickMenuFileQuit(ActionEvent event) {
-        
-    	Stage stage = (Stage)menuBar.getScene().getWindow();
-    	stage.close();
-    }
-    
-    @FXML
-    void onClickMenuFileOpen(ActionEvent event) {
-    	
-    	System.out.println("load sequence");
-		try {
-			 // remove existing!!
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setInitialDirectory(new File("."));
-	    	
-    		File selectedFile = fileChooser.showOpenDialog(fileChooserDialog);
-    		
-			FileInputStream fileIn = new FileInputStream(selectedFile);
-		    ObjectInputStream objectIn= new ObjectInputStream(fileIn);
-		    
-		    sceneList.clear();
-		    
-		    sceneList = FXCollections.observableArrayList((ArrayList<RoomScene>) objectIn.readObject());
-		    
-		    objectIn.close();
-		    fileIn.close();
-		    
-		    sceneListView.setItems(sceneList);
-		    
-		    reDrawMainCanvas(sceneList.get(0));
-		    System.out.println("load complete!!!");
-		            
-		}catch (Exception e) {
-					// TODO: handle exception
-		  	e.printStackTrace();
-		   	System.out.println("unable to Load!");
-		}
-	
     }
     
 }
