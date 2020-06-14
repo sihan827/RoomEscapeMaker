@@ -3,6 +3,7 @@ package roomescapemaker.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
+import roomescapemaker.model.interaction.ObjectInteraction;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,6 +14,7 @@ public class RoomObject {
 	private final StringProperty objectName = new SimpleStringProperty();
 	private final IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
+	private ObservableList<ObjectInteraction> interactionList = FXCollections.observableArrayList();
 	
 	public RoomObject() {
 		this.objectName.set(null);
@@ -67,5 +69,27 @@ public class RoomObject {
 		statusList.remove(index);
 	}
 	
+	public void addInteraction(ObjectInteraction interaction) {
+		interactionList.add(interaction);
+	}
 	
+	public ObjectInteraction getObjectInteraction(int index) {
+		return interactionList.get(index);
+	}
+	
+	public void removeInteraction(int index) {
+		interactionList.remove(index);
+	}
+	
+	public ObservableList<ObjectInteraction> getInteractionList(){
+		return interactionList;
+	}
+	
+	/*
+	 * showing ChoiceBox 
+	 */
+	@Override
+	public String toString() {
+		return getObjectName();
+	}
 }

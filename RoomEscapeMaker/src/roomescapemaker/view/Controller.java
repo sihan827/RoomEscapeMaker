@@ -3,6 +3,7 @@ package roomescapemaker.view;
 
 import roomescapemaker.MainApp;
 import roomescapemaker.model.RoomScene;
+import roomescapemaker.model.interaction.ObjectInteraction;
 import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
@@ -10,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import java.io.File;
 import java.lang.ArrayIndexOutOfBoundsException;
 
@@ -32,8 +34,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -173,6 +179,25 @@ public class Controller implements Initializable{
     @FXML //done!
     private Button deleteObjectBtn;
     
+    /*
+     * control for Interaction List
+     */
+    
+    @FXML
+	private TableView<ObjectInteraction> interactionTable;
+    
+	@FXML
+	private TableColumn<ObjectInteraction, String> conditionColumn;
+	
+	@FXML
+	private TableColumn<ObjectInteraction, String> resultColumn;
+	
+	@FXML 
+	private Button addInteractionBtn;
+	
+	@FXML
+	private Button deleteInteractionBtn;
+    
     
     
     @Override
@@ -233,6 +258,12 @@ public class Controller implements Initializable{
     	
     	sceneListView.setItems(sceneList);
     	
+		conditionColumn.setCellValueFactory(
+				cellData->cellData.getValue().conditionNameProperty());
+		resultColumn.setCellValueFactory(
+				cellData->cellData.getValue().resultNameProperty());
+    	
+    	
     	//add scene list listener -> detect changes in sceneList
     	sceneList.addListener(new ListChangeListener<RoomScene>() {
     		
@@ -253,6 +284,9 @@ public class Controller implements Initializable{
     	//listener for selecting a object
     	objectListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showCurrentStatus(newValue)); 
+    	
+    	objectListView.getSelectionModel().selectedItemProperty().addListener(
+    			(observable, oldValue, newValue) -> showInteractionList(newValue));
     	
     	//listener for selecting a status
     	statusChoiceBox.getSelectionModel().selectedItemProperty().addListener(
@@ -309,6 +343,14 @@ public class Controller implements Initializable{
     			propertyPane.setExpanded(true);
     			setStatusProperty(os);
     		}
+    	} else {
+    		return;
+    	}
+    }
+    
+    public void showInteractionList(RoomObject ro) {
+    	if (ro != null) {
+    		interactionTable.setItems(ro.getInteractionList()); 		
     	} else {
     		return;
     	}
@@ -502,6 +544,28 @@ public class Controller implements Initializable{
     	else return;
     }
     
+    @FXML 
+    private void onClickAddInteractionBtn(ActionEvent event) {
+    	if(objectListView.getSelectionModel().getSelectedItem() != null) {
+    		ObjectInteraction newInteraction = new ObjectInteraction();
+    		boolean okClicked = mainApp.showInteractionAddStage(newInteraction, sceneList, objectListView.getSelectionModel().getSelectedItem());
+    		if (okClicked) {
+    			objectListView.getSelectionModel().getSelectedItem().getInteractionList().add(newInteraction);		
+    		}
+    	}
+    	else return;
+    }
+    
+    @FXML
+    private void onClickDeleteInteractionBtn(ActionEvent event) {
+    	if (interactionTable.getSelectionModel().getSelectedItem() != null) {
+    		objectListView.getSelectionModel().getSelectedItem().removeInteraction(
+    				interactionTable.getSelectionModel().getSelectedIndex());
+    	} else {
+    		return;
+    	}
+    }
+    
     void reDrawMainCanvas(RoomScene rs) {
     	
     	System.out.println("draw canvas");
@@ -544,6 +608,9 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
     	sceneList.get(0).addRoomObject("books", "roomescapemaker/resource/objects/books.jpg");
     	sceneList.get(0).getRoomObject(0).addStatus("isopen", "roomescapemaker/resource/backgrounds/normalRoom.png");
+    	sceneList.get(0).getRoomObject(0).addInteraction(new ObjectInteraction());
+    	sceneList.get(0).getRoomObject(0).getObjectInteraction(0).setConditionName("condition 0");
+    	sceneList.get(0).getRoomObject(0).getObjectInteraction(0).setResultName("result 0");
     	sceneList.get(0).addRoomObject("computer", "roomescapemaker/resource/objects/computer.png");
     	sceneList.get(0).addRoomObject("fireextinguisher", "roomescapemaker/resource/objects/fireextinguisher.jpg");
     	sceneList.get(0).addRoomObject("greensofa", "roomescapemaker/resource/objects/greensofa.jpg");
