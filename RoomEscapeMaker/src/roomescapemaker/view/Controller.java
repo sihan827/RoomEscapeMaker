@@ -65,8 +65,6 @@ public class Controller implements Initializable{
 	
 	private ArrayList<ImageView> objectImageView;
 
-	private DataFormat listDataFormat = new DataFormat("list of Drag");
-	
 	private Stage fileChooserDialog; 
     private MainApp mainApp;
     // ImageView for status property pane
@@ -236,7 +234,12 @@ public class Controller implements Initializable{
     					}
     				}
     				};
+    			
     				
+    				//
+    				//
+    				//
+    			    //Start Drag Function!
     				cell.setOnDragDetected((MouseEvent event) -> {
     					System.out.println("objectList Drag Detected");
     					
@@ -245,20 +248,7 @@ public class Controller implements Initializable{
     					
     					Dragboard db = cell.startDragAndDrop(TransferMode.COPY);
     					ClipboardContent content = new ClipboardContent();
-    					
-    					//String cellStateSerialized = "";
-    					//try {
-    					//	ByteArrayOutputStream bo = new ByteArrayOutputStream();
-    					//	ObjectOutputStream so = new ObjectOutputStream(bo);
-    					//	so.writeObject((RoomObject)cell.getItem());
-    					//	so.flush();
-    					//	cellStateSerialized = bo.toString();
-    					//} catch(Exception e) {
-    					//	System.err.println(e);
-    					//}
-    					
-    					//content.putString(cellStateSerialized);
-    					//content.putString(Integer.toString(cell.getIndex()));
+
     					content.putString(cell.toString());
     					System.out.println(cell.getItem().getObjectName());
     					db.setContent(content);
@@ -271,7 +261,6 @@ public class Controller implements Initializable{
     		                event.acceptTransferModes(TransferMode.COPY);
     		                System.out.println("Moving!");
     		            }
-    		 
     		            event.consume();
     		        });
     				
@@ -283,27 +272,19 @@ public class Controller implements Initializable{
     					event.consume();
     				});
     				
-    				
-    				
-    				
     			return cell;
     		}	
     	} );
     	
-    
     	mainPane.setOnDragOver(event ->{
     		Dragboard db = event.getDragboard();
             if (db.hasString()) {
                 event.acceptTransferModes(TransferMode.COPY);
                 System.out.println("Moving in main!");
             }
- 
             event.consume();
     	});
     	
-    	
-    	
-    
     	mainPane.setOnDragDropped(new EventHandler<DragEvent>() {
     		public void handle(DragEvent event) {
     			System.out.println("DRagDropp detected");
@@ -315,22 +296,16 @@ public class Controller implements Initializable{
     				
     				System.out.println("Arrive " + objectnum);
     				objectListView.getItems().get(Integer.parseInt(objectnum)).getStatus(objectListView.getItems().get(Integer.parseInt(objectnum)).getCurrentStatus()).setVisible(true);
-    				
-    		   
-    				
     			}
-    			
     			event.setDropCompleted(true);
     			event.consume();
     		}
-    		
     	});
     	
     			
     			
     	
-    	
-    	
+
     	sceneListView.setItems(sceneList);
     	
     	//add scene list listener -> detect changes in sceneList
@@ -358,20 +333,6 @@ public class Controller implements Initializable{
     	//listener for selecting a status
     	statusChoiceBox.getSelectionModel().selectedItemProperty().addListener(
     			(observable, oldValue, newValue) -> showStatusProperty(newValue));
-    
-    	
-    	
-    	//Drag Function
-    	//sceneListView.setOnDragDetected(new EventHandler<MouseEvent>() {
-    		//public void handle(MouseEvent event) {
-    		//	Dragboard db = sceneListView.startDragAndDrop(TransferMode.ANY);
-    		//	System.out.println("Drag Detected");
-    		//}
-
-    		
-    		
-    		
-    	//});
     	
        
     }
@@ -641,6 +602,13 @@ public class Controller implements Initializable{
         	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
         	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()));
         	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getWidth()));
+        	objImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println("fuck! I clicked!");
+                }
+            });
+        	
         	objectImageView.add(objImage);
         }
         
@@ -679,15 +647,12 @@ public class Controller implements Initializable{
     @FXML
     void onMouseClickedMainPane(MouseEvent event) {
     	System.out.println("mouse click");
-    	ImageView s;
-    	
     	
     }
 
     @FXML
     void onMouseEnterMainPane(MouseEvent event) {
     	//System.out.println("mouse enter");
-    	
     	
     }
    

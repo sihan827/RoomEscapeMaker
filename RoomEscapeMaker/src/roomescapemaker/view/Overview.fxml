@@ -99,7 +99,7 @@
                                 <items>
                                   <Button fx:id="addObjectBtn" mnemonicParsing="false" onAction="#onClickAddObjectBtn" text="Add" />
                                     <Button fx:id="deleteObjectBtn" mnemonicParsing="false" onAction="#onClickDeleteObjectBtn" text="Delete" />
-                                    <CheckBox mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox mnemonicParsing="false" text="Make Object Background Transparent" />
                                 </items>
                               </ToolBar>
                               <BorderPane layoutX="106.0" layoutY="18.0" prefHeight="236.8" prefWidth="1273.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
