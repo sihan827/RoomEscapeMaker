@@ -11,6 +11,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
@@ -42,6 +48,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -50,13 +57,14 @@ import javafx.util.Callback;
 public class Controller implements Initializable{
 
     
-	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
-	private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
-	
-	private ArrayList<ImageView> objectImageView;
+    private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
+    private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
 
-	
-	private Stage fileChooserDialog; 
+    private ArrayList<ImageView> objectImageView;
+
+
+    private Stage fileChooserDialog;
+    private Stage dirChooserDialog;
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
@@ -153,7 +161,7 @@ public class Controller implements Initializable{
      * control for Scene list
      */
     @FXML //done!
-	private ListView<RoomScene> sceneListView;
+	  private ListView<RoomScene> sceneListView;
     
     @FXML //done!
     private Button addSceneBtn;
@@ -165,13 +173,14 @@ public class Controller implements Initializable{
      * control for Object list
      */
     @FXML //done!
-	private ListView<RoomObject> objectListView;
+	  private ListView<RoomObject> objectListView;
     
     @FXML //done!
     private Button addObjectBtn;
     
     @FXML //done!
     private Button deleteObjectBtn;
+	  private Stage mainStage;
     
     
     
@@ -423,7 +432,7 @@ public class Controller implements Initializable{
     private void onClickAddStatusBtn(ActionEvent event) {
     	if (objectListView.getSelectionModel().getSelectedItem() != null) {
     		ObjectStatus newStatus = new ObjectStatus("new status " 
-    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null);
+    				+ objectListView.getSelectionModel().getSelectedItem().getStatusList().size(), null, objectListView.getSelectionModel().getSelectedItem().getObjectName());
     		objectListView.getSelectionModel().getSelectedItem().getStatusList().add(newStatus);	
     	}
     	else {
@@ -562,7 +571,7 @@ public class Controller implements Initializable{
     	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
     }
 
-    
+     
     @FXML
     void onMouseClickedMainPane(MouseEvent event) {
     	System.out.println("mouse click");
@@ -577,7 +586,7 @@ public class Controller implements Initializable{
     	
     	
     }
-  
+    
     @FXML
     void onClickMenuFileSave(ActionEvent event) {
     	
@@ -652,4 +661,5 @@ public class Controller implements Initializable{
 		}
 	
     }
+    
 }
