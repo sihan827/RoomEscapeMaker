@@ -9,12 +9,12 @@ import javafx.collections.ObservableList;
 
 public class ObjectInteraction {
 	
-	// 조건
+	// condition
 	private final StringProperty conditionName = new SimpleStringProperty();
 	private final ObjectProperty<InteractionCondition> primaryCondition = new SimpleObjectProperty<InteractionCondition>();
 	private ObservableList<InteractionCondition> secondaryConditionList = FXCollections.observableArrayList();
 	
-	// 결과
+	// result
 	private final StringProperty resultName = new SimpleStringProperty();
 	private final ObjectProperty<SceneResult> sceneChangeResult = new SimpleObjectProperty<SceneResult>();
 	private ObservableList<ObjectResult> objectResultList = FXCollections.observableArrayList();

@@ -8,11 +8,11 @@ import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
 public class InteractionCondition {
-	//조건의 주체 오브젝트
+	
 	private final ObjectProperty<RoomObject> mainObject = new SimpleObjectProperty<RoomObject>();
-	//조건의 주체에서 적용될 액션 객체 -> enum 타입이며 조건의 주 오브젝트에만 적용, 오직 1개
+	
 	private final ObjectProperty<ConditionAction> mainAction = new SimpleObjectProperty<ConditionAction>();
-	//조건에서 비교할 상태의 인덱스 값
+
 	private final IntegerProperty conditionIndex = new SimpleIntegerProperty();
 	
 	public InteractionCondition(RoomObject object, ConditionAction mainAction) {
