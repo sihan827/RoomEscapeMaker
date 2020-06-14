@@ -249,7 +249,7 @@ public class Controller implements Initializable{
     					Dragboard db = cell.startDragAndDrop(TransferMode.COPY);
     					ClipboardContent content = new ClipboardContent();
 
-    					content.putString(cell.toString());
+    					content.putString(Integer.toString(cell.getIndex()));
     					System.out.println(cell.getItem().getObjectName());
     					db.setContent(content);
     					event.consume();
@@ -301,10 +301,11 @@ public class Controller implements Initializable{
     			event.consume();
     		}
     	});
-    	
+    	//Drag function END!
+    	//
+    	//
+    	//
     			
-    			
-    	
 
     	sceneListView.setItems(sceneList);
     	
@@ -602,6 +603,7 @@ public class Controller implements Initializable{
         	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
         	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()));
         	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getWidth()));
+        	objImage.visibleProperty().bind(obj.getStatus(obj.getCurrentStatus()).visibleProperty());;
         	objImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {

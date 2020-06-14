@@ -4,6 +4,7 @@ package roomescapemaker.model;
 import java.lang.IllegalArgumentException;
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.BooleanProperty;
@@ -34,7 +35,7 @@ public class ObjectStatus {
 		this.scale.set(100);
 		this.xPos.set(xPos);
 		this.yPos.set(yPos);
-		this.visible.set(true);
+		this.visible.set(false);
 		this.possess.set(false);
 		try {
 			this.statusImage.set(image);
