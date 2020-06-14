@@ -39,7 +39,8 @@ public class ObjectStatus implements Serializable{
 	private transient BooleanProperty possess = new SimpleBooleanProperty();
 	private transient String objectName;
 	private transient static String savePath;
-
+	private transient static String openPath;
+	
 	public ObjectStatus(String name, Image image) {
 		this(name, image, 0, 0);
 	}
@@ -205,7 +206,7 @@ public class ObjectStatus implements Serializable{
 		
 		System.out.println("status read===" + getObjectName() + ", "+ getStatusName() + ", " + getSavePath());
 		
-		File readPath = new File(getSavePath() + "/objects/" + getObjectName() +"_"+ getStatusName() + ".png");
+		File readPath = new File(getOpenPath() + "/objects/" + getObjectName() +"_"+ getStatusName() + ".png");
 		BufferedImage sImage = ImageIO.read(readPath);
 		
 		statusImage = new SimpleObjectProperty<Image>();
@@ -235,6 +236,12 @@ public class ObjectStatus implements Serializable{
 
 	public void setObjectName(String objectName) {
 		this.objectName = objectName;
+	}
+	public static String getOpenPath() {
+		return openPath;
+	}
+	public static void setOpenPath(String openPath) {
+		ObjectStatus.openPath = openPath;
 	}
 	
 }

@@ -191,7 +191,7 @@ public class Controller implements Initializable{
     /*
      * control for Interaction List
      */
-    
+	  
     @FXML
 	private TableView<ObjectInteraction> interactionTable;
     
@@ -207,7 +207,7 @@ public class Controller implements Initializable{
 	@FXML
 	private Button deleteInteractionBtn;
     
-    
+    private String saveProjectName;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -660,7 +660,7 @@ public class Controller implements Initializable{
     	//ArrayList<RoomScene> saveList = new ArrayList<RoomScene>(sceneList);
     	
     	//System.out.println("saveList : " + saveList);
-    	String chooseTitle = "���� ������ ���丮 ����";
+    	String chooseTitle = "choose save directory";
         try {
         	DirectoryChooser dirChooser = new DirectoryChooser();
 			dirChooser.setInitialDirectory(new File("."));
@@ -708,7 +708,11 @@ public class Controller implements Initializable{
     		
 			FileInputStream fileIn = new FileInputStream(selectedFile);
 		    ObjectInputStream objectIn= new ObjectInputStream(fileIn);
-		    
+		    System.out.println("opening... " + selectedFile.getParentFile().getPath());
+		    String openPath = selectedFile.getParentFile().getPath();
+		    RoomScene.setOpenPath(openPath); // set path to save
+    		RoomObject.setOpenPath(openPath);
+    		ObjectStatus.setOpenPath(openPath);
 		    sceneList.clear();
 		    
 		    sceneList = FXCollections.observableArrayList((ArrayList<RoomScene>) objectIn.readObject());

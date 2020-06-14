@@ -31,6 +31,7 @@ public class RoomScene implements Serializable{
 	public transient ObjectProperty<Image> backGroundImage = new SimpleObjectProperty<Image>();
 	private transient ObservableList<RoomObject> roomObjectList = FXCollections.observableArrayList();
 	private transient static String savePath;
+	private transient static String openPath;
 	
 	public RoomScene(String sceneName, Image backGroundImage) {
 		this.sceneName.set(sceneName);
@@ -113,7 +114,7 @@ public class RoomScene implements Serializable{
 		savePath = (String)ois.readObject();
 		System.out.println(getSavePath());
 		
-		File readPath = new File(getSavePath() + "/scenes/" + getSceneName() + " background.png");
+		File readPath = new File(getOpenPath() + "/scenes/" + getSceneName() + " background.png");
 		BufferedImage bImage = ImageIO.read(readPath);
 		backGroundImage = new SimpleObjectProperty<Image>();
 		Image bgfxImage = SwingFXUtils.toFXImage(bImage,null);
@@ -140,6 +141,14 @@ public class RoomScene implements Serializable{
 	@Override
 	public String toString() {
 		return getSceneName();
+	}
+
+	public static String getOpenPath() {
+		return openPath;
+	}
+
+	public static void setOpenPath(String openPath) {
+		RoomScene.openPath = openPath;
 	}
 
 	
