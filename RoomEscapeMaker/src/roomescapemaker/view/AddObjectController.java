@@ -88,6 +88,7 @@ public class AddObjectController implements Initializable{
 			object.getStatus(0).setImageFile(new Image(filePathLabel.getText()));
 			object.getStatus(0).setXpos(Double.parseDouble(xPosField.getText()));
 			object.getStatus(0).setYpos(Double.parseDouble(yPosField.getText()));
+			object.getStatus(0).setObjectName(objectNameField.getText());
 			okClicked = true;
 			addObjectStage.close();
 		}
