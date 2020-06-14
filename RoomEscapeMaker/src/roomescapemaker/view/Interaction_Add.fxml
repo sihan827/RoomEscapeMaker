@@ -14,8 +14,8 @@
       <Label layoutX="26.0" layoutY="28.0" text="Condition Name" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
       <Label layoutX="20.0" layoutY="50.0" text="Object Action" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="55.0" />
       <Label layoutX="20.0" layoutY="81.0" text="Object Condition" AnchorPane.topAnchor="90.0" />
-      <TextField fx:id="conditionNameField" layoutX="134.0" layoutY="16.0" />
-      <ChoiceBox fx:id="objectActionBox" layoutX="134.0" layoutY="51.0" prefHeight="23.0" prefWidth="138.0" />
+      <TextField fx:id="conditionNameField" layoutX="134.0" layoutY="16.0" prefHeight="23.0" prefWidth="111.0" />
+      <ChoiceBox fx:id="objectActionBox" layoutX="134.0" layoutY="51.0" prefHeight="23.0" prefWidth="111.0" />
       <TableView fx:id="objectConditionTable" layoutX="93.0" layoutY="129.0" prefHeight="150.0" prefWidth="315.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="125.0">
         <columns>
           <TableColumn fx:id="objectNameColumn" prefWidth="75.0" text="Object Name" />
@@ -38,9 +38,9 @@
         </buttons>
       </ButtonBar>
       <Label layoutX="20.0" layoutY="398.0" text="Result Name" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="400.0" />
-      <TextField fx:id="resultNameField" layoutX="134.0" layoutY="396.0" />
+      <TextField fx:id="resultNameField" layoutX="134.0" layoutY="396.0" prefHeight="23.0" prefWidth="111.0" />
       <Label layoutX="20.0" layoutY="471.0" text="Scene Change" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="435.0" />
-      <ChoiceBox fx:id="sceneResultBox" layoutX="134.0" layoutY="431.0" prefHeight="23.0" prefWidth="138.0" />
+      <ChoiceBox fx:id="sceneResultBox" layoutX="134.0" layoutY="431.0" prefHeight="23.0" prefWidth="111.0" />
       <Label layoutX="20.0" layoutY="509.0" text="Object Status Change" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="470.0" />
       <TableView fx:id="objectResultTable" layoutX="60.0" layoutY="503.0" prefHeight="150.0" prefWidth="380.0">
         <columns>
@@ -69,5 +69,7 @@
             <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onClickCancelBtn" text="Cancel" />
         </buttons>
       </ButtonBar>
+      <Label layoutX="262.0" layoutY="435.0" prefHeight="15.0" prefWidth="73.0" text="Game Status" />
+      <ChoiceBox fx:id="gameStatusBox" layoutX="369.0" layoutY="431.0" prefHeight="23.0" prefWidth="111.0" />
    </children>
 </AnchorPane>

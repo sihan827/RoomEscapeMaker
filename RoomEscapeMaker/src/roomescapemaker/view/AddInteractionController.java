@@ -68,6 +68,9 @@ public class AddInteractionController implements Initializable{
 	private ChoiceBox<RoomScene> sceneResultBox;
 	
 	@FXML
+	private ChoiceBox<String> gameStatusBox;
+	
+	@FXML
 	private TableView<ObjectResult> objectResultTable;
 	
 	@FXML
@@ -126,6 +129,9 @@ public class AddInteractionController implements Initializable{
 				cellData->cellData.getValue().getStatus().statusNameProperty());
 		
 		objectActionBox.getItems().setAll(ConditionAction.values());
+		
+		gameStatusBox.getItems().add("Game Over");
+		gameStatusBox.getItems().add("Game Clear");
 		
 		resultObjectNameColumn.setCellValueFactory(
 				cellData->cellData.getValue().getTargetObject().objectNameProperty());
@@ -220,7 +226,18 @@ public class AddInteractionController implements Initializable{
 			interaction.setConditionName(conditionNameField.getText());
 			interaction.setPrimaryCondition(new InteractionCondition(roomObject, objectActionBox.getValue()));
 			interaction.setResultName(resultNameField.getText());
-			interaction.setSceneChangeResult(new SceneResult(sceneResultBox.getSelectionModel().getSelectedIndex()));
+			SceneResult newSceneResult = new SceneResult(sceneResultBox.getSelectionModel().getSelectedIndex());
+			if (gameStatusBox.getSelectionModel().getSelectedItem() != null) {
+				if (gameStatusBox.getValue().equals("Game Over")) {
+					newSceneResult.setIsGameOver(true);
+					System.out.println("Game Status set to game over!");
+				} 
+				if (gameStatusBox.getValue().equals("Game Clear")) {
+					newSceneResult.setIsGameClear(true);
+					System.out.println("Game Status set to game clear!");
+				}
+			}
+			interaction.setSceneChangeResult(newSceneResult);
 			okClicked = true;
 			addInteractionStage.close();
 		} else {
