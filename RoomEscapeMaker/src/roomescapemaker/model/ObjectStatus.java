@@ -105,7 +105,7 @@ public class ObjectStatus implements Serializable{
 	}
 	
 	public int getScale() {
-		return scale.get();
+		return scale.get() / 100;
 	}
 	
 	public void setScale(int scale) {

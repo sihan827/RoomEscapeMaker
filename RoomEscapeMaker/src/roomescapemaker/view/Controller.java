@@ -20,12 +20,14 @@ import java.io.OptionalDataException;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -36,6 +38,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -45,6 +49,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -52,14 +57,14 @@ import javafx.util.Callback;
 public class Controller implements Initializable{
 
     
-	private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
-	private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
-	
-	private ArrayList<ImageView> objectImageView;
+    private ObservableList<RoomScene> sceneList = FXCollections.observableArrayList();
+    private ObservableList<RoomScene> objectList = FXCollections.observableArrayList();
 
-	
-	private Stage fileChooserDialog;
-	private Stage dirChooserDialog;
+    private ArrayList<ImageView> objectImageView;
+
+
+    private Stage fileChooserDialog;
+    private Stage dirChooserDialog;
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
@@ -68,7 +73,7 @@ public class Controller implements Initializable{
     private Pane mainPane;
     
     @FXML
-    private AnchorPane mainCanvasAnchorPane;
+    private ScrollPane mainCanvasScrollPane;
     @FXML
     private Canvas mainCanvas;
     @FXML
@@ -97,6 +102,9 @@ public class Controller implements Initializable{
     @FXML
     private Menu menuHelp;
     
+    @FXML
+    private AnchorPane resizeScrollimg;
+    
     /*
      * control for Status choice box
      */
@@ -108,6 +116,7 @@ public class Controller implements Initializable{
     
     @FXML
     private Button deleteStatusBtn;
+    
     
     /*
      * TitlePane containers
@@ -152,7 +161,7 @@ public class Controller implements Initializable{
      * control for Scene list
      */
     @FXML //done!
-	private ListView<RoomScene> sceneListView;
+	  private ListView<RoomScene> sceneListView;
     
     @FXML //done!
     private Button addSceneBtn;
@@ -164,14 +173,14 @@ public class Controller implements Initializable{
      * control for Object list
      */
     @FXML //done!
-	private ListView<RoomObject> objectListView;
+	  private ListView<RoomObject> objectListView;
     
     @FXML //done!
     private Button addObjectBtn;
     
     @FXML //done!
     private Button deleteObjectBtn;
-	private Stage mainStage;
+	  private Stage mainStage;
     
     
     
@@ -215,7 +224,7 @@ public class Controller implements Initializable{
     					super.updateItem(obj, bt1);
     					if (obj != null) {
     						ImageView imgview = new ImageView(obj.getStatus(0).getStatusImage());
-    						imgview.setFitHeight(160);
+    						imgview.setFitWidth(160);
     						imgview.setPreserveRatio(true);
     						setGraphic(imgview);
     						setText(obj.getObjectName());
@@ -506,28 +515,34 @@ public class Controller implements Initializable{
     	
     	System.out.println("draw canvas");
     	clearObjectIVList();
-    	
+    
     	ImageView bgImg = new ImageView();
     	bgImg.setImage(rs.getBackGroundImage());
-    	bgImg.setFitHeight(mainPane.getHeight());
-    	bgImg.setFitWidth(mainPane.getWidth());
+    	bgImg.fitHeightProperty().bind(mainCanvasScrollPane.heightProperty());
+    	bgImg.setPreserveRatio(true);
         mainPane.getChildren().add(bgImg);
+        StackPane.setAlignment(bgImg, Pos.CENTER);
+        
+        //rescaleRatio = bgImg.getFitHeight() / rs.getBackGroundImage().getHeight();
+        //halfbgImgwidth = rs.getBackGroundImage().getWidth() * rescaleRatio / 2;
+        
+        bgImg.translateXProperty().bind(Bindings.multiply(bgImg.fitHeightProperty(), -rs.getBackGroundImage().getWidth()/rs.getBackGroundImage().getHeight()).add(mainCanvasScrollPane.widthProperty()).divide(2));
+        System.out.println(bgImg.getTranslateX());
         
         for (RoomObject obj : rs.getRoomObjectList()) {
-        	
         	ImageView objImage = new ImageView();
         	objImage.setImage(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
-        	objImage.setTranslateX(obj.getStatus(obj.getCurrentStatus()).getXpos());
-        	objImage.setTranslateY(obj.getStatus(obj.getCurrentStatus()).getYpos());
+        	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()).add(bgImg.translateXProperty()));
+        	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
+        	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()));
+        	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getWidth()));
         	objectImageView.add(objImage);
-        	
+        	System.out.println(objImage.translateYProperty());
         }
         
          for(ImageView objIV: objectImageView) {
         	 mainPane.getChildren().add(objIV);
          }
-        
-        
     }
     
     public void setMainApp(MainApp mainApp) {
@@ -578,7 +593,7 @@ public class Controller implements Initializable{
     	//ArrayList<RoomScene> saveList = new ArrayList<RoomScene>(sceneList);
     	
     	//System.out.println("saveList : " + saveList);
-    	String chooseTitle = "ÆÄÀÏ ÀúÀåÇÒ µð·ºÅä¸® ¼±ÅÃ";
+    	String chooseTitle = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½";
         try {
         	DirectoryChooser dirChooser = new DirectoryChooser();
 			dirChooser.setInitialDirectory(new File("."));
