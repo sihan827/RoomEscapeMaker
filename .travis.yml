@@ -1,6 +1,5 @@
-dist: trusty
 language: java
 jdk:
- - oraclejdk8
+  - oraclejdk8
 
- script: ant build
+script: ant build
