@@ -14,8 +14,6 @@ import javax.imageio.ImageIO;
 
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
-
-import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.DoubleProperty;
@@ -56,7 +54,7 @@ public class ObjectStatus implements Serializable{
 		this.scale.set(100);
 		this.xPos.set(xPos);
 		this.yPos.set(yPos);
-		this.visible.set(false);
+		this.visible.set(true);
 		this.possess.set(false);
 		try {
 			this.statusImage.set(image);

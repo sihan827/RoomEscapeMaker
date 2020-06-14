@@ -10,10 +10,8 @@ import roomescapemaker.model.RoomObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,7 +19,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
-
 import java.lang.ArrayIndexOutOfBoundsException;
 
 import javafx.application.Platform;
@@ -30,7 +27,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -54,13 +50,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -78,9 +68,9 @@ public class Controller implements Initializable{
 
     private ArrayList<ImageView> objectImageView;
 
+
     private Stage fileChooserDialog;
     private Stage dirChooserDialog;
-
     private MainApp mainApp;
     // ImageView for status property pane
     private ImageView img;
@@ -225,6 +215,7 @@ public class Controller implements Initializable{
     	initTest();
     	objectImageView = new ArrayList<ImageView>();
     	
+    	
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
     		@Override
     		public ListCell<RoomScene> call(ListView<RoomScene> arg0){
@@ -268,80 +259,12 @@ public class Controller implements Initializable{
     						setText(null);
     					}
     				}
-    				};
+    			};
     			
-    				
-    				//
-    				//
-    				//
-    			    //Start Drag Function!
-    				cell.setOnDragDetected((MouseEvent event) -> {
-    					System.out.println("objectList Drag Detected");
-    					
-    					if(cell.getItem() == null)
-    						return;
-    					
-    					Dragboard db = cell.startDragAndDrop(TransferMode.COPY);
-    					ClipboardContent content = new ClipboardContent();
-
-    					content.putString(Integer.toString(cell.getIndex()));
-    					System.out.println(cell.getItem().getObjectName());
-    					db.setContent(content);
-    					event.consume();
-    					});
-    			
-    				cell.setOnDragOver(event -> {
-    					Dragboard db = event.getDragboard();
-    		            if (db.hasString()) {
-    		                event.acceptTransferModes(TransferMode.COPY);
-    		                System.out.println("Moving!");
-    		            }
-    		            event.consume();
-    		        });
-    				
-    				cell.setOnDragExited(event -> {
-    					Dragboard db = event.getDragboard();
-    					if(db.hasString()) {
-    						System.out.println("I'm out!");
-    					}
-    					event.consume();
-    				});
-    				
     			return cell;
     		}	
-    	} );
-    	
-    	mainPane.setOnDragOver(event ->{
-    		Dragboard db = event.getDragboard();
-            if (db.hasString()) {
-                event.acceptTransferModes(TransferMode.COPY);
-                System.out.println("Moving in main!");
-            }
-            event.consume();
     	});
     	
-    	mainPane.setOnDragDropped(new EventHandler<DragEvent>() {
-    		public void handle(DragEvent event) {
-    			System.out.println("DRagDropp detected");
-    			
-    			Dragboard db = event.getDragboard();
-    			
-    			if(db.hasString()) {
-    				String objectnum = db.getString();
-    				
-    				System.out.println("Arrive " + objectnum);
-    				objectListView.getItems().get(Integer.parseInt(objectnum)).getStatus(objectListView.getItems().get(Integer.parseInt(objectnum)).getCurrentStatus()).setVisible(true);
-    			}
-    			event.setDropCompleted(true);
-    			event.consume();
-    		}
-    	});
-    	//Drag function END!
-    	//
-    	//
-    	//
-    			
-
     	sceneListView.setItems(sceneList);
     	
 		conditionColumn.setCellValueFactory(
@@ -371,14 +294,13 @@ public class Controller implements Initializable{
     	objectListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showCurrentStatus(newValue)); 
     	
-
     	objectListView.getSelectionModel().selectedItemProperty().addListener(
     			(observable, oldValue, newValue) -> showInteractionList(newValue));
-
+    	
     	//listener for selecting a status
     	statusChoiceBox.getSelectionModel().selectedItemProperty().addListener(
     			(observable, oldValue, newValue) -> showStatusProperty(newValue));
-    	
+    
        
     }
     
@@ -669,6 +591,7 @@ public class Controller implements Initializable{
         //halfbgImgwidth = rs.getBackGroundImage().getWidth() * rescaleRatio / 2;
         
         bgImg.translateXProperty().bind(Bindings.multiply(bgImg.fitHeightProperty(), -rs.getBackGroundImage().getWidth()/rs.getBackGroundImage().getHeight()).add(mainCanvasScrollPane.widthProperty()).divide(2));
+        System.out.println(bgImg.getTranslateX());
         
         for (RoomObject obj : rs.getRoomObjectList()) {
         	ImageView objImage = new ImageView();
@@ -677,15 +600,8 @@ public class Controller implements Initializable{
         	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
         	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
         	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
-        	objImage.visibleProperty().bind(obj.getStatus(obj.getCurrentStatus()).visibleProperty());;
-        	objImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    System.out.println("fuck! I clicked!");
-                }
-            });
-
         	objectImageView.add(objImage);
+        	System.out.println(objImage.translateYProperty());
         }
         
          for(ImageView objIV: objectImageView) {
@@ -726,24 +642,17 @@ public class Controller implements Initializable{
     @FXML
     void onMouseClickedMainPane(MouseEvent event) {
     	System.out.println("mouse click");
+    	ImageView s;
+    	
     	
     }
 
     @FXML
     void onMouseEnterMainPane(MouseEvent event) {
-    	//System.out.println("mouse enter");
+    	System.out.println("mouse enter");
+    	
     	
     }
-   
-    
-    
-    @FXML
-    void onMouseDragObjectListView(MouseEvent event) {
-    	System.out.println("mouse Drag");
-    }
-
-    
-    
     
     @FXML
     void onClickMenuFileSave(ActionEvent event) {
