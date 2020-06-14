@@ -600,9 +600,9 @@ public class Controller implements Initializable{
 			dirChooser.setTitle(chooseTitle);
     		File selectedDir = dirChooser.showDialog(dirChooserDialog);
     		
-    		RoomScene.setSavePath(selectedDir.getAbsolutePath()); // set path to save
-    		RoomObject.setSavePath(selectedDir.getAbsolutePath());
-    		ObjectStatus.setSavePath(selectedDir.getAbsolutePath());
+    		RoomScene.setSavePath(selectedDir.getPath()); // set path to save
+    		RoomObject.setSavePath(selectedDir.getPath());
+    		ObjectStatus.setSavePath(selectedDir.getPath());
     	    
             FileOutputStream fileOut = new FileOutputStream(selectedDir.getAbsoluteFile() + "/MainSceneFileTemp");
             ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);

@@ -28,8 +28,6 @@
    <children>
 
       <MenuBar fx:id="menuBar" layoutX="115.0" layoutY="78.0" prefHeight="900.0" prefWidth="1514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="0.0">
-      <Pane disable="true" prefHeight="600.8" prefWidth="1044.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <BorderPane disable="true" prefHeight="600.8" prefWidth="1025.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       
         <menus>
           <Menu mnemonicParsing="false" text="File">
