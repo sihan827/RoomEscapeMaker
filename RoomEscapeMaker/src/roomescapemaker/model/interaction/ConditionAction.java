@@ -1,6 +1,8 @@
 package roomescapemaker.model.interaction;
 
-public enum ConditionAction {
+import java.io.Serializable;
+
+public enum ConditionAction implements Serializable{
 	CLICK("Click Object");
 	private String label;
 	ConditionAction(String label) {

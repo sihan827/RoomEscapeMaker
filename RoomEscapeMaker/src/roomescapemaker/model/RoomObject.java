@@ -98,6 +98,7 @@ public class RoomObject implements Serializable{
 		oos.writeInt(currentStatus.get());
 		oos.writeInt(statusList.size());
 		oos.writeObject(new ArrayList<ObjectStatus>(statusList));
+		oos.writeObject(new ArrayList<ObjectInteraction>(interactionList));
 		
 	}
 	
@@ -114,6 +115,7 @@ public class RoomObject implements Serializable{
 		System.out.println("stat size: " + statusSize);
 		
 		statusList = FXCollections.observableArrayList((ArrayList<ObjectStatus>) ois.readObject());
+		interactionList = FXCollections.observableArrayList((ArrayList<ObjectInteraction>) ois.readObject());
 		
 	}
 

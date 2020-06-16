@@ -1,19 +1,27 @@
 package roomescapemaker.model.interaction;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
-public class InteractionCondition {
+public class InteractionCondition implements Serializable{
 	
-	private final ObjectProperty<RoomObject> mainObject = new SimpleObjectProperty<RoomObject>();
+	private transient ObjectProperty<RoomObject> mainObject = new SimpleObjectProperty<RoomObject>();
 	
-	private final ObjectProperty<ConditionAction> mainAction = new SimpleObjectProperty<ConditionAction>();
+	private transient ObjectProperty<ConditionAction> mainAction = new SimpleObjectProperty<ConditionAction>();
 
-	private final IntegerProperty conditionIndex = new SimpleIntegerProperty();
+	private transient IntegerProperty conditionIndex = new SimpleIntegerProperty();
 	
 	public InteractionCondition(RoomObject object, ConditionAction mainAction) {
 		this.mainObject.set(object);
@@ -77,6 +85,26 @@ public class InteractionCondition {
 				return false;
 			}
 		}
+	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException{
+		
+		System.out.println("start write condition ===" + getConditionIndex());
+		oos.defaultWriteObject();
+		// writing conditions
+		oos.writeObject(mainObject.get());
+		oos.writeObject(mainAction.get());
+		oos.writeInt(conditionIndex.get());
+		
+	}
+	
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+		
+		ois.defaultReadObject();
+		mainObject = new SimpleObjectProperty<RoomObject>((RoomObject) ois.readObject());
+		mainAction = new SimpleObjectProperty<ConditionAction>((ConditionAction)ois.readObject());
+		conditionIndex = new SimpleIntegerProperty(ois.readInt());
+		System.out.println("result interaction condition index: " + getConditionIndex());
 	}
 	
 	

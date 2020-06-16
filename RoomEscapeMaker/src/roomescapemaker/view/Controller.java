@@ -196,7 +196,7 @@ public class Controller implements Initializable{
     
     @FXML //done!
     private Button deleteObjectBtn;
-	  private Stage mainStage;
+	private Stage mainStage;
     
     /*
      * control for Interaction List

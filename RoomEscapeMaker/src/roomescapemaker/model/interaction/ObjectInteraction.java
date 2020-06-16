@@ -1,5 +1,11 @@
 package roomescapemaker.model.interaction;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -7,17 +13,21 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ObjectInteraction {
+public class ObjectInteraction implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private transient static final long serialVersionUID = 1L;
 	// condition
-	private final StringProperty conditionName = new SimpleStringProperty();
-	private final ObjectProperty<InteractionCondition> primaryCondition = new SimpleObjectProperty<InteractionCondition>();
-	private ObservableList<InteractionCondition> secondaryConditionList = FXCollections.observableArrayList();
+	private transient StringProperty conditionName = new SimpleStringProperty();
+	private transient ObjectProperty<InteractionCondition> primaryCondition = new SimpleObjectProperty<InteractionCondition>();
+	private transient ObservableList<InteractionCondition> secondaryConditionList = FXCollections.observableArrayList(); 
 	
 	// result
-	private final StringProperty resultName = new SimpleStringProperty();
-	private final ObjectProperty<SceneResult> sceneChangeResult = new SimpleObjectProperty<SceneResult>();
-	private ObservableList<ObjectResult> objectResultList = FXCollections.observableArrayList();
+	private transient StringProperty resultName = new SimpleStringProperty();
+	private transient ObjectProperty<SceneResult> sceneChangeResult = new SimpleObjectProperty<SceneResult>();
+	private transient ObservableList<ObjectResult> objectResultList = FXCollections.observableArrayList();
 	
 	public ObjectInteraction() {
 		primaryCondition.set(null);
@@ -131,5 +141,39 @@ public class ObjectInteraction {
 				result.executeObjectResult();
 			}
 		}
+	}
+	
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException{
+		
+		System.out.println("start object interation write ===" + getConditionName());
+		oos.defaultWriteObject();
+		// writing conditions
+		oos.writeObject(conditionName.get());
+		oos.writeObject(primaryCondition.get());
+		oos.writeObject(new ArrayList<InteractionCondition>(secondaryConditionList));
+		System.out.println("condition write ===" + getConditionName());
+		// writing results
+		oos.writeObject(resultName.get());
+		oos.writeObject(sceneChangeResult.get());
+		oos.writeObject(new ArrayList<ObjectResult>(objectResultList));
+		System.out.println("result write : " + getResultName());
+		
+		
+	}
+	
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+		
+		ois.defaultReadObject();
+		conditionName = new SimpleStringProperty((String)ois.readObject());
+		primaryCondition = new SimpleObjectProperty<InteractionCondition>((InteractionCondition)ois.readObject());
+		secondaryConditionList = FXCollections.observableArrayList((ArrayList<InteractionCondition>) ois.readObject());
+		
+		System.out.println("condition read ===" + getConditionName());
+		
+		resultName = new SimpleStringProperty((String)ois.readObject());
+		sceneChangeResult = new SimpleObjectProperty<SceneResult>((SceneResult)ois.readObject());
+		objectResultList = FXCollections.observableArrayList((ArrayList<ObjectResult>) ois.readObject());
+		System.out.println("result read : " + getResultName());
 	}
 }
