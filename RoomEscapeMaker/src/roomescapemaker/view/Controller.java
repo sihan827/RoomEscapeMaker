@@ -709,12 +709,14 @@ public class Controller implements Initializable{
         
         for (RoomObject obj : rs.getRoomObjectList()) {
         	ImageView objImage = new ImageView();
+
         	objImage.setImage(obj.getStatus(obj.getMakerCurrentStatus()).getStatusImage());
         	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).xPosProperty()).add(bgImg.translateXProperty()));
         	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).yPosProperty()));
         	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).getScale()).divide(100));
         	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).getScale()).divide(100));
         	objImage.visibleProperty().bind(obj.getStatus(obj.getMakerCurrentStatus()).visibleProperty());;
+
         	objImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
