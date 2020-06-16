@@ -1,5 +1,13 @@
 package roomescapemaker.model.interaction;
 
+import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -165,6 +173,24 @@ public class ObjectInteraction {
 			} else {
 				return true;
 			}
+		}
+	}
+	
+	public void excuteSoundStream() throws LineUnavailableException, IOException {
+		if (sceneChangeResult.get().getSoundFile() != null) {
+			AudioInputStream ais = null;
+			try {
+				ais = AudioSystem.getAudioInputStream(sceneChangeResult.get().getSoundFile());
+			} catch (UnsupportedAudioFileException | IOException e) {
+				System.out.println("This sound file is unsupported!");
+				e.printStackTrace();
+			}
+            Clip clip = AudioSystem.getClip();
+            clip.stop();
+            clip.open(ais);
+            clip.start();
+		} else {
+			return;
 		}
 	}
 	

@@ -1,8 +1,11 @@
 package roomescapemaker.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javax.sound.sampled.LineUnavailableException;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -166,6 +169,12 @@ public class GameController implements Initializable{
         							currentScene = oi.getSceneChangeResult().getTargetIndex();
         							isGameOver = oi.getSceneChangeResult().getIsGameOver();
         							isGameClear = oi.getSceneChangeResult().getIsGameClear();
+        							try {
+										oi.excuteSoundStream();
+									} catch (LineUnavailableException | IOException e) {
+										System.out.println("sound file is strange!");
+										e.printStackTrace();
+									}
         							oi.executeObjectResultList();
         							setPossessedItemToItemList(oi);
         							reDrawMainCanvas(sceneList.get(currentScene));
