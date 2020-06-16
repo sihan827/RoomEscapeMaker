@@ -1,6 +1,7 @@
 // based on branch controller_implement
 package roomescapemaker.view;
 
+import roomescapemaker.ImageTransparency;
 import roomescapemaker.MainApp;
 import roomescapemaker.model.RoomScene;
 import roomescapemaker.model.interaction.ObjectInteraction;
@@ -173,14 +174,14 @@ public class Controller implements Initializable{
     @FXML
     private CheckBox possessBox;
     
-    @FXML
-    private Button applyStatusEditBtn;
-    
     /*
      * control for Scene list
      */
     @FXML //done!
 	  private ListView<RoomScene> sceneListView;
+    
+    @FXML
+    private Button TransparentBtn;
     
     @FXML //done!
     private Button addSceneBtn;
@@ -481,7 +482,7 @@ public class Controller implements Initializable{
     }
     
     @FXML
-    private void onClickApplyStatusChangeBtn(ActionEvent event) {
+    private void onClickApplyStatusChangeBtn(ActionEvent event) throws IOException {
     	if (statusChoiceBox.getSelectionModel().getSelectedItem() != null) {
     		if (isInputValid()) {
     			statusChoiceBox.getSelectionModel().getSelectedItem().setStatusName(statusNameField.getText());
@@ -675,6 +676,15 @@ public class Controller implements Initializable{
     		}
     	}
     	else return;
+    }
+    
+    @FXML
+    private void onClickTransparentBtn(ActionEvent event) throws IOException {
+    	System.out.println("Trans!");
+    	img.setImage(ImageTransparency.Transparent(img.getImage()));
+    	statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile(img.getImage());
+    	objectListView.refresh();
+		reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
     }
     
     void reDrawMainCanvas(RoomScene rs) {
