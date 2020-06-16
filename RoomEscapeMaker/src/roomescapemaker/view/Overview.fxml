@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
    <children>
 
       <MenuBar fx:id="menuBar" layoutX="115.0" layoutY="78.0" prefHeight="900.0" prefWidth="1514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="0.0">
@@ -73,9 +73,9 @@
                                             </items>
                                           </ToolBar>
                                           <BorderPane layoutY="300.0" prefHeight="569.0" prefWidth="259.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <center>
+                                             <top>
                                                 <ListView fx:id="sceneListView" prefHeight="572.0" prefWidth="245.6" BorderPane.alignment="CENTER" />
-                                             </center>
+                                             </top>
                                           </BorderPane>
                                        </children>
                                     </AnchorPane>
@@ -137,7 +137,7 @@
                                           <CheckBox fx:id="possessBox" layoutX="107.0" layoutY="392.0" mnemonicParsing="false" />
                                           <Button fx:id="applyStatusEditBtn" layoutX="200.0" layoutY="465.0" mnemonicParsing="false" onAction="#onClickApplyStatusChangeBtn" text="Apply" />
                                           <Label layoutX="23.0" layoutY="430.0" text="Make Object Background Transparent" />
-                                          <CheckBox fx:id="possessBox1" layoutX="234.0" layoutY="429.0" mnemonicParsing="false" />
+                                          <CheckBox fx:id="TransparentBox" layoutX="234.0" layoutY="429.0" mnemonicParsing="false" />
                                           <BorderPane fx:id="statusImgPane" layoutX="28.0" layoutY="90.0" prefHeight="130.0" prefWidth="200.0" />
                                        </children>
                                     </AnchorPane>

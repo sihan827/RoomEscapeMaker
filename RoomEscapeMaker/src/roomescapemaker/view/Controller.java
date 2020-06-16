@@ -1,6 +1,7 @@
 // based on branch controller_implement
 package roomescapemaker.view;
 
+import roomescapemaker.ImageTransparency;
 import roomescapemaker.MainApp;
 import roomescapemaker.model.RoomScene;
 import roomescapemaker.model.interaction.ObjectInteraction;
@@ -172,6 +173,9 @@ public class Controller implements Initializable{
     
     @FXML
     private CheckBox possessBox;
+    
+    @FXML
+    private CheckBox TransparentBox;
     
     @FXML
     private Button applyStatusEditBtn;
@@ -473,16 +477,21 @@ public class Controller implements Initializable{
     }
     
     @FXML
-    private void onClickApplyStatusChangeBtn(ActionEvent event) {
+    private void onClickApplyStatusChangeBtn(ActionEvent event) throws IOException {
     	if (statusChoiceBox.getSelectionModel().getSelectedItem() != null) {
     		if (isInputValid()) {
     			statusChoiceBox.getSelectionModel().getSelectedItem().setStatusName(statusNameField.getText());
-    			statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile(img.getImage());
     			statusChoiceBox.getSelectionModel().getSelectedItem().setScale(Integer.parseInt(scaleField.getText()));
     			statusChoiceBox.getSelectionModel().getSelectedItem().setXpos(Double.parseDouble(xPosField.getText()));
     			statusChoiceBox.getSelectionModel().getSelectedItem().setYpos(Double.parseDouble(yPosField.getText()));
     			statusChoiceBox.getSelectionModel().getSelectedItem().setVisible(visibleBox.isSelected());
     			statusChoiceBox.getSelectionModel().getSelectedItem().setPossess(possessBox.isSelected());
+    			if(TransparentBox.isSelected()) {
+    				img.setImage(ImageTransparency.Transparent(img.getImage())); 
+    				//statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile();
+    			}    			
+    			
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile(img.getImage());
     			//refresh for object list view
     			objectListView.refresh();
     			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());

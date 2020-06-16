@@ -10,8 +10,12 @@ import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.WritableImage;
 
 import static java.lang.System.out;
 
@@ -31,10 +35,13 @@ public class ImageTransparency
     *    with the first (required) argument being the path/name of the source
     *    image and the second (optional) argument being the path/name of the
     *    destination file.
+ * @return 
+ * @throws IOException 
     */
-   public static void main(final String[] arguments) throws Exception
-   {
-      if (arguments.length < 1)
+   //public static void main(final String[] arguments) throws Exception
+   //{
+	public static javafx.scene.image.Image Transparent(javafx.scene.image.Image image) throws IOException {
+      /* if (arguments.length < 1)
       {
          out.println("A source image file must be provided.");
          System.exit(-1);
@@ -45,21 +52,29 @@ public class ImageTransparency
       final String outputFileName =
            arguments.length > 1
          ? arguments[1]
-         : inputFileName.substring(0,decimalPosition)+".copy.png";
+         : inputFileName.substring(0,decimalPosition)+".copy.png";*/
 
-      out.println("Copying file " + inputFileName + " to " + outputFileName);
+     // out.println("Copying file " + inputFileName + " to " + outputFileName);
 
-      final File in = new File(inputFileName);
-      final BufferedImage source = ImageIO.read(in);
-
+      //final File in = new File(inputFileName);
+	 /* BufferedImage source = new BufferedImage((int)image.getWidth(), (int)image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+	  Graphics2D temp = source.createGraphics();
+	  temp.drawImage(image,  0,  0,  null);
+      //final BufferedImage source = image;*/
+	  BufferedImage source = SwingFXUtils.fromFXImage(image, null);
       final int color = source.getRGB(0, 0);
 
       final Image imageWithTransparency = makeColorTransparent(source, new Color(color));
 
       final BufferedImage transparentImage = imageToBufferedImage(imageWithTransparency);
 
-      final File out = new File(outputFileName);
+      File path = new File("");
+      System.out.println(path.getAbsolutePath());
+      final File out = new File(path.getAbsolutePath() + "\\transparent" + "test.png" );
       ImageIO.write(transparentImage, "PNG", out);
+      
+      WritableImage returnimg = SwingFXUtils.toFXImage(transparentImage, null);
+      return returnimg;
    }
 
    /**
