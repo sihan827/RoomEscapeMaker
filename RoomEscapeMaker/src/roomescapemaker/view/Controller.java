@@ -260,7 +260,7 @@ public class Controller implements Initializable{
     				protected void updateItem(RoomObject obj, boolean bt1) {
     					super.updateItem(obj, bt1);
     					if (obj != null) {
-    						ImageView imgview = new ImageView(obj.getStatus(0).getStatusImage());
+    						ImageView imgview = new ImageView(obj.getStatus(obj.getMakerCurrentStatus()).getStatusImage());
     						imgview.setFitWidth(160);
     						imgview.setPreserveRatio(true);
     						setGraphic(imgview);
@@ -333,7 +333,7 @@ public class Controller implements Initializable{
     				String objectnum = db.getString();
     				
     				System.out.println("Arrive " + objectnum);
-    				objectListView.getItems().get(Integer.parseInt(objectnum)).getStatus(objectListView.getItems().get(Integer.parseInt(objectnum)).getCurrentStatus()).setVisible(true);
+    				objectListView.getItems().get(Integer.parseInt(objectnum)).getStatus(objectListView.getItems().get(Integer.parseInt(objectnum)).getMakerCurrentStatus()).setVisible(true);
     			}
     			event.setDropCompleted(true);
     			event.consume();
@@ -417,21 +417,29 @@ public class Controller implements Initializable{
     private void showCurrentStatus(RoomObject ro) {
     	if (ro != null) {
     		System.out.println(ro.getObjectName());
-    		System.out.println("Current status : "+ ro.getCurrentStatus());
+    		System.out.println("Current status : "+ ro.getMakerCurrentStatus());
     		statusChoiceBox.setItems(ro.getStatusList());	
-    		statusChoiceBox.setValue(ro.getStatus(ro.getCurrentStatus()));
+    		statusChoiceBox.setValue(ro.getStatus(ro.getMakerCurrentStatus()));
     	} else {
     		return;
     	}
     }
     
     private void showStatusProperty(ObjectStatus os) {
+    	
     	if (os != null) {
+    		if (objectListView.getSelectionModel().getSelectedItem() != null) {
+    			objectListView.getSelectionModel().getSelectedItem().setMakerCurrentStatus(statusChoiceBox.getSelectionModel().getSelectedIndex());
+    		}
     		if (propertyPane.isExpanded() == true) {
     			setStatusProperty(os);
+    			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
+    			objectListView.refresh();
     		} else {
     			propertyPane.setExpanded(true);
     			setStatusProperty(os);
+    			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
+    			objectListView.refresh();
     		}
     	} else {
     		return;
@@ -691,12 +699,12 @@ public class Controller implements Initializable{
         
         for (RoomObject obj : rs.getRoomObjectList()) {
         	ImageView objImage = new ImageView();
-        	objImage.setImage(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
-        	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).xPosProperty()).add(bgImg.translateXProperty()));
-        	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
-        	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
-        	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
-        	objImage.visibleProperty().bind(obj.getStatus(obj.getCurrentStatus()).visibleProperty());;
+        	objImage.setImage(obj.getStatus(obj.getMakerCurrentStatus()).getStatusImage());
+        	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).xPosProperty()).add(bgImg.translateXProperty()));
+        	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).yPosProperty()));
+        	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).getScale()).divide(100));
+        	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getMakerCurrentStatus()).getScale()).divide(100));
+        	objImage.visibleProperty().bind(obj.getStatus(obj.getMakerCurrentStatus()).visibleProperty());;
         	objImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {

@@ -84,7 +84,7 @@ public class GameController implements Initializable{
     				protected void updateItem(RoomObject obj, boolean bt1) {
     					super.updateItem(obj, bt1);
     					if (obj != null) {
-    						ImageView imgview = new ImageView(obj.getStatus(0).getStatusImage());
+    						ImageView imgview = new ImageView(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
     						imgview.setFitWidth(160);
     						imgview.setPreserveRatio(true);
     						setGraphic(imgview);
