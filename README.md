@@ -1,5 +1,9 @@
 # Re:maker
+
+![remaker logo](https://user-images.githubusercontent.com/42037616/84731763-ea79cd80-afd4-11ea-92c5-cb13ee8be194.png)
+
 Room Escape Game Maker
+
 
 **Tools info**   
 
@@ -15,8 +19,13 @@ We hope people who are enthusiastic to room escape games to easily create games 
 <img src="https://user-images.githubusercontent.com/55939390/84573537-12eaa780-addc-11ea-9153-ff83983856c4.PNG" width="59%" height="40%">   
 
 ## Contribution Guide
+check out our repo wiki for contribution guide. 
+[Contribution Guide](https://github.com/sihan827/RoomEscapeMaker/wiki/Contribution-Guide)
+
 
 ## Code Style
+check out our repo wiki for Code Style. 
+[Coding Convention](https://github.com/sihan827/RoomEscapeMaker/wiki/Contribution-Guide)
 
 ## License [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 

@@ -25,8 +25,9 @@ public class RoomObject implements Serializable{
 	private transient StringProperty objectName = new SimpleStringProperty();
 	private transient IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private transient ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
-  private transient ObservableList<ObjectInteraction> interactionList = FXCollections.observableArrayList();
+	private transient ObservableList<ObjectInteraction> interactionList = FXCollections.observableArrayList();
 	private transient static String savePath;
+	private transient static String openPath;
 
 	
 	public RoomObject() {
@@ -147,5 +148,13 @@ public class RoomObject implements Serializable{
 	@Override
 	public String toString() {
 		return getObjectName();
+	}
+
+	public static String getOpenPath() {
+		return openPath;
+	}
+
+	public static void setOpenPath(String openPath) {
+		RoomObject.openPath = openPath;
 	}
 }

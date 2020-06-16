@@ -99,12 +99,11 @@
                                 <items>
                                   <Button fx:id="addObjectBtn" mnemonicParsing="false" onAction="#onClickAddObjectBtn" text="Add" />
                                     <Button fx:id="deleteObjectBtn" mnemonicParsing="false" onAction="#onClickDeleteObjectBtn" text="Delete" />
-                                    <CheckBox mnemonicParsing="false" text="CheckBox" />
                                 </items>
                               </ToolBar>
                               <BorderPane layoutX="106.0" layoutY="18.0" prefHeight="236.8" prefWidth="1273.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                  <center>
-                                    <ListView fx:id="objectListView" orientation="HORIZONTAL" BorderPane.alignment="CENTER" />
+                                    <ListView fx:id="objectListView" onDragDetected="#onMouseDragObjectListView" orientation="HORIZONTAL" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </children></AnchorPane>
@@ -120,7 +119,7 @@
                            <content>
                               <ScrollPane prefHeight="200.0" prefWidth="200.0">
                                  <content>
-                                    <AnchorPane prefHeight="441.0" prefWidth="260.0">
+                                    <AnchorPane prefHeight="504.0" prefWidth="260.0">
                                        <children>
                                           <Label layoutX="20.0" layoutY="16.0" text="Status Name" />
                                           <TextField fx:id="statusNameField" layoutX="107.0" layoutY="10.0" prefHeight="22.0" prefWidth="135.0" />
@@ -137,7 +136,9 @@
                                           <CheckBox fx:id="visibleBox" layoutX="107.0" layoutY="366.0" mnemonicParsing="false" />
                                           <Label layoutX="20.0" layoutY="392.0" text="Possess" />
                                           <CheckBox fx:id="possessBox" layoutX="107.0" layoutY="392.0" mnemonicParsing="false" />
-                                          <Button fx:id="applyStatusEditBtn" layoutX="195.0" layoutY="416.0" mnemonicParsing="false" onAction="#onClickApplyStatusChangeBtn" text="Apply" />
+                                          <Button fx:id="applyStatusEditBtn" layoutX="200.0" layoutY="465.0" mnemonicParsing="false" onAction="#onClickApplyStatusChangeBtn" text="Apply" />
+                                          <Label layoutX="23.0" layoutY="430.0" text="Make Object Background Transparent" />
+                                          <CheckBox fx:id="possessBox1" layoutX="234.0" layoutY="429.0" mnemonicParsing="false" />
                                           <BorderPane fx:id="statusImgPane" layoutX="28.0" layoutY="90.0" prefHeight="130.0" prefWidth="200.0" />
                                        </children>
                                     </AnchorPane>

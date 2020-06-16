@@ -130,6 +130,7 @@ public class AddInteractionController implements Initializable{
 		
 		objectActionBox.getItems().setAll(ConditionAction.values());
 		
+		gameStatusBox.getItems().add("Continue");
 		gameStatusBox.getItems().add("Game Over");
 		gameStatusBox.getItems().add("Game Clear");
 		
@@ -228,6 +229,10 @@ public class AddInteractionController implements Initializable{
 			interaction.setResultName(resultNameField.getText());
 			SceneResult newSceneResult = new SceneResult(sceneResultBox.getSelectionModel().getSelectedIndex());
 			if (gameStatusBox.getSelectionModel().getSelectedItem() != null) {
+				if (gameStatusBox.getValue().equals("Continue")) {
+					newSceneResult.setIsGameClear(false);
+					newSceneResult.setIsGameOver(false);
+				}
 				if (gameStatusBox.getValue().equals("Game Over")) {
 					newSceneResult.setIsGameOver(true);
 					System.out.println("Game Status set to game over!");
@@ -262,6 +267,9 @@ public class AddInteractionController implements Initializable{
 			return false;
 		} else if (sceneResultBox.getValue() == null) {
 			System.out.println("you have to choose one of result scene!");
+			return false;
+		} else if(gameStatusBox.getValue() == null) {
+			System.out.println("you have to choose one of game status!");
 			return false;
 		} else {
 			return true;

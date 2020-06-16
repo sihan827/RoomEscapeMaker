@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 
 import javafx.scene.image.Image;
 import javafx.beans.property.StringProperty;
+
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.DoubleProperty;
@@ -39,7 +41,8 @@ public class ObjectStatus implements Serializable{
 	private transient BooleanProperty possess = new SimpleBooleanProperty();
 	private transient String objectName;
 	private transient static String savePath;
-
+	private transient static String openPath;
+	
 	public ObjectStatus(String name, Image image) {
 		this(name, image, 0, 0);
 	}
@@ -53,7 +56,7 @@ public class ObjectStatus implements Serializable{
 		this.scale.set(100);
 		this.xPos.set(xPos);
 		this.yPos.set(yPos);
-		this.visible.set(true);
+		this.visible.set(false);
 		this.possess.set(false);
 		try {
 			this.statusImage.set(image);
@@ -105,7 +108,7 @@ public class ObjectStatus implements Serializable{
 	}
 	
 	public int getScale() {
-		return scale.get() / 100;
+		return scale.get();
 	}
 	
 	public void setScale(int scale) {
@@ -205,7 +208,7 @@ public class ObjectStatus implements Serializable{
 		
 		System.out.println("status read===" + getObjectName() + ", "+ getStatusName() + ", " + getSavePath());
 		
-		File readPath = new File(getSavePath() + "/objects/" + getObjectName() +"_"+ getStatusName() + ".png");
+		File readPath = new File(getOpenPath() + "/objects/" + getObjectName() +"_"+ getStatusName() + ".png");
 		BufferedImage sImage = ImageIO.read(readPath);
 		
 		statusImage = new SimpleObjectProperty<Image>();
@@ -235,6 +238,12 @@ public class ObjectStatus implements Serializable{
 
 	public void setObjectName(String objectName) {
 		this.objectName = objectName;
+	}
+	public static String getOpenPath() {
+		return openPath;
+	}
+	public static void setOpenPath(String openPath) {
+		ObjectStatus.openPath = openPath;
 	}
 	
 }
