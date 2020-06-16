@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import roomescapemaker.model.RoomObject;
 
 public class ObjectInteraction {
 	
@@ -108,6 +109,24 @@ public class ObjectInteraction {
 		return sceneChangeResult.get().getTargetIndex();
 	}
 	
+	public boolean checkValidAction() {
+		int count = 0;
+		for (InteractionCondition ic : secondaryConditionList) {
+			if (ic.getMainObject() == primaryCondition.get().getMainObject()) { 
+				if (ic.getConditionIndex() == primaryCondition.get().getMainObject().getCurrentStatus()) {
+					return true;
+				} else {
+					count++;
+				}
+			}
+		}
+		if (count == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public boolean checkSecondaryConditionList() {
 		if (secondaryConditionList.size() == 0) {
 			return true;
@@ -121,6 +140,32 @@ public class ObjectInteraction {
 			}
 			return true;
 		} 
+	}
+	
+	public boolean checkPossessedCondition(RoomObject usingItem) {
+		boolean hasPossessCondition = false;
+		RoomObject ro = new RoomObject();
+		if (secondaryConditionList.size() == 0) {
+			return true;
+		} else {
+			for (InteractionCondition condition : secondaryConditionList) {
+				if (condition.getMainObject().getStatus(condition.getConditionIndex()).getPossess() == true) {
+					ro = condition.getMainObject();
+					hasPossessCondition = true;
+				} else {
+					continue;
+				}
+			}
+			if (hasPossessCondition) {
+				if (ro == usingItem) {
+					return true;
+				} else {
+				return false;
+				} 
+			} else {
+				return true;
+			}
+		}
 	}
 	
 	public void executeObjectResultList() {

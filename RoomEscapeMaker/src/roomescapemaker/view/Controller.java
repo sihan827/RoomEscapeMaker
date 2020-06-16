@@ -121,6 +121,9 @@ public class Controller implements Initializable{
     @FXML
     private AnchorPane resizeScrollimg;
     
+    @FXML 
+    private Button runBtn;
+    
     /*
      * control for Status choice box
      */
@@ -189,14 +192,14 @@ public class Controller implements Initializable{
      * control for Object list
      */
     @FXML //done!
-	  private ListView<RoomObject> objectListView;
+	private ListView<RoomObject> objectListView;
     
     @FXML //done!
     private Button addObjectBtn;
     
     @FXML //done!
     private Button deleteObjectBtn;
-	  private Stage mainStage;
+	private Stage mainStage;
     
     /*
      * control for Interaction List
@@ -222,7 +225,7 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
-    	initTest();
+    	//initTest();
     	objectImageView = new ArrayList<ImageView>();
     	
     	sceneListView.setCellFactory(new Callback<ListView<RoomScene>, ListCell<RoomScene>>(){
@@ -653,12 +656,28 @@ public class Controller implements Initializable{
     	}
     }
     
+    @FXML 
+    private void onClickRunBtn(ActionEvent event) {
+    	if(sceneList != null || sceneList.size() != 0) {
+    		mainApp.showGameSimulationStage(sceneList);
+    		for (RoomScene rc : sceneList) {
+    			for (RoomObject ro : rc.getRoomObjectList()) {
+    				ro.setCurrentStatus(0);
+    			}
+    		}
+    	}
+    	else return;
+    }
+    
     void reDrawMainCanvas(RoomScene rs) {
     	
     	System.out.println("draw canvas");
     	clearObjectIVList();
     
     	ImageView bgImg = new ImageView();
+    	if (rs == null) {
+    		return;
+    	}
     	bgImg.setImage(rs.getBackGroundImage());
     	bgImg.fitHeightProperty().bind(mainCanvasScrollPane.heightProperty());
     	bgImg.setPreserveRatio(true);
@@ -673,7 +692,7 @@ public class Controller implements Initializable{
         for (RoomObject obj : rs.getRoomObjectList()) {
         	ImageView objImage = new ImageView();
         	objImage.setImage(obj.getStatus(obj.getCurrentStatus()).getStatusImage());
-        	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()).add(bgImg.translateXProperty()));
+        	objImage.translateXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).xPosProperty()).add(bgImg.translateXProperty()));
         	objImage.translateYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).yPosProperty()));
         	objImage.scaleXProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
         	objImage.scaleYProperty().bind(Bindings.divide(bgImg.fitHeightProperty(), rs.getBackGroundImage().getHeight()).multiply(obj.getStatus(obj.getCurrentStatus()).getScale()).divide(100));
@@ -698,28 +717,15 @@ public class Controller implements Initializable{
 	}
     
     public void initTest() {
-    	sceneList.add(new RoomScene("Scene 1", new Image("roomescapemaker/resource/backgrounds/normalRoom.png")));
-    	sceneList.get(0).addRoomObject("books", "roomescapemaker/resource/objects/books.jpg");
-    	sceneList.get(0).getRoomObject(0).addStatus("isopen", "roomescapemaker/resource/backgrounds/normalRoom.png");
-    	sceneList.get(0).getRoomObject(0).addInteraction(new ObjectInteraction());
-    	sceneList.get(0).getRoomObject(0).getObjectInteraction(0).setConditionName("condition 0");
-    	sceneList.get(0).getRoomObject(0).getObjectInteraction(0).setResultName("result 0");
-    	sceneList.get(0).addRoomObject("computer", "roomescapemaker/resource/objects/computer.png");
-    	sceneList.get(0).addRoomObject("fireextinguisher", "roomescapemaker/resource/objects/fireextinguisher.jpg");
-    	sceneList.get(0).addRoomObject("greensofa", "roomescapemaker/resource/objects/greensofa.jpg");
-    	sceneList.get(0).addRoomObject("light", "roomescapemaker/resource/objects/light.jpg");
-    	sceneList.get(0).addRoomObject("radio", "roomescapemaker/resource/objects/radio.jpg");
-    	sceneList.get(0).addRoomObject("soccerball", "roomescapemaker/resource/objects/soccerball.jpg");
-    	sceneList.get(0).addRoomObject("telephone", "roomescapemaker/resource/objects/telephone.jpg");
-    	sceneList.add(new RoomScene("Scene 2", new Image("roomescapemaker/resource/backgrounds/room2.jpg")));
-    	sceneList.get(1).addRoomObject("object2", "roomescapemaker/resource/objects/defaultImage.png");
-    	sceneList.add(new RoomScene("Scene 3", new Image("roomescapemaker/resource/backgrounds/room3.jpg")));
-    	sceneList.get(2).addRoomObject("object3", "roomescapemaker/resource/objects/defaultImage.png");
-    	sceneList.add(new RoomScene("Scene 4", new Image("roomescapemaker/resource/backgrounds/room4.jpg")));
-    	sceneList.add(new RoomScene("Scene 5", new Image("roomescapemaker/resource/backgrounds/room5.jpg")));
-    	sceneList.add(new RoomScene("Scene 6", new Image("roomescapemaker/resource/backgrounds/room6.jpg")));
-    	sceneList.add(new RoomScene("Scene 7", new Image("roomescapemaker/resource/backgrounds/room7.jpg")));
-    	sceneList.add(new RoomScene("Scene 8", new Image("roomescapemaker/resource/backgrounds/room8.jpg")));
+    	sceneList.add(new RoomScene("Room 1", new Image("roomescapemaker/resource/backgrounds/room1.png")));
+    	sceneList.get(0).addRoomObject("Door", "roomescapemaker/resource/objects/doorClose.png");
+    	sceneList.get(0).getRoomObject(0).getStatus(0).setXpos(-200);
+    	sceneList.get(0).getRoomObject(0).getStatus(0).setXpos(-51);
+    	sceneList.get(0).getRoomObject(0).getStatus(0).setVisible(true);
+    	sceneList.get(0).getRoomObject(0).getStatus(0).setPossess(false);
+    	sceneList.get(0).addRoomObject("TV", "roomescapemaker/resource/objects/tv_off.png");
+    	sceneList.get(0).addRoomObject("Remote", "roomescapemaker/resource/objects/remote.png");
+    	sceneList.add(new RoomScene("Room 2", new Image("roomescapemaker/resource/backgrounds/room2.png")));
     }
 
      
