@@ -174,17 +174,14 @@ public class Controller implements Initializable{
     @FXML
     private CheckBox possessBox;
     
-    @FXML
-    private CheckBox TransparentBox;
-    
-    @FXML
-    private Button applyStatusEditBtn;
-    
     /*
      * control for Scene list
      */
     @FXML //done!
 	  private ListView<RoomScene> sceneListView;
+    
+    @FXML
+    private Button TransparentBtn;
     
     @FXML //done!
     private Button addSceneBtn;
@@ -481,17 +478,12 @@ public class Controller implements Initializable{
     	if (statusChoiceBox.getSelectionModel().getSelectedItem() != null) {
     		if (isInputValid()) {
     			statusChoiceBox.getSelectionModel().getSelectedItem().setStatusName(statusNameField.getText());
+    			statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile(img.getImage());
     			statusChoiceBox.getSelectionModel().getSelectedItem().setScale(Integer.parseInt(scaleField.getText()));
     			statusChoiceBox.getSelectionModel().getSelectedItem().setXpos(Double.parseDouble(xPosField.getText()));
     			statusChoiceBox.getSelectionModel().getSelectedItem().setYpos(Double.parseDouble(yPosField.getText()));
     			statusChoiceBox.getSelectionModel().getSelectedItem().setVisible(visibleBox.isSelected());
     			statusChoiceBox.getSelectionModel().getSelectedItem().setPossess(possessBox.isSelected());
-    			if(TransparentBox.isSelected()) {
-    				img.setImage(ImageTransparency.Transparent(img.getImage())); 
-    				//statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile();
-    			}    			
-    			
-    			statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile(img.getImage());
     			//refresh for object list view
     			objectListView.refresh();
     			reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
@@ -676,6 +668,15 @@ public class Controller implements Initializable{
     		}
     	}
     	else return;
+    }
+    
+    @FXML
+    private void onClickTransparentBtn(ActionEvent event) throws IOException {
+    	System.out.println("Trans!");
+    	img.setImage(ImageTransparency.Transparent(img.getImage()));
+    	statusChoiceBox.getSelectionModel().getSelectedItem().setImageFile(img.getImage());
+    	objectListView.refresh();
+		reDrawMainCanvas(sceneListView.getSelectionModel().getSelectedItem());
     }
     
     void reDrawMainCanvas(RoomScene rs) {

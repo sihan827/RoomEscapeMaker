@@ -38,29 +38,9 @@ public class ImageTransparency
  * @return 
  * @throws IOException 
     */
-   //public static void main(final String[] arguments) throws Exception
-   //{
+
 	public static javafx.scene.image.Image Transparent(javafx.scene.image.Image image) throws IOException {
-      /* if (arguments.length < 1)
-      {
-         out.println("A source image file must be provided.");
-         System.exit(-1);
-      }
 
-      final String inputFileName = arguments[0];
-      final int decimalPosition = inputFileName.lastIndexOf(".");
-      final String outputFileName =
-           arguments.length > 1
-         ? arguments[1]
-         : inputFileName.substring(0,decimalPosition)+".copy.png";*/
-
-     // out.println("Copying file " + inputFileName + " to " + outputFileName);
-
-      //final File in = new File(inputFileName);
-	 /* BufferedImage source = new BufferedImage((int)image.getWidth(), (int)image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-	  Graphics2D temp = source.createGraphics();
-	  temp.drawImage(image,  0,  0,  null);
-      //final BufferedImage source = image;*/
 	  BufferedImage source = SwingFXUtils.fromFXImage(image, null);
       final int color = source.getRGB(0, 0);
 
@@ -70,10 +50,13 @@ public class ImageTransparency
 
       File path = new File("");
       System.out.println(path.getAbsolutePath());
-      final File out = new File(path.getAbsolutePath() + "\\transparent" + "test.png" );
+      File out = new File(path.getAbsolutePath() + "\\transparent\\");
+      out.mkdir();
+      out = new File(path.getAbsolutePath() + "\\transparent\\" +"Transparet.png");
       ImageIO.write(transparentImage, "PNG", out);
       
       WritableImage returnimg = SwingFXUtils.toFXImage(transparentImage, null);
+     
       return returnimg;
    }
 
@@ -106,10 +89,12 @@ public class ImageTransparency
       {
          // the color we are looking for (white)... Alpha bits are set to opaque
          public int markerRGB = color.getRGB() | 0xFFFFFFFF;
+         public int markerRGB1 = color.getRGB() | 0xFFFBFFFF;
+         public int markerRGB2 = color.getRGB() | 0xFFFDFFFE;
 
          public final int filterRGB(final int x, final int y, final int rgb)
          {
-            if ((rgb | 0xFF000000) == markerRGB)
+            if ((rgb | 0xFF000000) == markerRGB || (rgb | 0xFF000000) == markerRGB1 || (rgb | 0xFF000000) == markerRGB2)
             {
                // Mark the alpha bits as zero - transparent
                return 0x00FFFFFF & rgb;
