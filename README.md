@@ -1,4 +1,4 @@
-# Re:maker
+# Re:maker [![Build Status](https://travis-ci.com/sihan827/RoomEscapeMaker.svg?branch=master)](https://travis-ci.com/sihan827/RoomEscapeMaker)   
 
 ![remaker logo](https://user-images.githubusercontent.com/42037616/84731763-ea79cd80-afd4-11ea-92c5-cb13ee8be194.png)
 
