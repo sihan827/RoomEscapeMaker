@@ -269,7 +269,7 @@ public class AddInteractionController implements Initializable{
 			interaction.setConditionName(conditionNameField.getText());
 			interaction.setPrimaryCondition(new InteractionCondition(roomObject, objectActionBox.getValue()));
 			interaction.setResultName(resultNameField.getText());
-			SceneResult newSceneResult = new SceneResult(sceneResultBox.getSelectionModel().getSelectedIndex());
+			SceneResult newSceneResult = new SceneResult(sceneResultBox.getSelectionModel().getSelectedIndex(), resultNameField.getText());
 			if (gameStatusBox.getSelectionModel().getSelectedItem() != null) {
 				if (gameStatusBox.getValue().equals("Continue")) {
 					newSceneResult.setIsGameClear(false);

@@ -3,6 +3,7 @@ package roomescapemaker.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import roomescapemaker.model.interaction.ObjectInteraction;
 import javafx.beans.property.StringProperty;
 
@@ -11,6 +12,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.spi.AudioFileWriter;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -132,7 +136,6 @@ public class RoomObject implements Serializable{
 		System.out.println("makercurstatus: " + makerCurrentStatus.get());
 		int statusSize = ois.readInt();
 		System.out.println("stat size: " + statusSize);
-		
 		statusList = FXCollections.observableArrayList((ArrayList<ObjectStatus>) ois.readObject());
 		interactionList = FXCollections.observableArrayList((ArrayList<ObjectInteraction>) ois.readObject());
 		

@@ -190,14 +190,15 @@ public class ObjectInteraction implements Serializable{
 			AudioInputStream ais = null;
 			try {
 				ais = AudioSystem.getAudioInputStream(sceneChangeResult.get().getSoundFile());
+				Clip clip = AudioSystem.getClip();
+	            clip.stop();
+	            clip.open(ais);
+	            clip.start();
 			} catch (UnsupportedAudioFileException | IOException e) {
 				System.out.println("This sound file is unsupported!");
 				e.printStackTrace();
 			}
-            Clip clip = AudioSystem.getClip();
-            clip.stop();
-            clip.open(ais);
-            clip.start();
+            
 		} else {
 			return;
 		}

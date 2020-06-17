@@ -5,6 +5,7 @@ import roomescapemaker.ImageTransparency;
 import roomescapemaker.MainApp;
 import roomescapemaker.model.RoomScene;
 import roomescapemaker.model.interaction.ObjectInteraction;
+import roomescapemaker.model.interaction.SceneResult;
 import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
 
@@ -830,6 +831,7 @@ public class Controller implements Initializable{
 		    RoomScene.setOpenPath(openPath); // set path to save
     		RoomObject.setOpenPath(openPath);
     		ObjectStatus.setOpenPath(openPath);
+    		SceneResult.setAudioPath(openPath);
 		    sceneList.clear();
 		    
 		    sceneList = FXCollections.observableArrayList((ArrayList<RoomScene>) objectIn.readObject());
