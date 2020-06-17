@@ -788,6 +788,7 @@ public class Controller implements Initializable{
     		RoomScene.setSavePath(selectedDir.getPath()); // set path to save
     		RoomObject.setSavePath(selectedDir.getPath());
     		ObjectStatus.setSavePath(selectedDir.getPath());
+    		SceneResult.setAudioPath(selectedDir.getPath());
     	    
             FileOutputStream fileOut = new FileOutputStream(selectedDir.getAbsoluteFile() + "/MainSceneFileTemp");
             ObjectOutputStream objectOut= new ObjectOutputStream(fileOut);
@@ -827,12 +828,14 @@ public class Controller implements Initializable{
 			FileInputStream fileIn = new FileInputStream(selectedFile);
 		    ObjectInputStream objectIn= new ObjectInputStream(fileIn);
 		    System.out.println("opening... " + selectedFile.getParentFile().getPath());
+		    System.out.println("audio @" + SceneResult.getAudioPath());
 		    String openPath = selectedFile.getParentFile().getPath();
 		    RoomScene.setOpenPath(openPath); // set path to save
     		RoomObject.setOpenPath(openPath);
     		ObjectStatus.setOpenPath(openPath);
     		SceneResult.setAudioPath(openPath);
-		    sceneList.clear();
+    		System.out.println("audio @" + SceneResult.getAudioPath());
+    		sceneList.clear();
 		    
 		    sceneList = FXCollections.observableArrayList((ArrayList<RoomScene>) objectIn.readObject());
 		    
