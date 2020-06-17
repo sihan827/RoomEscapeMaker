@@ -15,7 +15,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class ObjectStatus {
-	
+	//
 	private final StringProperty statusName = new SimpleStringProperty();
 	private final ObjectProperty<Image> statusImage = new SimpleObjectProperty<Image>();
 	private final IntegerProperty scale = new SimpleIntegerProperty();
