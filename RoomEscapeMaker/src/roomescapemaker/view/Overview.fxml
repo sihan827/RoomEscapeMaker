@@ -1,8 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.Controller">
+   <children>
+
+      <MenuBar fx:id="menuBar" layoutX="115.0" layoutY="78.0" prefHeight="900.0" prefWidth="1514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="0.0">
+      
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="New" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuFileOpen" mnemonicParsing="false" onAction="#onClickMenuFileOpen" text="Open" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuFileSave" mnemonicParsing="false" onAction="#onClickMenuFileSave" text="Save" />
+                  <MenuItem fx:id="menuFileSaveAs" mnemonicParsing="false" text="Save As" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <Menu mnemonicParsing="false" text="Import">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Image" />
+                    </items>
+                  </Menu>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuFileQuit" mnemonicParsing="false" onAction="#onCLickMenuFileQuit" text="Quit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.8247809762202754" layoutX="-76.0" layoutY="27.0" minHeight="200.0" minWidth="500.0" prefHeight="848.0" prefWidth="1600.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane dividerPositions="0.7168" layoutX="590.0" layoutY="456.0" minHeight="200.0" minWidth="300.0" orientation="VERTICAL" prefHeight="846.0" prefWidth="1315.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="200.0" minWidth="300.0" prefHeight="526.0" prefWidth="1314.0">
+                           <children>
+                              <SplitPane fx:id="Mainsplit" dividerPositions="0.5" layoutX="118.0" layoutY="256.0" prefHeight="602.0" prefWidth="1313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane fx:id="Mainleft" maxWidth="280.0" minHeight="50.0" minWidth="100.0" prefHeight="575.0" prefWidth="262.0">
+                                       <children>
+                                          <ToolBar layoutX="31.0" layoutY="568.0" prefHeight="32.0" prefWidth="261.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                            <items>
+                                              <Button fx:id="addSceneBtn" mnemonicParsing="false" onAction="#onClickAddSceneBtn" prefWidth="70.0" text="Add" />
+                                                <Button fx:id="deleteSceneBtn" mnemonicParsing="false" onAction="#onClickDeleteSceneBtn" prefWidth="70.0" text="Delete" />
+                                            </items>
+                                          </ToolBar>
+                                          <BorderPane layoutY="300.0" prefHeight="569.0" prefWidth="259.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <top>
+                                                <ListView fx:id="sceneListView" prefHeight="572.0" prefWidth="245.6" BorderPane.alignment="CENTER" />
+                                             </top>
+                                          </BorderPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <ScrollPane fx:id="mainCanvasScrollPane" hbarPolicy="NEVER" vbarPolicy="NEVER">
+                                       <content>
+                                          <StackPane fx:id="mainPane" onMouseClicked="#onMouseClickedMainPane" onMouseEntered="#onMouseEnterMainPane">
+                                             <children>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                             </children>
+                                          </StackPane>
+                                       </content>
+                                    </ScrollPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="30.0" minWidth="0.0" prefHeight="352.0" prefWidth="1314.0">
+                           <children>
+                              <ToolBar prefHeight="30.0" prefWidth="1313.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <Button fx:id="addObjectBtn" mnemonicParsing="false" onAction="#onClickAddObjectBtn" text="Add" />
+                                    <Button fx:id="deleteObjectBtn" mnemonicParsing="false" onAction="#onClickDeleteObjectBtn" text="Delete" />
+                                    <Button fx:id="TransparentBtn" mnemonicParsing="false" onAction="#onClickTransparentBtn" text="Make Background Transparent" />
+                                </items>
+                              </ToolBar>
+                              <BorderPane layoutX="106.0" layoutY="18.0" prefHeight="236.8" prefWidth="1273.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+                                 <center>
+                                    <ListView fx:id="objectListView" onDragDetected="#onMouseDragObjectListView" orientation="HORIZONTAL" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane maxWidth="280.0" minHeight="80.0" minWidth="230.0" prefHeight="846.0" prefWidth="391.0">
+               <children>
+                  <Accordion layoutX="8.0" layoutY="68.0" maxWidth="280.0" prefHeight="778.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
+                    <panes>
+                      <TitledPane fx:id="propertyPane" animated="false" prefHeight="744.0" prefWidth="277.0" text="Properties">
+                           <content>
+                              <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                 <content>
+                                    <AnchorPane prefHeight="504.0" prefWidth="260.0">
+                                       <children>
+                                          <Label layoutX="20.0" layoutY="16.0" text="Status Name" />
+                                          <TextField fx:id="statusNameField" layoutX="107.0" layoutY="10.0" prefHeight="22.0" prefWidth="135.0" />
+                                          <Label layoutX="20.0" layoutY="50.0" text="Image" />
+                                          <Button fx:id="imgBrowseBtn" layoutX="68.0" layoutY="46.0" mnemonicParsing="false" onAction="#onClickImgBrowseBtn" text="Browse..." />
+                                          <Label layoutX="20.0" layoutY="259.0" text="Scale" />
+                                          <TextField fx:id="scaleField" layoutX="107.0" layoutY="256.0" prefHeight="22.0" prefWidth="53.0" />
+                                          <Label layoutX="20.0" layoutY="304.0" text="Layout X" />
+                                          <TextField layoutX="107.0" layoutY="298.0" prefHeight="22.0" prefWidth="138.0" fx:id="xPosField" />
+                                          <Label layoutX="169.0" layoutY="260.0" text="\%" />
+                                          <Label layoutX="20.0" layoutY="331.0" text="Layout Y" />
+                                          <TextField fx:id="yPosField" layoutX="107.0" layoutY="325.0" prefHeight="22.0" prefWidth="138.0" />
+                                          <Label layoutX="20.0" layoutY="366.0" text="Visible" />
+                                          <CheckBox fx:id="visibleBox" layoutX="107.0" layoutY="366.0" mnemonicParsing="false" />
+                                          <Label layoutX="20.0" layoutY="392.0" text="Possess" />
+                                          <CheckBox fx:id="possessBox" layoutX="107.0" layoutY="392.0" mnemonicParsing="false" />
+                                          <Button fx:id="applyStatusEditBtn" layoutX="194.0" layoutY="425.0" mnemonicParsing="false" onAction="#onClickApplyStatusChangeBtn" text="Apply" />
+                                          <BorderPane fx:id="statusImgPane" layoutX="28.0" layoutY="90.0" prefHeight="130.0" prefWidth="200.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                           </content>
+                      </TitledPane>
+                      <TitledPane fx:id="interactionPane" animated="false" text="Layout">
+                           <content>
+                              <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                <content>
+                                  <AnchorPane maxWidth="280.0" minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="269.0">
+                                       <children>
+                                          <TableView fx:id="interactionTable" layoutX="10.0" layoutY="35.0" prefHeight="155.0" prefWidth="255.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                            <columns>
+                                              <TableColumn fx:id="conditionColumn" prefWidth="124.666748046875" text="Condition" />
+                                              <TableColumn fx:id="resultColumn" prefWidth="120.333251953125" text="Result" />
+                                            </columns>
+                                          </TableView>
+                                          <Label layoutX="20.0" layoutY="15.0" text="Interaction" />
+                                          <ButtonBar layoutX="60.0" layoutY="201.0" prefHeight="40.0" prefWidth="200.0">
+                                             <buttons>
+                                                <Button fx:id="addInteractionBtn" mnemonicParsing="false" onAction="#onClickAddInteractionBtn" text="Add" />
+                                                <Button fx:id="deleteInteractionBtn" mnemonicParsing="false" onAction="#onClickDeleteInteractionBtn" text="Delete" />
+                                             </buttons>
+                                          </ButtonBar>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                           </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+                  <ChoiceBox fx:id="statusChoiceBox" layoutX="96.0" layoutY="10.0" prefHeight="22.0" prefWidth="167.0" />
+                  <ButtonBar layoutX="63.0" layoutY="32.0" prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                      <Button fx:id="addStatusBtn" mnemonicParsing="false" onAction="#onClickAddStatusBtn" text="Add" />
+                        <Button fx:id="deleteStatusBtn" mnemonicParsing="false" onAction="#onClickDeleteStatusBtn" text="Delete" />
+                    </buttons>
+                  </ButtonBar>
+                  <Label layoutX="14.0" layoutY="15.0" text="Object Status" />
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+      <Button fx:id="runBtn" layoutX="1514.0" layoutY="3.0" mnemonicParsing="false" onAction="#onClickRunBtn" prefHeight="22.0" prefWidth="70.0" text="Run" AnchorPane.rightAnchor="18.0" />
+   </children>
 </AnchorPane>
-

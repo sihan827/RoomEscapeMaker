@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.AddObjectController">
+   <children>
+      <TextField fx:id="objectNameField" layoutX="75.0" layoutY="70.0" prefHeight="23.0" prefWidth="250.0" AnchorPane.rightAnchor="75.0" />
+      <Label layoutX="75.0" layoutY="45.0" text="New Object Name" AnchorPane.topAnchor="45.0" />
+      <Label layoutX="75.0" layoutY="120.0" text="Default Image File" />
+      <Label fx:id="filePathLabel" layoutX="75.0" layoutY="145.0" prefHeight="20.0" prefWidth="250.0" />
+      <Button fx:id="browseImageFileBtn" layoutX="256.0" layoutY="175.0" mnemonicParsing="false" onAction="#onClickBrowseImageFileBtn" text="Browse..." />
+      <ButtonBar layoutX="145.0" layoutY="530.0" prefHeight="40.0" prefWidth="159.0" AnchorPane.bottomAnchor="45.0">
+        <buttons>
+          <Button fx:id="addObjectBtn" minWidth="59.0" mnemonicParsing="false" onAction="#onClickAddObjectBtn" prefHeight="23.0" text="OK" />
+            <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onClickCancelBtn" text="Cancel" />
+        </buttons>
+      </ButtonBar>
+      <Label layoutX="75.0" layoutY="220.0" text="Default X Position" />
+      <TextField layoutX="75.0" layoutY="245.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" fx:id="xPosField" />
+      <Label layoutX="75.0" layoutY="290.0" text="Default Y Position" />
+      <TextField fx:id="yPosField" layoutX="75.0" layoutY="315.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
+   </children>
+</AnchorPane>
