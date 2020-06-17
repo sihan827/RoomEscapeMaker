@@ -10,8 +10,12 @@ import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.WritableImage;
 
 import static java.lang.System.out;
 
@@ -31,35 +35,29 @@ public class ImageTransparency
     *    with the first (required) argument being the path/name of the source
     *    image and the second (optional) argument being the path/name of the
     *    destination file.
+ * @return 
+ * @throws IOException 
     */
-   public static void main(final String[] arguments) throws Exception
-   {
-      if (arguments.length < 1)
-      {
-         out.println("A source image file must be provided.");
-         System.exit(-1);
-      }
 
-      final String inputFileName = arguments[0];
-      final int decimalPosition = inputFileName.lastIndexOf(".");
-      final String outputFileName =
-           arguments.length > 1
-         ? arguments[1]
-         : inputFileName.substring(0,decimalPosition)+".copy.png";
+	public static javafx.scene.image.Image Transparent(javafx.scene.image.Image image) throws IOException {
 
-      out.println("Copying file " + inputFileName + " to " + outputFileName);
-
-      final File in = new File(inputFileName);
-      final BufferedImage source = ImageIO.read(in);
-
+	  BufferedImage source = SwingFXUtils.fromFXImage(image, null);
       final int color = source.getRGB(0, 0);
 
       final Image imageWithTransparency = makeColorTransparent(source, new Color(color));
 
       final BufferedImage transparentImage = imageToBufferedImage(imageWithTransparency);
 
-      final File out = new File(outputFileName);
+      File path = new File("");
+      System.out.println(path.getAbsolutePath());
+      File out = new File(path.getAbsolutePath() + "\\transparent\\");
+      out.mkdir();
+      out = new File(path.getAbsolutePath() + "\\transparent\\" +"Transparet.png");
       ImageIO.write(transparentImage, "PNG", out);
+      
+      WritableImage returnimg = SwingFXUtils.toFXImage(transparentImage, null);
+     
+      return returnimg;
    }
 
    /**
@@ -91,10 +89,12 @@ public class ImageTransparency
       {
          // the color we are looking for (white)... Alpha bits are set to opaque
          public int markerRGB = color.getRGB() | 0xFFFFFFFF;
+         public int markerRGB1 = color.getRGB() | 0xFFFBFFFF;
+         public int markerRGB2 = color.getRGB() | 0xFFFDFFFE;
 
          public final int filterRGB(final int x, final int y, final int rgb)
          {
-            if ((rgb | 0xFF000000) == markerRGB)
+            if ((rgb | 0xFF000000) == markerRGB || (rgb | 0xFF000000) == markerRGB1 || (rgb | 0xFF000000) == markerRGB2)
             {
                // Mark the alpha bits as zero - transparent
                return 0x00FFFFFF & rgb;
