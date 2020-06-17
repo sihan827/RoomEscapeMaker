@@ -1,7 +1,14 @@
 package roomescapemaker.view;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,9 +17,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import roomescapemaker.model.ObjectStatus;
 import roomescapemaker.model.RoomObject;
@@ -94,6 +103,12 @@ public class AddInteractionController implements Initializable{
 	@FXML
 	private Button resultDeleteBtn;
 	
+	@FXML
+	private Label filePathLabel;
+	
+	@FXML
+	private Button browseSoundFileBtn;
+	
 	/*
 	 * whole control buttons
 	 */
@@ -114,7 +129,11 @@ public class AddInteractionController implements Initializable{
 	
 	private ObservableList<RoomScene> sceneList;
 	
+	private Stage fileChooserDialog;
+	
 	private RoomObject roomObject;
+	
+	private File soundFile = null;
 	
 	public AddInteractionController() {
 		
@@ -222,7 +241,30 @@ public class AddInteractionController implements Initializable{
 	}
 	
 	@FXML
-	private void onClickOkBtn(ActionEvent event) {
+	private void onClickBrowseSoundFileBtn(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+    	fileChooser.getExtensionFilters().addAll(
+    	     new FileChooser.ExtensionFilter("sound files", "*.wav")
+    	);
+    	
+    	fileChooser.setInitialDirectory(new File("."));
+    	
+    	File selectedFile = fileChooser.showOpenDialog(fileChooserDialog);
+    	if (selectedFile == null) {
+    		return;	
+    	} else {
+    		try {
+    			filePathLabel.setText((selectedFile.toURI().toURL().toString()));
+    			soundFile = selectedFile;
+    		} catch (MalformedURLException e) {
+    			e.printStackTrace();
+    			System.out.println("wrong file path url");
+    		}
+    	}
+	}
+	
+	@FXML
+	private void onClickOkBtn(ActionEvent event) throws UnsupportedAudioFileException, IOException {
 		if (isInputValid()) {
 			interaction.setConditionName(conditionNameField.getText());
 			interaction.setPrimaryCondition(new InteractionCondition(roomObject, objectActionBox.getValue()));
@@ -241,6 +283,9 @@ public class AddInteractionController implements Initializable{
 					newSceneResult.setIsGameClear(true);
 					System.out.println("Game Status set to game clear!");
 				}
+			}
+			if (soundFile != null) {
+				newSceneResult.setSoundFile(soundFile);
 			}
 			interaction.setSceneChangeResult(newSceneResult);
 			okClicked = true;

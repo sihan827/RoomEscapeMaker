@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.AddInteractionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roomescapemaker.view.AddInteractionController">
    <children>
       <Label layoutX="26.0" layoutY="28.0" text="Condition Name" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
       <Label layoutX="20.0" layoutY="50.0" text="Object Action" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="55.0" />
@@ -63,7 +63,7 @@
             <Button fx:id="resultDeleteBtn" mnemonicParsing="false" onAction="#onClickResultDeleteBtn" text="Delete" />
          </buttons>
       </ButtonBar>
-      <ButtonBar layoutX="280.0" layoutY="755.0" prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar layoutX="280.0" layoutY="795.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
           <Button fx:id="okBtn" mnemonicParsing="false" onAction="#onClickOkBtn" text="OK" />
             <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onClickCancelBtn" text="Cancel" />
@@ -71,5 +71,8 @@
       </ButtonBar>
       <Label layoutX="262.0" layoutY="435.0" prefHeight="15.0" prefWidth="73.0" text="Game Status" />
       <ChoiceBox fx:id="gameStatusBox" layoutX="369.0" layoutY="431.0" prefHeight="23.0" prefWidth="111.0" />
+      <Label layoutX="20.0" layoutY="768.0" text="Sound File" AnchorPane.leftAnchor="20.0" />
+      <Label fx:id="filePathLabel" layoutX="134.0" layoutY="768.0" prefHeight="15.0" prefWidth="262.0" />
+      <Button fx:id="browseSoundFileBtn" layoutX="405.0" layoutY="764.0" mnemonicParsing="false" onAction="#onClickBrowseSoundFileBtn" prefHeight="23.0" prefWidth="75.0" text="Browse..." />
    </children>
 </AnchorPane>

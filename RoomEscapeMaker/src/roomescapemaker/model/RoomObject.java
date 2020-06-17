@@ -23,6 +23,7 @@ public class RoomObject implements Serializable{
 	
 
 	private transient StringProperty objectName = new SimpleStringProperty();
+	private transient IntegerProperty makerCurrentStatus = new SimpleIntegerProperty();
 	private transient IntegerProperty currentStatus = new SimpleIntegerProperty();
 	private transient ObservableList<ObjectStatus> statusList = FXCollections.observableArrayList();
 	private transient ObservableList<ObjectInteraction> interactionList = FXCollections.observableArrayList();
@@ -34,18 +35,21 @@ public class RoomObject implements Serializable{
 		this.objectName.set(null);
 		this.statusList.add(new ObjectStatus("default", null, getObjectName()));
 		this.currentStatus.set(0);
+		this.makerCurrentStatus.set(0);
 	}
 	
 	public RoomObject(String obName) {
 		this.objectName.set(obName);
 		this.statusList.add(new ObjectStatus("default", null, getObjectName()));
 		this.currentStatus.set(0);
+		this.makerCurrentStatus.set(0);
 	}
 	
 	public RoomObject(String objectName, String defaultImageURL) {
 		this.objectName.set(objectName);
 		this.statusList.add(new ObjectStatus("default", new Image(defaultImageURL), getObjectName()));
 		this.currentStatus.set(0);
+		this.makerCurrentStatus.set(0);
 
 	}
 	
@@ -73,6 +77,18 @@ public class RoomObject implements Serializable{
 		return currentStatus;
 	}
 	
+	public int getMakerCurrentStatus() {
+		return makerCurrentStatus.get();
+	}
+	
+	public void setMakerCurrentStatus(int makerCurrentStatus) {
+		this.makerCurrentStatus.set(makerCurrentStatus);
+	}
+	
+	public IntegerProperty makerCurrentStatusProperty() {
+		return makerCurrentStatus;
+	}
+	
 	public ObservableList<ObjectStatus> getStatusList(){
 		return statusList;
 	}
@@ -96,6 +112,7 @@ public class RoomObject implements Serializable{
 		oos.writeObject(objectName.get());
 		oos.writeObject(savePath);
 		oos.writeInt(currentStatus.get());
+		oos.writeInt(makerCurrentStatus.get());
 		oos.writeInt(statusList.size());
 		oos.writeObject(new ArrayList<ObjectStatus>(statusList));
 		oos.writeObject(new ArrayList<ObjectInteraction>(interactionList));
@@ -111,6 +128,8 @@ public class RoomObject implements Serializable{
 		
 		currentStatus = new SimpleIntegerProperty(ois.readInt());
 		System.out.println("curstatus: " + currentStatus.get());
+		makerCurrentStatus = new SimpleIntegerProperty(ois.readInt());
+		System.out.println("makercurstatus: " + makerCurrentStatus.get());
 		int statusSize = ois.readInt();
 		System.out.println("stat size: " + statusSize);
 		

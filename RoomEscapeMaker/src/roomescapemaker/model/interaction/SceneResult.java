@@ -1,5 +1,10 @@
 package roomescapemaker.model.interaction;
 
+
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,11 +13,11 @@ import java.util.ArrayList;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
+
 
 /*
  * scene change
@@ -20,15 +25,18 @@ import javafx.collections.FXCollections;
  */
 public class SceneResult implements Serializable{
 	
+
+
+	private transient ObjectProperty<File> soundFile = new SimpleObjectProperty<File>();
 	private transient IntegerProperty targetIndex = new SimpleIntegerProperty();
 	private transient BooleanProperty isGameOver = new SimpleBooleanProperty();
 	private transient BooleanProperty isGameClear = new SimpleBooleanProperty();
-	
 
 	public SceneResult(int targetIndex) {
 		this.targetIndex.set(targetIndex);
 		this.isGameOver.set(false);
 		this.isGameClear.set(false);
+		soundFile.set(null);
 	}	
 	
 	public int getTargetIndex() {
@@ -66,6 +74,19 @@ public class SceneResult implements Serializable{
 	public BooleanProperty isGameClearProperty() {
 		return isGameClear;
 	}
+
+	public File getSoundFile() {
+		return soundFile.get();
+	}
+	
+	public void setSoundFile(File soundFile) {
+		this.soundFile.set(soundFile);
+	}
+	
+	public ObjectProperty<File> soundFileProperty(){
+		return soundFile;
+	}
+
 		
 	private void writeObject(ObjectOutputStream oos) throws IOException{
 		
@@ -89,5 +110,4 @@ public class SceneResult implements Serializable{
 		isGameClear = new SimpleBooleanProperty(ois.readBoolean());
 		System.out.println("scene result read complete: " + getTargetIndex());
 	}
-	
 }

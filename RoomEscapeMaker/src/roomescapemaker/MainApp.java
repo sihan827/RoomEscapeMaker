@@ -1,6 +1,7 @@
 package roomescapemaker;
 
 import roomescapemaker.view.Controller;
+import roomescapemaker.view.GameController;
 import roomescapemaker.model.RoomObject;
 import roomescapemaker.model.RoomScene;
 import roomescapemaker.model.interaction.ObjectInteraction;
@@ -136,6 +137,37 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("No fxml file named \"Interaction_Add.fxml\" in view pakage!");
+			return false;
+		}
+	}
+	
+	public boolean showGameSimulationStage(ObservableList<RoomScene> sceneList) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/GameWindow.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			
+			Stage gameSimulationStage = new Stage();
+			gameSimulationStage.setTitle("Game Simulation");
+			gameSimulationStage.initModality(Modality.WINDOW_MODAL);
+			gameSimulationStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			gameSimulationStage.setScene(scene);
+			
+			GameController controller = loader.getController();
+			controller.setDialogStage(gameSimulationStage);
+			controller.setSceneList(sceneList);
+			controller.reDrawMainCanvas(sceneList.get(0));
+			
+			gameSimulationStage.showAndWait();
+			
+			
+			
+			return true;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("No fxml file named \"GameWindow.fxml\" in view pakage!");
 			return false;
 		}
 	}
